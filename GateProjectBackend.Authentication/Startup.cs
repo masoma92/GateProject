@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GateProjectBackend.Data;
+using GateProjectBackend.Authentication.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,7 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
-namespace GateProjectBackend
+namespace GateProjectBackend.Authentication
 {
     public class Startup
     {
@@ -32,7 +32,7 @@ namespace GateProjectBackend
 
             string conn = Configuration.GetConnectionString("CONN");
 
-            services.AddDbContext<GPDbContext>(opt =>
+            services.AddDbContext<AuthDbContext>(opt =>
             {
                 opt.UseSqlite(conn);
             });
@@ -42,8 +42,8 @@ namespace GateProjectBackend
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "GateProject API",
-                    Description = "Radiofrequency based entry point REST API",
+                    Title = "GateProject Authentication API",
+                    Description = "GP Authentication REST API Endpoint",
                     Contact = new OpenApiContact
                     {
                         Name = "Soma Makai",
@@ -56,7 +56,6 @@ namespace GateProjectBackend
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),

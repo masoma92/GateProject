@@ -3,20 +3,20 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:50821",
-      "sslPort": 44379
+      "applicationUrl": "http://localhost:49975",
+      "sslPort": 44357
     }
   },
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "GateProjectBackend": {
+    "GateProjectBackend.Authentication": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger/index.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:5000"
+      "applicationUrl": "https://localhost:5001"
     }
   }
 }

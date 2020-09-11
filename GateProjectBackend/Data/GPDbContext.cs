@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace GateProjectBackend.Data
 {
-    public class DataContext : DbContext
+    public class GPDbContext : DbContext
     {
         protected readonly IConfiguration Configuration;
 
-        public DataContext(IConfiguration configuration)
+        public GPDbContext(IConfiguration configuration)
         {
             Configuration = configuration;
         }
