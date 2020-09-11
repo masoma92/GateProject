@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GateProjectBackend.Authentication.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,7 @@ namespace GateProjectBackend.Authentication.Data
         {
             Configuration = configuration;
         }
+
+        public DbSet<AuthUser> AuthUsers { get; set; }
     }
 }
