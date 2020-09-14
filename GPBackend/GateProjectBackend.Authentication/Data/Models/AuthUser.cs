@@ -21,8 +21,6 @@ namespace GateProjectBackend.Authentication.Data.Models
         [Required]
         public byte[] PasswordSalt { get; set; }
         [Required]
-        public string ActivationToken { get; set; }
-        [Required]
         public bool IsConfirmed { get; set; }
     }
 }

@@ -3,10 +3,13 @@ using GateProjectBackend.Authentication.BusinessLogic.Helpers;
 using GateProjectBackend.Authentication.BusinessLogic.Responses;
 using GateProjectBackend.Authentication.Data.Models;
 using GateProjectBackend.Authentication.Data.Repositories;
+using GateProjectBackend.Authentication.Resources;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,10 +18,14 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
     public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result<RegisterUserResponse>>
     {
         private readonly IUserRepository _userRepository;
+        private readonly JwtSettings _jwtSettings;
 
-        public RegisterUserCommandHandler(IUserRepository userRepository)
+        public RegisterUserCommandHandler(
+            IUserRepository userRepository,
+            JwtSettings jwtSettings)
         {
             _userRepository = userRepository;
+            _jwtSettings = jwtSettings;
         }
 
         public async Task<Result<RegisterUserResponse>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -37,11 +44,10 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
 
                 CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-                string activationToken = "";
-
-                var newUser = await _userRepository.CreateUser(request.FirstName, request.LastName, request.Email, passwordHash, passwordSalt, activationToken);
+                var newUser = await _userRepository.CreateUser(request.FirstName, request.LastName, request.Email, passwordHash, passwordSalt);
 
                 // confirmation email sender!!!
+                var confirmationToken = GenerateConfirmationToken(newUser.Id, newUser.Email);
 
                 var userResponse = Convert(newUser);
                 return Result<RegisterUserResponse>.Ok(userResponse);
@@ -71,9 +77,20 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
             passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
         }
 
-        private string GenerateConfirmationToken(RegisterUserCommand request)
+        private string GenerateConfirmationToken(int userId, string email)
         {
+            string data = $"{userId}{email}{_jwtSettings.Secret}";
+            using SHA256 sha256Hash = SHA256.Create();
+            // ComputeHash - returns byte array  
+            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(data));
 
+            // Convert byte array to a string   
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                builder.Append(bytes[i].ToString("x2"));
+            }
+            return builder.ToString();
         }
     }
 }
