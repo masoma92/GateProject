@@ -17,7 +17,9 @@ using System.Threading.Tasks;
 
 namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
 {
-    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result<RegisterUserResponse>>
+    public class RegisterUserCommandHandler : 
+        IRequestHandler<RegisterUserCommand, Result<RegisterUserResponse>>,
+        IRequestHandler<ConfirmEmailCommand, Result<bool>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IOptions<SendGridEmailVariables> _companyProperties;
@@ -70,6 +72,31 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
                 return Result<RegisterUserResponse>.Failure(e.Message);
             }
             
+        }
+
+        public async Task<Result<bool>> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var user = _userRepository.GetUserByEmail(request.Email);
+                if (user == null)
+                    return Result<bool>.BadRequest($"User with {request.Email} email doesn't exist!");
+
+                var token = GenerateConfirmationToken(user.Id, user.Email);
+
+                if (token != request.Token)
+                    return Result<bool>.BadRequest($"Activation link is not valid!");
+
+                user.IsConfirmed = true;
+
+                await _userRepository.Update(user);
+
+                return Result<bool>.Ok(true);
+            }
+            catch (Exception e)
+            {
+                return Result<bool>.Failure(e.Message);
+            }
         }
 
         private RegisterUserResponse Convert(AuthUser newUser)

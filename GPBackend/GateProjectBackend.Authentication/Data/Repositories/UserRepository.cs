@@ -10,6 +10,7 @@ namespace GateProjectBackend.Authentication.Data.Repositories
     {
         AuthUser GetUserByEmail(string email);
         Task<AuthUser> CreateUser(string firstName, string lastName, string email, byte[] hashedPassword, byte[] passwordSalt);
+        Task<int> Update(AuthUser user);
     }
     public class UserRepository : IUserRepository
     {
@@ -39,6 +40,13 @@ namespace GateProjectBackend.Authentication.Data.Repositories
             var result = _dbContext.AuthUsers.Add(newUser);
             await _dbContext.SaveChangesAsync();
             return result.Entity;
+        }
+
+        public async Task<int> Update(AuthUser user)
+        {
+            var result = _dbContext.AuthUsers.Update(user);
+            await _dbContext.SaveChangesAsync();
+            return result.Entity.Id;
         }
     }
 }

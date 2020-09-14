@@ -29,5 +29,15 @@ namespace GateProjectBackend.Authentication.Controllers
             var result = await _mediator.Send(registerCommand);
             return StatusCodeResult(result);
         }
+
+        [HttpPost("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailCommand registerCommand)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _mediator.Send(registerCommand);
+            return StatusCodeResult(result);
+        }
     }
 }
