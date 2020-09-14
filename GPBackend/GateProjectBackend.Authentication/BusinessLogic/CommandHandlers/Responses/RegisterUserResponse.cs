@@ -7,5 +7,6 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Responses
 {
     public class RegisterUserResponse
     {
+        public int Id { get; set; }
     }
 }

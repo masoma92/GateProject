@@ -18,5 +18,10 @@ namespace GateProjectBackend.Authentication.Data
         }
 
         public DbSet<AuthUser> AuthUsers { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(Configuration.GetConnectionString("CONN"));
+        }
     }
 }

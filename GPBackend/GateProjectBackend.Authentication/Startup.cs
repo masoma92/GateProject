@@ -1,9 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using GateProjectBackend.Authentication.Data;
+using GateProjectBackend.Authentication.Data.Repositories;
+using GateProjectBackend.Authentication.Resources;
+using GateProjectBackend.Authentication.Resources.Settings;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace GateProjectBackend.Authentication
@@ -31,12 +37,44 @@ namespace GateProjectBackend.Authentication
         {
             services.AddControllers();
 
+            services.AddScoped<IUserRepository, UserRepository>();
+
             string conn = Configuration.GetConnectionString("CONN");
 
             services.AddDbContext<AuthDbContext>(opt =>
             {
-                opt.UseSqlite(conn);
+                opt.UseSqlServer(conn);
             });
+
+            #region JWT_AUTHENTICATION
+
+            var jwtSettings = new JwtSettings();
+            Configuration.Bind(nameof(jwtSettings), jwtSettings);
+            services.AddSingleton(jwtSettings);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    RequireExpirationTime = false,
+                    ValidateLifetime = true
+                };
+            });
+
+            #endregion
+
+            #region SWAGGERCONFIG
 
             services.AddSwaggerGen(c =>
             {
@@ -53,8 +91,12 @@ namespace GateProjectBackend.Authentication
                 });
             });
 
+            #endregion
+
             services.AddMediatR(typeof(Startup));
         }
+
+        
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -63,9 +105,13 @@ namespace GateProjectBackend.Authentication
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
+
+            var swaggerSettings = new SwaggerSettings();
+            Configuration.GetSection(nameof(swaggerSettings)).Bind(swaggerSettings);
+
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "GateProjectBackend");
+                c.SwaggerEndpoint(swaggerSettings.URL, swaggerSettings.Name);
             });
 
 

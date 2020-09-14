@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20200719190952_test.Designer.cs" />
     <Compile Remove="Migrations\20200719191746_test.cs" />
     <Compile Remove="Migrations\20200719191746_test.Designer.cs" />
+    <Compile Remove="Migrations\20200914081024_initialize authdb.cs" />
+    <Compile Remove="Migrations\20200914081024_initialize authdb.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
