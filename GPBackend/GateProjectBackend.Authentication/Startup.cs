@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GateProjectBackend.Authentication.BusinessLogic.Helpers;
 using GateProjectBackend.Authentication.Data;
 using GateProjectBackend.Authentication.Data.Repositories;
 using GateProjectBackend.Authentication.Resources;
@@ -45,6 +46,18 @@ namespace GateProjectBackend.Authentication
             {
                 opt.UseSqlServer(conn);
             });
+
+            services.Configure<UrlSettings>(Configuration.GetSection("UrlSettings"));
+
+            #region SENDGRID
+
+            services.Configure<SendGridEmailSettings>(Configuration.GetSection("SendGridEmailProperties"));
+
+            services.Configure<SendGridEmailVariables>(Configuration.GetSection("CompanyProperties"));
+
+            services.AddScoped<IEmailSender, EmailSender>();
+
+            #endregion
 
             #region JWT_AUTHENTICATION
 

@@ -4,7 +4,9 @@ using GateProjectBackend.Authentication.BusinessLogic.Responses;
 using GateProjectBackend.Authentication.Data.Models;
 using GateProjectBackend.Authentication.Data.Repositories;
 using GateProjectBackend.Authentication.Resources;
+using GateProjectBackend.Authentication.Resources.Settings;
 using MediatR;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,14 +20,23 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
     public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result<RegisterUserResponse>>
     {
         private readonly IUserRepository _userRepository;
+        private readonly IOptions<SendGridEmailVariables> _companyProperties;
+        private readonly IOptions<UrlSettings> _urlSettings;
+        private readonly IEmailSender _emailSender;
         private readonly JwtSettings _jwtSettings;
 
         public RegisterUserCommandHandler(
             IUserRepository userRepository,
+            IOptions<SendGridEmailVariables> companyProperties,
+            IOptions<UrlSettings> urlSettings,
+            IEmailSender emailSender,
             JwtSettings jwtSettings)
         {
             _userRepository = userRepository;
+            _companyProperties = companyProperties;
+            _emailSender = emailSender;
             _jwtSettings = jwtSettings;
+            _urlSettings = urlSettings;
         }
 
         public async Task<Result<RegisterUserResponse>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -48,6 +59,8 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
 
                 // confirmation email sender!!!
                 var confirmationToken = GenerateConfirmationToken(newUser.Id, newUser.Email);
+
+                SendConfirmationEmail(request.Email, $"{newUser.FirstName} {newUser.LastName}", confirmationToken);
 
                 var userResponse = Convert(newUser);
                 return Result<RegisterUserResponse>.Ok(userResponse);
@@ -91,6 +104,22 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
                 builder.Append(bytes[i].ToString("x2"));
             }
             return builder.ToString();
+        }
+
+        private void SendConfirmationEmail(string email, string displayName, string token)
+        {
+            var variables = new SendGridEmailVariables()
+            {
+                AuthWebUrl = _urlSettings.Value.AuthWebUrl,
+                CompanyEmail = _companyProperties.Value.CompanyEmail,
+                CompanyName = _companyProperties.Value.CompanyName,
+                TemplateId = "d-969eb763cf304e528ea2e65b4aeed35e",
+                ToAddress = email.ToLower(),
+                Token = token,
+                ToName = displayName
+            };
+
+            _emailSender.SendAsync(variables).Wait();
         }
     }
 }
