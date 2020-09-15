@@ -7,6 +7,7 @@ namespace GateProjectBackend.Authentication.BusinessLogic.CommandHandlers.Respon
 {
     public class AuthenticationResponse
     {
+        public bool Success { get; set; }
         public string JwtToken { get; set; }
     }
 }
