@@ -49,7 +49,7 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
                 if (request.Password != request.Password2)
                     return Result<RegisterUserResponse>.BadRequest("Passwords are not the same");
 
-                var user = _userRepository.GetUserByEmail(request.Email);
+                var user = await _userRepository.GetUserByEmail(request.Email);
                 if (user != null)
                     return Result<RegisterUserResponse>.BadRequest($"Email {request.Email} is already taken!");
 

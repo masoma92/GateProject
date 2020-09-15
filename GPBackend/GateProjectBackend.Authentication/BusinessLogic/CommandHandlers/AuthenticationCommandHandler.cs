@@ -40,6 +40,9 @@ namespace GateProjectBackend.Authentication.BusinessLogic.CommandHandlers
                 if (user == null)
                     return Result<AuthenticationResponse>.BadRequest($"User with {request.Email} email doesn't exist!");
 
+                if (!user.IsConfirmed)
+                    return Result<AuthenticationResponse>.BadRequest($"Email is not confirmed!");
+
                 if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
                     return Result<AuthenticationResponse>.BadRequest($"Password is not correct!");
 

@@ -27,22 +27,28 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Shared
 
         public static bool IsValidToken(string token, byte[] passwordSalt)
         {
-            if (String.IsNullOrEmpty(token)) return false;
-
-            token = token.Replace('-', '+').Replace('_', '/');
-
-            var decryptedData = Decrypt(Convert.FromBase64String(token));
-
-            DateTime time = DateTime.FromBinary(BitConverter.ToInt64(decryptedData.Take(8).ToArray(), 0));
-
-            var temp = decryptedData.Skip(8).ToArray();
-            var tempTime = DateTime.UtcNow.AddHours(-24);
-
-            if (tempTime < time && passwordSalt.SequenceEqual(temp))
+            try
             {
-                return true;
-            }
+                if (String.IsNullOrEmpty(token)) return false;
 
+                token = token.Replace('-', '+').Replace('_', '/');
+
+                var decryptedData = Decrypt(Convert.FromBase64String(token));
+
+                DateTime time = DateTime.FromBinary(BitConverter.ToInt64(decryptedData.Take(8).ToArray(), 0));
+
+                var temp = decryptedData.Skip(8).ToArray();
+                var tempTime = DateTime.UtcNow.AddHours(-24);
+
+                if (tempTime < time && passwordSalt.SequenceEqual(temp))
+                {
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
             return false;
         }
 

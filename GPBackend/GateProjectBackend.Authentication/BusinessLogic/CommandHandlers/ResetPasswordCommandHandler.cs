@@ -77,7 +77,7 @@ namespace GateProjectBackend.Authentication.BusinessLogic.CommandHandlers
                 var isTokenValid = TokenHelper.IsValidToken(request.Token, user.PasswordSalt);
 
                 if (!isTokenValid)
-                    return Result<bool>.BadRequest("Token is invalid!");
+                    return Result<bool>.BadRequest("Reset password link is not valid or expired!");
 
                 CreatePasswordHash(request.Password, out var newPasswordHash, out var newPasswordSalt);
 
