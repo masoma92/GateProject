@@ -26,5 +26,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BusinessLogic\RequestHandlers\Requests\" />
+    <Folder Include="BusinessLogic\RequestHandlers\Responses\" />
+  </ItemGroup>
+
 
 </Project>

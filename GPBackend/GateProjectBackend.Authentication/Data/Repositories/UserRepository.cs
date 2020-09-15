@@ -1,4 +1,5 @@
 ﻿using GateProjectBackend.Authentication.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace GateProjectBackend.Authentication.Data.Repositories
 {
     public interface IUserRepository
     {
-        AuthUser GetUserByEmail(string email);
+        Task<AuthUser> GetUserByEmail(string email);
         Task<AuthUser> CreateUser(string firstName, string lastName, string email, byte[] hashedPassword, byte[] passwordSalt);
         Task<int> Update(AuthUser user);
     }
@@ -21,9 +22,9 @@ namespace GateProjectBackend.Authentication.Data.Repositories
             _dbContext = dbContext;
         }
 
-        public AuthUser GetUserByEmail(string email)
+        public async Task<AuthUser> GetUserByEmail(string email)
         {
-            var user = _dbContext.AuthUsers.FirstOrDefault(x => x.Email == email);
+            var user = await _dbContext.AuthUsers.FirstOrDefaultAsync(x => x.Email == email);
             return user;
         }
 

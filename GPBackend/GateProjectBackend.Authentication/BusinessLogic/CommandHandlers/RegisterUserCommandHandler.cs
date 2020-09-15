@@ -1,6 +1,7 @@
 ﻿using GateProjectBackend.Authentication.BusinessLogic.CommandHandlers.Commands;
 using GateProjectBackend.Authentication.BusinessLogic.Helpers;
 using GateProjectBackend.Authentication.BusinessLogic.Responses;
+using GateProjectBackend.Authentication.BusinessLogic.Shared;
 using GateProjectBackend.Authentication.Data.Models;
 using GateProjectBackend.Authentication.Data.Repositories;
 using GateProjectBackend.Authentication.Resources;
@@ -25,19 +26,16 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
         private readonly IOptions<SendGridEmailVariables> _companyProperties;
         private readonly IOptions<UrlSettings> _urlSettings;
         private readonly IEmailSender _emailSender;
-        private readonly JwtSettings _jwtSettings;
 
         public RegisterUserCommandHandler(
             IUserRepository userRepository,
             IOptions<SendGridEmailVariables> companyProperties,
             IOptions<UrlSettings> urlSettings,
-            IEmailSender emailSender,
-            JwtSettings jwtSettings)
+            IEmailSender emailSender)
         {
             _userRepository = userRepository;
             _companyProperties = companyProperties;
             _emailSender = emailSender;
-            _jwtSettings = jwtSettings;
             _urlSettings = urlSettings;
         }
 
@@ -59,8 +57,7 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
 
                 var newUser = await _userRepository.CreateUser(request.FirstName, request.LastName, request.Email, passwordHash, passwordSalt);
 
-                // confirmation email sender!!!
-                var confirmationToken = GenerateConfirmationToken(newUser.Id, newUser.Email);
+                var confirmationToken = TokenHelper.GenerateToken(newUser.PasswordSalt);
 
                 SendConfirmationEmail(request.Email, $"{newUser.FirstName} {newUser.LastName}", confirmationToken);
 
@@ -78,14 +75,17 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
         {
             try
             {
-                var user = _userRepository.GetUserByEmail(request.Email);
+                var user = await _userRepository.GetUserByEmail(request.Email);
                 if (user == null)
                     return Result<bool>.BadRequest($"User with {request.Email} email doesn't exist!");
 
-                var token = GenerateConfirmationToken(user.Id, user.Email);
+                if (user.IsConfirmed)
+                    return Result<bool>.BadRequest($"User is already activated!");
 
-                if (token != request.Token)
-                    return Result<bool>.BadRequest($"Activation link is not valid!");
+                var isValidToken = TokenHelper.IsValidToken(request.Token, user.PasswordSalt);
+
+                if (!isValidToken)
+                    return Result<bool>.BadRequest($"Activation link is not valid or expired!");
 
                 user.IsConfirmed = true;
 
@@ -115,22 +115,6 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
             using var hmac = new System.Security.Cryptography.HMACSHA512();
             passwordSalt = hmac.Key;
             passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-        }
-
-        private string GenerateConfirmationToken(int userId, string email)
-        {
-            string data = $"{userId}{email}{_jwtSettings.Secret}";
-            using SHA256 sha256Hash = SHA256.Create();
-            // ComputeHash - returns byte array  
-            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(data));
-
-            // Convert byte array to a string   
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                builder.Append(bytes[i].ToString("x2"));
-            }
-            return builder.ToString();
         }
 
         private void SendConfirmationEmail(string email, string displayName, string token)

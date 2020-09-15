@@ -36,7 +36,7 @@ namespace GateProjectBackend.Authentication.BusinessLogic.CommandHandlers
                 if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
                     return Result<AuthenticationResponse>.BadRequest($"Email or password field is empty!");
 
-                var user = _userRepository.GetUserByEmail(request.Email);
+                var user = await _userRepository.GetUserByEmail(request.Email);
                 if (user == null)
                     return Result<AuthenticationResponse>.BadRequest($"User with {request.Email} email doesn't exist!");
 

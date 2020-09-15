@@ -11,6 +11,7 @@ namespace GateProjectBackend.Authentication.BusinessLogic.CommandHandlers.Comman
     public class ConfirmEmailCommand : IRequest<Result<bool>>
     {
         [Required]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
         [Required]
         public string Token { get; set; }

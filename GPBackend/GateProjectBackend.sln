@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GateProjectBackend", ".\GateProjectBackend\GateProjectBackend.csproj", "{A642E8CD-9561-442A-AE2D-DE296FDE51CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GateProjectBackend", "GateProjectBackend\GateProjectBackend.csproj", "{A642E8CD-9561-442A-AE2D-DE296FDE51CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GateProjectBackend.Authentication", ".\GateProjectBackend.Authentication\GateProjectBackend.Authentication.csproj", "{828D9D36-7E99-499E-9BE6-842AABFE31E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GateProjectBackend.Authentication", "GateProjectBackend.Authentication\GateProjectBackend.Authentication.csproj", "{828D9D36-7E99-499E-9BE6-842AABFE31E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{0DC1ACB0-3842-44F8-9DC2-B330CC916766}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GateProjectBackend.Authentication.Test", "GateProjectBackend.Authentication.Test\GateProjectBackend.Authentication.Test.csproj", "{5F95EE94-01A1-45D3-B06F-08FF4A27DD5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +25,16 @@ Global
 		{828D9D36-7E99-499E-9BE6-842AABFE31E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{828D9D36-7E99-499E-9BE6-842AABFE31E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{828D9D36-7E99-499E-9BE6-842AABFE31E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F95EE94-01A1-45D3-B06F-08FF4A27DD5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F95EE94-01A1-45D3-B06F-08FF4A27DD5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F95EE94-01A1-45D3-B06F-08FF4A27DD5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F95EE94-01A1-45D3-B06F-08FF4A27DD5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5F95EE94-01A1-45D3-B06F-08FF4A27DD5E} = {0DC1ACB0-3842-44F8-9DC2-B330CC916766}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8588A71E-EDD4-4173-B29D-D33D9A818EA6}
