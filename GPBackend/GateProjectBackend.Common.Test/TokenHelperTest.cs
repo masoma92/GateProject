@@ -1,9 +1,9 @@
-using GateProjectBackend.Common;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
-namespace GateProjectBackend.Authentication.Test
+namespace GateProjectBackend.Common.Test
 {
     [TestFixture]
     public class TokenHelperTest
