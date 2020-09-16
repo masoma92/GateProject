@@ -49,7 +49,7 @@ namespace GateProjectBackend.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(Configuration.GetConnectionString("CONN"));
+            optionsBuilder.UseSqlServer(Configuration.GetConnectionString("CONN"));
         }
     }
 }

@@ -17,8 +17,6 @@ namespace GateProjectBackend.Data.Models
         [Required]
         public string Email { get; set; }
         [Required]
-        public byte[] Password { get; set; }
-        [Required]
         public DateTime Birth { get; set; }
         public string RfidKey { get; set; }
         [Required]

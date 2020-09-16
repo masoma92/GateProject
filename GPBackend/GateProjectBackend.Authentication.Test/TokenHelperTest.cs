@@ -1,4 +1,4 @@
-using GateProjectBackend.Authentication.BusinessLogic.Shared;
+using GateProjectBackend.Common;
 using NUnit.Framework;
 using System;
 using System.Text;

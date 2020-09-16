@@ -1,11 +1,11 @@
 ﻿using GateProjectBackend.Authentication.BusinessLogic.CommandHandlers.Commands;
 using GateProjectBackend.Authentication.BusinessLogic.Helpers;
 using GateProjectBackend.Authentication.BusinessLogic.Responses;
-using GateProjectBackend.Authentication.BusinessLogic.Shared;
 using GateProjectBackend.Authentication.Data.Models;
 using GateProjectBackend.Authentication.Data.Repositories;
 using GateProjectBackend.Authentication.Resources;
 using GateProjectBackend.Authentication.Resources.Settings;
+using GateProjectBackend.Common;
 using MediatR;
 using Microsoft.Extensions.Options;
 using System;

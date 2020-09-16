@@ -1,9 +1,9 @@
 ﻿using GateProjectBackend.Authentication.BusinessLogic.CommandHandlers.Commands;
 using GateProjectBackend.Authentication.BusinessLogic.CommandHandlers.Responses;
-using GateProjectBackend.Authentication.BusinessLogic.Helpers;
 using GateProjectBackend.Authentication.Data.Models;
 using GateProjectBackend.Authentication.Data.Repositories;
 using GateProjectBackend.Authentication.Resources;
+using GateProjectBackend.Common;
 using MediatR;
 using Microsoft.IdentityModel.Tokens;
 using System;

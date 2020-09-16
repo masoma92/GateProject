@@ -1,4 +1,4 @@
-﻿using GateProjectBackend.Authentication.BusinessLogic.Helpers;
+﻿using GateProjectBackend.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;

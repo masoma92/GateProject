@@ -1,4 +1,4 @@
-﻿using GateProjectBackend.Authentication.BusinessLogic.Helpers;
+﻿using GateProjectBackend.Common;
 using MediatR;
 using System;
 using System.Collections.Generic;

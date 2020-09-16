@@ -1,5 +1,5 @@
-﻿using GateProjectBackend.Authentication.BusinessLogic.Helpers;
-using GateProjectBackend.Authentication.BusinessLogic.Responses;
+﻿using GateProjectBackend.Authentication.BusinessLogic.Responses;
+using GateProjectBackend.Common;
 using MediatR;
 using System;
 using System.Collections.Generic;
