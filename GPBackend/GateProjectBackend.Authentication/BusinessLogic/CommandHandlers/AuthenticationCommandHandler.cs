@@ -84,8 +84,10 @@ namespace GateProjectBackend.Authentication.BusinessLogic.CommandHandlers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
-                    new Claim(ClaimTypes.Email, user.Email)
+                    new Claim("firstname", user.FirstName),
+                    new Claim("lastname", user.LastName),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.DateOfBirth, user.Birth.ToString("yyyy.MM.dd"))
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

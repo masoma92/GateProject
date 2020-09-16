@@ -9,7 +9,6 @@ using GateProjectBackend.Authentication.Data.Repositories;
 using GateProjectBackend.Authentication.Resources;
 using GateProjectBackend.Authentication.Resources.Settings;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -50,6 +49,10 @@ namespace GateProjectBackend.Authentication
 
             services.Configure<UrlSettings>(Configuration.GetSection("UrlSettings"));
 
+            var jwtSettings = new JwtSettings();
+            Configuration.Bind(nameof(jwtSettings), jwtSettings);
+            services.AddSingleton(jwtSettings);
+
             #region SENDGRID
 
             services.Configure<SendGridEmailSettings>(Configuration.GetSection("SendGridEmailProperties"));
@@ -57,14 +60,6 @@ namespace GateProjectBackend.Authentication
             services.Configure<SendGridEmailVariables>(Configuration.GetSection("CompanyProperties"));
 
             services.AddScoped<IEmailSender, EmailSender>();
-
-            #endregion
-
-            #region JWT_AUTHENTICATION
-
-            var jwtSettings = new JwtSettings();
-            Configuration.Bind(nameof(jwtSettings), jwtSettings);
-            services.AddSingleton(jwtSettings);
 
             #endregion
 
@@ -116,8 +111,6 @@ namespace GateProjectBackend.Authentication
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

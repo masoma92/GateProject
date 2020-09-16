@@ -17,6 +17,8 @@ namespace GateProjectBackend.Authentication.Data.Models
         [Required]
         public string Email { get; set; }
         [Required]
+        public DateTime Birth { get; set; }
+        [Required]
         public byte[] PasswordHash { get; set; }
         [Required]
         public byte[] PasswordSalt { get; set; }

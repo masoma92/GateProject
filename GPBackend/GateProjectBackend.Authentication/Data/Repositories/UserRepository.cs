@@ -10,7 +10,7 @@ namespace GateProjectBackend.Authentication.Data.Repositories
     public interface IUserRepository
     {
         Task<AuthUser> GetUserByEmail(string email);
-        Task<AuthUser> CreateUser(string firstName, string lastName, string email, byte[] hashedPassword, byte[] passwordSalt);
+        Task<AuthUser> CreateUser(string firstName, string lastName, string email, DateTime birth, byte[] hashedPassword, byte[] passwordSalt);
         Task<int> Update(AuthUser user);
     }
     public class UserRepository : IUserRepository
@@ -28,12 +28,13 @@ namespace GateProjectBackend.Authentication.Data.Repositories
             return user;
         }
 
-        public async Task<AuthUser> CreateUser(string firstName, string lastName, string email, byte[] hashedPassword, byte[] passwordSalt)
+        public async Task<AuthUser> CreateUser(string firstName, string lastName, string email, DateTime birth, byte[] hashedPassword, byte[] passwordSalt)
         {
             var newUser = new AuthUser { 
                 FirstName = firstName, 
                 LastName = lastName, 
                 Email = email, 
+                Birth = birth,
                 PasswordHash = hashedPassword ,
                 PasswordSalt = passwordSalt,
                 IsConfirmed = false

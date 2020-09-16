@@ -55,7 +55,7 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
 
                 CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-                var newUser = await _userRepository.CreateUser(request.FirstName, request.LastName, request.Email, passwordHash, passwordSalt);
+                var newUser = await _userRepository.CreateUser(request.FirstName, request.LastName, request.Email, request.Birth, passwordHash, passwordSalt);
 
                 var confirmationToken = TokenHelper.GenerateToken(newUser.PasswordSalt);
 

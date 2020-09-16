@@ -18,6 +18,8 @@ namespace GateProjectBackend.Authentication.BusinessLogic.CommandHandlers.Comman
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
         [Required]
+        public DateTime Birth { get; set; }
+        [Required]
         public string Password { get; set; }
         [Required]
         public string Password2 { get; set; }
