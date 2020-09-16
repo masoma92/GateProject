@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace GateProjectBackend.Data.Models
 {
     [Table("AccountTypes")]
-    public class AccountType // Office = 1, Home = 2 
+    public class AccountType
     {
         [Key]
         public int Id { get; set; }

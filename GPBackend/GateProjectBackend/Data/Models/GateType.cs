@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace GateProjectBackend.Data.Models
 {
     [Table("GateTypes")]
-    public class GateType //Entrance = 0, Garage = 1
+    public class GateType
     {
         [Key]
         public int Id { get; set; }

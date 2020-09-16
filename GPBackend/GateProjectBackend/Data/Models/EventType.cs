@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace GateProjectBackend.Data.Models
 {
     [Table("EventTypes")]
-    public class EventType // User = 1, Error = 2, Info = 3
+    public class EventType
     {
         [Key]
         public int Id { get; set; }

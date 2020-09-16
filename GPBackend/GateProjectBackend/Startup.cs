@@ -71,12 +71,8 @@ namespace GateProjectBackend
 
             #endregion
 
-            #region SWAGGERCONFIG
-
             _apiStartup = new ApiStartup(services, Configuration);
             _apiStartup.AddSwaggerGen(true);
-
-            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

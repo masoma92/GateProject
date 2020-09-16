@@ -31,6 +31,23 @@ namespace GateProjectBackend.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Role>().HasData(
+                new Role { Id = 1, Name = "User" },
+                new Role { Id = 2, Name = "Admin" });
+
+            modelBuilder.Entity<EventType>().HasData(
+                new EventType { Id = 1, Name = "User" },
+                new EventType { Id = 2, Name = "Error" },
+                new EventType { Id = 3, Name = "Info" });
+
+            modelBuilder.Entity<AccountType>().HasData(
+                new AccountType { Id = 1, Name = "Office" },
+                new AccountType { Id = 2, Name = "Home" });
+
+            modelBuilder.Entity<GateType>().HasData(
+                new GateType { Id = 1, Name = "Entrance" },
+                new GateType { Id = 2, Name = "Garage" });
+
             // accounts and admins many-to-many join table
             modelBuilder.Entity<AccountAdmin>().HasKey(a => new { a.UserId, a.AccountId });
             modelBuilder.Entity<AccountAdmin>().HasOne(ad => ad.User).WithMany(u => u.AdminAccounts).HasForeignKey(ac => ac.UserId);
