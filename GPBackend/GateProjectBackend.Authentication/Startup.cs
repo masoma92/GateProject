@@ -8,6 +8,7 @@ using GateProjectBackend.Authentication.Data;
 using GateProjectBackend.Authentication.Data.Repositories;
 using GateProjectBackend.Authentication.Resources;
 using GateProjectBackend.Authentication.Resources.Settings;
+using GateProjectBackend.Common.Startup;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +27,7 @@ namespace GateProjectBackend.Authentication
 {
     public class Startup
     {
+        private ApiStartup _apiStartup;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -65,20 +67,8 @@ namespace GateProjectBackend.Authentication
 
             #region SWAGGERCONFIG
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "GateProject Authentication API",
-                    Description = "GP Authentication REST API Endpoint",
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Soma Makai",
-                        Email = "masoma@stud.uni-obuda.hu"
-                    }
-                });
-            });
+            _apiStartup = new ApiStartup(services, Configuration);
+            _apiStartup.AddSwaggerGen();
 
             #endregion
 
@@ -90,18 +80,10 @@ namespace GateProjectBackend.Authentication
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseSwagger();
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-
             var swaggerSettings = new SwaggerSettings();
             Configuration.GetSection(nameof(swaggerSettings)).Bind(swaggerSettings);
 
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint(swaggerSettings.URL, swaggerSettings.Name);
-            });
+            _apiStartup.AddSwaggerUi(app, swaggerSettings.URL, swaggerSettings.Name);
 
             if (env.IsDevelopment())
             {
