@@ -50,7 +50,78 @@ namespace GateProjectBackend.Common
             return false;
         }
 
-        static private byte[] Encrypt(byte[] dataToEncrypt)
+        public static T Encrypt<T>(T input)
+        {
+            byte[] dataToEncrypt = null;
+            byte[] output = null;
+
+            if (typeof(T) == typeof(string))
+                dataToEncrypt = Convert.FromBase64String(input as string);
+            else if (typeof(T) == typeof(byte[]))
+                dataToEncrypt = input as byte[];
+
+            byte[] keybites = Encoding.UTF8.GetBytes(ENCRYPTION_KEY);
+
+            using (Aes encryptor = Aes.Create())
+            {
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(ENCRYPTION_KEY, keybites, 1000);
+                encryptor.Key = pdb.GetBytes(32);
+                encryptor.IV = pdb.GetBytes(16);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                    {
+                        cs.Write(dataToEncrypt, 0, dataToEncrypt.Length);
+                        cs.Close();
+                    }
+                    output = ms.ToArray();
+                }
+            }
+            if (typeof(T) == typeof(string))
+            {
+                var temp = Convert.ToBase64String(output);
+                return (T)Convert.ChangeType(temp, typeof(T));
+            }
+            else if (typeof(T) == typeof(byte[]))
+                return (T)Convert.ChangeType(output, typeof(T));
+            return (T)Convert.ChangeType(output, typeof(T));
+        }
+
+        public static T Decrypt<T>(T input)
+        {
+            byte[] dataToDecrypt = null;
+            byte[] output = null;
+
+            if (typeof(T) == typeof(string))
+                dataToDecrypt = Convert.FromBase64String(input as string);
+            else if (typeof(T) == typeof(byte[]))
+                dataToDecrypt = input as byte[];
+
+            byte[] keybites = Encoding.UTF8.GetBytes(ENCRYPTION_KEY);
+
+            using (Aes encryptor = Aes.Create())
+            {
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(ENCRYPTION_KEY, keybites, 1000);
+                encryptor.Key = pdb.GetBytes(32);
+                encryptor.IV = pdb.GetBytes(16);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
+                    {
+                        cs.Write(dataToDecrypt, 0, dataToDecrypt.Length);
+                        cs.Close();
+                    }
+                    output = ms.ToArray();
+                }
+            }
+            if (typeof(T) == typeof(string))
+                return (T)Convert.ChangeType(Convert.ToBase64String(output), typeof(T));
+            else if (typeof(T) == typeof(byte[]))
+                return (T)Convert.ChangeType(output, typeof(T));
+            return (T)Convert.ChangeType(output, typeof(T));
+        }
+
+        static private byte[] Encrypt2(byte[] dataToEncrypt)
         {
             byte[] keybites = Encoding.UTF8.GetBytes(ENCRYPTION_KEY);
 
@@ -71,7 +142,7 @@ namespace GateProjectBackend.Common
             }
         }
 
-        static private byte[] Decrypt(byte[] dataToDecrypt)
+        static private byte[] Decrypt2(byte[] dataToDecrypt)
         {
             byte[] keybites = Encoding.UTF8.GetBytes(ENCRYPTION_KEY);
 

@@ -22,5 +22,22 @@ namespace GateProjectBackend.Common.Test
             var result = TokenHelper.IsValidToken(token, testData);
             Assert.IsTrue(result);
         }
+
+        [TestCase(new byte[] { 56, 128, 66 })]
+        public void Encrypt_Should_ReturnSameValueAsInput_When_Called(byte[] input)
+        {
+            var encryptedData = TokenHelper.Encrypt<byte[]>(input);
+            var decryptedData = TokenHelper.Decrypt<byte[]>(encryptedData);
+            Assert.AreEqual(input, decryptedData);
+        }
+
+        [TestCase("")]
+        [TestCase("asd")]
+        public void Encrypt_Should_ReturnSameValueAsInput_When_Called(string input)
+        {
+            var encryptedData = TokenHelper.Encrypt<string>(input);
+            var decryptedData = TokenHelper.Decrypt<string>(encryptedData);
+            Assert.AreEqual(input, decryptedData);
+        }
     }
 }
