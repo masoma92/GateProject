@@ -56,7 +56,7 @@ namespace GateProjectBackend.Common
             byte[] output = null;
 
             if (typeof(T) == typeof(string))
-                dataToEncrypt = Convert.FromBase64String(input as string);
+                dataToEncrypt = new UTF8Encoding(false).GetBytes(input as string);
             else if (typeof(T) == typeof(byte[]))
                 dataToEncrypt = input as byte[];
 
@@ -114,8 +114,10 @@ namespace GateProjectBackend.Common
                     output = ms.ToArray();
                 }
             }
-            if (typeof(T) == typeof(string))
-                return (T)Convert.ChangeType(Convert.ToBase64String(output), typeof(T));
+            if (typeof(T) == typeof(string)) {
+                var temp = Encoding.UTF8.GetString(output);
+                return (T)Convert.ChangeType(temp, typeof(T));
+            }
             else if (typeof(T) == typeof(byte[]))
                 return (T)Convert.ChangeType(output, typeof(T));
             return (T)Convert.ChangeType(output, typeof(T));
