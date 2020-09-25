@@ -36,7 +36,7 @@ namespace GateProjectBackend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            //services.AddControllers();
 
             services.AddScoped<IUserRepository, UserRepository>();
 
@@ -46,6 +46,24 @@ namespace GateProjectBackend
             {
                 opt.UseSqlServer(conn);
             });
+
+            #region CORSCONFIG
+            //** will be used
+            //var corsConfig = Configuration.GetSection("CorsConfiguration").Get<CorsConfiguration>();
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy(name: "GPAuthAllowedOrigins",
+            //        builder =>
+            //        {
+            //            builder.WithOrigins(corsConfig?.AcceptedUrls?.ToArray());
+            //        });
+            //});
+
+            services.AddCors(options => options.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+
+            services.AddMvc(options => options.EnableEndpointRouting = false);
+
+            #endregion
 
             #region JWT_AUTHENTICATION
 
@@ -81,8 +99,12 @@ namespace GateProjectBackend
 
             #endregion
 
+            #region SWAGGER
+
             _apiStartup = new ApiStartup(services, Configuration);
             _apiStartup.AddSwaggerGen(true);
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,9 +121,12 @@ namespace GateProjectBackend
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            app.UseCors();
 
-            app.UseAuthorization();
+            app.UseMvc();
+
+            //** will be used
+            //app.UseCors("GPAuthAllowedOrigins")
 
             app.UseEndpoints(endpoints =>
             {

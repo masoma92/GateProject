@@ -38,7 +38,7 @@ namespace GateProjectBackend.Authentication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            //services.AddControllers();
 
             services.AddScoped<IUserRepository, UserRepository>();
 
@@ -50,6 +50,24 @@ namespace GateProjectBackend.Authentication
             });
 
             services.Configure<UrlSettings>(Configuration.GetSection("UrlSettings"));
+
+            #region CORSCONFIG
+            //** will be used
+            //var corsConfig = Configuration.GetSection("CorsConfiguration").Get<CorsConfiguration>();
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy(name: "GPAuthAllowedOrigins",
+            //        builder =>
+            //        {
+            //            builder.WithOrigins(corsConfig?.AcceptedUrls?.ToArray());
+            //        });
+            //});
+
+            services.AddCors(options => options.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+
+            services.AddMvc(options => options.EnableEndpointRouting = false);
+
+            #endregion
 
             #region JWTSETTINGS
 
@@ -101,6 +119,13 @@ namespace GateProjectBackend.Authentication
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
+
+            app.UseMvc();
+
+            //** will be used
+            //app.UseCors("GPAuthAllowedOrigins")
 
             app.UseEndpoints(endpoints =>
             {
