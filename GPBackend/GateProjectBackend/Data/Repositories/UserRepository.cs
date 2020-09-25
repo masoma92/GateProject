@@ -32,7 +32,8 @@ namespace GateProjectBackend.Data.Repositories
                 Birth = birth,
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow,
-                CreatedBy = "SYSTEM"
+                CreatedBy = "SYSTEM",
+                RoleId = 1
             };
             var result = _context.Users.Add(newUser);
             await _context.SaveChangesAsync();

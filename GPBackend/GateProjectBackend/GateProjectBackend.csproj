@@ -11,6 +11,8 @@
     <Compile Remove="Migrations\20200719191746_test.Designer.cs" />
     <Compile Remove="Migrations\20200914081024_initialize authdb.cs" />
     <Compile Remove="Migrations\20200914081024_initialize authdb.Designer.cs" />
+    <Compile Remove="Migrations\20200925173602_init db.cs" />
+    <Compile Remove="Migrations\20200925173602_init db.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -13,6 +13,6 @@ namespace GateProjectBackend.Data.Models
         public string CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public string ModifiedBy { get; set; }
-        public DateTime MoidifiedAt { get; set; }
+        public DateTime? MoidifiedAt { get; set; }
     }
 }

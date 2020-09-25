@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GateProjectBackend.Migrations
 {
-    public partial class initdb : Migration
+    public partial class initGPDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -68,7 +68,7 @@ namespace GateProjectBackend.Migrations
                     CreatedBy = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     ModifiedBy = table.Column<string>(nullable: true),
-                    MoidifiedAt = table.Column<DateTime>(nullable: false),
+                    MoidifiedAt = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     Zip = table.Column<string>(nullable: true),
                     Country = table.Column<string>(nullable: true),
@@ -98,7 +98,7 @@ namespace GateProjectBackend.Migrations
                     CreatedBy = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     ModifiedBy = table.Column<string>(nullable: true),
-                    MoidifiedAt = table.Column<DateTime>(nullable: false),
+                    MoidifiedAt = table.Column<DateTime>(nullable: true),
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: false),
@@ -127,7 +127,7 @@ namespace GateProjectBackend.Migrations
                     CreatedBy = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     ModifiedBy = table.Column<string>(nullable: true),
-                    MoidifiedAt = table.Column<DateTime>(nullable: false),
+                    MoidifiedAt = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     GateTypeId = table.Column<int>(nullable: false),
                     ServiceId = table.Column<string>(nullable: true),
@@ -161,7 +161,7 @@ namespace GateProjectBackend.Migrations
                     CreatedBy = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     ModifiedBy = table.Column<string>(nullable: true),
-                    MoidifiedAt = table.Column<DateTime>(nullable: false)
+                    MoidifiedAt = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -190,7 +190,7 @@ namespace GateProjectBackend.Migrations
                     CreatedBy = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     ModifiedBy = table.Column<string>(nullable: true),
-                    MoidifiedAt = table.Column<DateTime>(nullable: false)
+                    MoidifiedAt = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -218,7 +218,7 @@ namespace GateProjectBackend.Migrations
                     CreatedBy = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     ModifiedBy = table.Column<string>(nullable: true),
-                    MoidifiedAt = table.Column<DateTime>(nullable: false),
+                    MoidifiedAt = table.Column<DateTime>(nullable: true),
                     UserId = table.Column<int>(nullable: true),
                     Message = table.Column<string>(nullable: true),
                     EventTypeId = table.Column<int>(nullable: false)
@@ -250,7 +250,7 @@ namespace GateProjectBackend.Migrations
                     CreatedBy = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     ModifiedBy = table.Column<string>(nullable: true),
-                    MoidifiedAt = table.Column<DateTime>(nullable: false),
+                    MoidifiedAt = table.Column<DateTime>(nullable: true),
                     AccessRight = table.Column<bool>(nullable: false),
                     AdminRight = table.Column<bool>(nullable: false)
                 },

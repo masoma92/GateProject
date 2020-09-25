@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GateProjectBackend.Migrations
 {
     [DbContext(typeof(GPDbContext))]
-    [Migration("20200925173602_init db")]
-    partial class initdb
+    [Migration("20200925191408_initGPDB")]
+    partial class initGPDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,7 +49,7 @@ namespace GateProjectBackend.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("MoidifiedAt")
+                    b.Property<DateTime?>("MoidifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -91,7 +91,7 @@ namespace GateProjectBackend.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("MoidifiedAt")
+                    b.Property<DateTime?>("MoidifiedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("UserId", "AccountId");
@@ -148,7 +148,7 @@ namespace GateProjectBackend.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("MoidifiedAt")
+                    b.Property<DateTime?>("MoidifiedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("UserId", "AccountId");
@@ -215,7 +215,7 @@ namespace GateProjectBackend.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("MoidifiedAt")
+                    b.Property<DateTime?>("MoidifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -282,7 +282,7 @@ namespace GateProjectBackend.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("MoidifiedAt")
+                    b.Property<DateTime?>("MoidifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("UserId")
@@ -358,7 +358,7 @@ namespace GateProjectBackend.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("MoidifiedAt")
+                    b.Property<DateTime?>("MoidifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("RfidKey")
@@ -400,7 +400,7 @@ namespace GateProjectBackend.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("MoidifiedAt")
+                    b.Property<DateTime?>("MoidifiedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("UserId", "GateId");

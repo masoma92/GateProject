@@ -25,14 +25,14 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
             {
                 var jwt = request.Token.Replace("Bearer", "").Trim();
                 var handler = new JwtSecurityTokenHandler();
-                var token = handler.ReadJwtToken(jwt);
+                var claims = handler.ReadJwtToken(jwt).Claims.ToList();
 
-                var firstName = token.Claims.Select(x => x.Type == "firstname");
-                var lastName = token.Claims.Select(x => x.Type == "lastname");
-                var email = token.Claims.Select(x => x.Type == "email");
-                var birth = token.Claims.Select(x => x.Type == "birthdate");
+                var firstName = claims.FirstOrDefault(x => x.Type == "firstname").Value;
+                var lastName = claims.FirstOrDefault(x => x.Type == "lastname").Value;
+                var email = claims.FirstOrDefault(x => x.Type == "email").Value;
+                var birth = claims.FirstOrDefault(x => x.Type == "birthdate").Value;
 
-                await _userRepository.CreateUser("", "", "", DateTime.Now);
+                await _userRepository.CreateUser(firstName, lastName, email, DateTime.Parse(birth));
                 return Result<bool>.Ok(true);
             }
             catch (Exception e)
