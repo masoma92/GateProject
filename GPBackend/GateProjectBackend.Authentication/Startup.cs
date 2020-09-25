@@ -51,9 +51,13 @@ namespace GateProjectBackend.Authentication
 
             services.Configure<UrlSettings>(Configuration.GetSection("UrlSettings"));
 
+            #region JWTSETTINGS
+
             var jwtSettings = new JwtSettings();
             Configuration.Bind(nameof(jwtSettings), jwtSettings);
             services.AddSingleton(jwtSettings);
+
+            #endregion
 
             #region SENDGRID
 
@@ -72,10 +76,14 @@ namespace GateProjectBackend.Authentication
 
             #endregion
 
+            #region MEDIATR
+
             services.AddMediatR(typeof(Startup));
+
+            #endregion
         }
 
-        
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

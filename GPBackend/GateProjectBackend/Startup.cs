@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using GateProjectBackend.Common.Startup;
 using GateProjectBackend.Data;
+using GateProjectBackend.Data.Repositories;
 using GateProjectBackend.Resources.Settings;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,6 +37,8 @@ namespace GateProjectBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddScoped<IUserRepository, UserRepository>();
 
             string conn = Configuration.GetConnectionString("CONN");
 
@@ -68,6 +72,12 @@ namespace GateProjectBackend
                     ValidateLifetime = true
                 };
             });
+
+            #endregion
+
+            #region MEDIATR
+
+            services.AddMediatR(typeof(Startup));
 
             #endregion
 

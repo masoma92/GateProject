@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using System;
 using System.Collections.Generic;
 
 namespace GateProjectBackend.Common.Startup
@@ -80,6 +81,11 @@ namespace GateProjectBackend.Common.Startup
             {
                 c.SwaggerEndpoint(url, name);
             });
+        }
+
+        public void OnUserAuthenticated(Action action)
+        {
+            action.Invoke();
         }
     }
 }
