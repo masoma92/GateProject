@@ -1,0 +1,35 @@
+<div class="col-10 offset-1 col-md-4 offset-md-4 custom-card-margin">
+    <mat-card class="example-card">
+        <mat-card-header class="w-100 d-flex justify-content-center">
+            <h3>Login</h3>
+        </mat-card-header>
+        <mat-card-content>
+            <form (submit)="login($event)">
+                <mat-form-field class="w-100">
+                    <mat-label>E-mail address</mat-label>
+                    <input matInput type="email" [(ngModel)]="email" name="email" [formControl]="emailFormControl" cdkFocusInitial>
+                    <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                        Please enter a valid email address
+                    </mat-error>
+                    <mat-error *ngIf="emailFormControl.hasError('required')">
+                        Email field is empty
+                    </mat-error>
+            
+                </mat-form-field>
+                <mat-form-field class="w-100">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" [(ngModel)]="password" name="password" [formControl]="passwordFormControl">
+                    <mat-error *ngIf="passwordFormControl.hasError('required')">
+                        Password field is empty
+                    </mat-error>
+                </mat-form-field>
+            
+                <div class="input-group mt-2">
+                    <button mat-raised-button [disabled]="authenticationResult.isInProgress" color="primary" class="w-100 mb-2"
+                        style="padding: 6px;" type="submit"><i *ngIf="authenticationResult.isInProgress"
+                            class="fas fa-spinner fa-spin"></i>&nbsp;<b>LOGIN</b></button>
+                </div>
+            </form>
+        </mat-card-content>
+      </mat-card>
+</div>

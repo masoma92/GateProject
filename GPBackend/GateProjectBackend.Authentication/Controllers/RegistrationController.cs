@@ -10,8 +10,9 @@ using Microsoft.Extensions.Logging;
 
 namespace GateProjectBackend.Authentication.Controllers
 {
+    [ApiVersion("1.0")]
     [ApiController]
-    [Route("[controller]")]
+    [Route("v1/[controller]")]
     public class RegistrationController : AuthControllerBase
     {
         private readonly IMediator _mediator;

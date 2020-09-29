@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace GateProjectBackend.Authentication.Controllers
 {
+    [ApiVersion("1.0")]
     [ApiController]
-    [Route("[controller]")]
+    [Route("v1/[controller]")]
     public class AuthenticationController : AuthControllerBase
     {
         private readonly IMediator _mediator;
