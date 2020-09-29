@@ -1,5 +1,4 @@
-﻿using GateProjectBackend.Authentication.BusinessLogic.Responses;
-using GateProjectBackend.Common;
+﻿using GateProjectBackend.Common;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GateProjectBackend.Authentication.BusinessLogic.CommandHandlers.Commands
 {
-    public class RegisterUserCommand : IRequest<Result<RegisterUserResponse>>
+    public class RegisterUserCommand : IRequest<Result<bool>>
     {
         [Required]
         public string FirstName { get; set; }

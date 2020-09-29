@@ -18,7 +18,7 @@ namespace GateProjectBackend.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpGet("onUserAuthenticate")]
         [Authorize]
         public async Task<IActionResult> OnUserAuthenticate()
         {
@@ -29,6 +29,12 @@ namespace GateProjectBackend.Controllers
             var result = await _mediator.Send(new OnUserAuthenticateCommand { Token = token });
 
             return StatusCodeResult(result);
+        }
+
+        [HttpGet("test")]
+        public async Task<IActionResult> Test()
+        {
+            return Ok();
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using GateProjectBackend.Authentication.BusinessLogic.CommandHandlers.Commands;
 using GateProjectBackend.Authentication.BusinessLogic.Helpers;
-using GateProjectBackend.Authentication.BusinessLogic.Responses;
 using GateProjectBackend.Authentication.Data.Models;
 using GateProjectBackend.Authentication.Data.Repositories;
 using GateProjectBackend.Authentication.Resources;
@@ -19,7 +18,7 @@ using System.Threading.Tasks;
 namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
 {
     public class RegisterUserCommandHandler : 
-        IRequestHandler<RegisterUserCommand, Result<RegisterUserResponse>>,
+        IRequestHandler<RegisterUserCommand, Result<bool>>,
         IRequestHandler<ConfirmEmailCommand, Result<bool>>
     {
         private readonly IUserRepository _userRepository;
@@ -39,19 +38,19 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
             _urlSettings = urlSettings;
         }
 
-        public async Task<Result<RegisterUserResponse>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result<bool>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(request.Password) || string.IsNullOrWhiteSpace(request.Password2))
-                    return Result<RegisterUserResponse>.BadRequest("Password is required");
+                    return Result<bool>.BadRequest("Password is required");
 
                 if (request.Password != request.Password2)
-                    return Result<RegisterUserResponse>.BadRequest("Passwords are not the same");
+                    return Result<bool>.BadRequest("Passwords are not the same");
 
                 var user = await _userRepository.GetUserByEmail(request.Email);
                 if (user != null)
-                    return Result<RegisterUserResponse>.BadRequest($"Email {request.Email} is already taken!");
+                    return Result<bool>.BadRequest($"Email {request.Email} is already taken!");
 
                 CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -61,12 +60,11 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
 
                 SendConfirmationEmail(request.Email, $"{newUser.FirstName} {newUser.LastName}", confirmationToken);
 
-                var userResponse = Convert(newUser);
-                return Result<RegisterUserResponse>.Ok(userResponse);
+                return Result<bool>.Ok(true);
             }
             catch (Exception e)
             {
-                return Result<RegisterUserResponse>.Failure(e.Message);
+                return Result<bool>.Failure(e.Message);
             }
             
         }
@@ -97,14 +95,6 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
             {
                 return Result<bool>.Failure(e.Message);
             }
-        }
-
-        private RegisterUserResponse Convert(AuthUser newUser)
-        {
-            return new RegisterUserResponse
-            {
-                Id = newUser.Id
-            };
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
