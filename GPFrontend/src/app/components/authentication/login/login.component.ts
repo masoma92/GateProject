@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, NgForm, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthenticationResponse, AuthenticationService } from '../../services/authentication/authentication.service';
-import { EntityResult } from '../../services/common/entity.service';
+import { AuthenticationResponse, AuthenticationService } from '../../../services/authentication/authentication.service';
+import { EntityResult } from '../../../services/common/entity.service';
 
 @Component({
   selector: 'login',
@@ -24,6 +24,11 @@ export class LoginComponent implements OnInit {
 
   email: string = "";
   password: string = "";
+
+  get anythingIsInvalid() {
+    return (this.emailFormControl.invalid ||
+    this.passwordFormControl.invalid);
+  }
 
   constructor(
     private authenticationService: AuthenticationService,

@@ -24,9 +24,15 @@
             </mat-form-field>
 
             <div class="input-group mt-2">
-                <button mat-raised-button [disabled]="authenticationResult.isInProgress" color="primary" class="w-100 mb-2" style="padding: 6px;" type="submit"><i *ngIf="authenticationResult.isInProgress"
+                <button class="btn btn-info w-100 mb-2" [disabled]="authenticationResult.isInProgress || anythingIsInvalid" color="primary" style="padding: 14px;" type="submit"><i *ngIf="authenticationResult.isInProgress"
                         class="fas fa-spinner fa-spin"></i>&nbsp;<b>LOGIN</b></button>
             </div>
         </form>
+    </div>
+    <div class="card-footer">
+        <div class="d-flex justify-content-around">
+            <a class="btn btn-primary btn-round" routerLink="/register">Register</a>
+            <a class="btn btn-primary btn-round" routerLink="/forget-password">Forget Password</a>
+        </div>
     </div>
 </div>
