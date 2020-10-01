@@ -1,1 +1,23 @@
-<p>confirm-email works!</p>
+<div class="col-10 offset-1 col-md-6 offset-md-3 col-xl-4 offset-xl-4 custom-card-margin">
+    <div *ngIf="isInProgress" class="d-flex justify-content-center">
+        <i class="fas fa-spinner fa-spin fa-2x"></i>
+    </div>
+    <div *ngIf="!isInProgress">
+        <div *ngIf="result.hasValue" class="alert alert-info">
+            <div class="d-flex justify-content-center">
+                <p>Your registration is complete!</p>
+            </div>
+            <div class="d-flex justify-content-center">
+                <a class="btn btn-success btn-round" routerLink="/login">Login</a>
+            </div>
+        </div>
+        <div *ngIf="result.hasError" class="alert alert-danger">
+            <div class="d-flex justify-content-center">
+                <p> {{ result.errorMessage }}</p>
+            </div>
+            <div class="d-flex justify-content-center">
+                <a class="btn btn-success btn-round" routerLink="/login">Login</a>
+            </div>
+        </div>
+    </div>
+</div>

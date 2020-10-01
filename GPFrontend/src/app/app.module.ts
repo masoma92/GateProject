@@ -11,6 +11,7 @@ import { ForgetPasswordComponent } from './components/authentication/forget-pass
 import { LoginComponent } from './components/authentication/login/login.component';
 import { RegisterComponent } from './components/authentication/register/register.component';
 import { ConfirmEmailComponent } from './components/authentication/confirm-email/confirm-email.component';
+import { RegisterSuccessComponent } from './components/authentication/register-success/register-success.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ConfirmEmailComponent } from './components/authentication/confirm-email
     LoginComponent,
     ForgetPasswordComponent,
     RegisterComponent,
-    ConfirmEmailComponent
+    ConfirmEmailComponent,
+    RegisterSuccessComponent
   ],
   imports: [
     BrowserModule,

@@ -21,7 +21,7 @@ namespace GateProjectBackend.Authentication.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserCommand registerCommand)
         {
             if (!ModelState.IsValid)
@@ -33,6 +33,16 @@ namespace GateProjectBackend.Authentication.Controllers
 
         [HttpPost("confirm-email")]
         public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailCommand registerCommand)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _mediator.Send(registerCommand);
+            return StatusCodeResult(result);
+        }
+
+        [HttpPost("resend-confirm-email")]
+        public async Task<IActionResult> ResendConfirmEmail([FromBody] ResendConfirmEmailCommand registerCommand)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

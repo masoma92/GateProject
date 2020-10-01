@@ -14,6 +14,13 @@ export class RegisterUserCommand {
   password2: string;   
 }
 
+export class ResetPasswordCommand {
+  email: string;
+  token: string;
+  password: string;
+  password2: string;   
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,7 +35,61 @@ export class UserManagementService {
   public register(command: RegisterUserCommand, result: EntityResult<boolean>) {
     result.start();
 
-    return this.http.post<EntityResult<boolean>>(`${environment.authUrl}${this.apiVersion}/register`, command, 
+    return this.http.post<EntityResult<boolean>>(`${environment.authUrl}${this.apiVersion}/registration/register`, command, 
+    {
+      headers: new HeadersBuilder()
+      .json()
+      .build(),
+      observe: 'response'
+    }).subscribe(
+      res => {
+        if(res.body != null){
+          result.value = res.body.value;
+          result.errorMessage = res.body.errorMessage;
+        }
+        result.finish();
+      },
+      err => {
+        result.value = null;
+        result.errorMessage = err.error.errorMessage;
+        result.finish();
+      }
+    );
+  }
+
+  public confirmemail(email: string, token: string, result: EntityResult<boolean>) {
+    let data = { email: email, token: token }
+
+    result.start();
+
+    return this.http.post<EntityResult<boolean>>(`${environment.authUrl}${this.apiVersion}/registration/confirm-email`, data, 
+    {
+      headers: new HeadersBuilder()
+      .json()
+      .build(),
+      observe: 'response'
+    }).subscribe(
+      res => {
+        if(res.body != null){
+          result.value = res.body.value;
+          result.errorMessage = res.body.errorMessage;
+        }
+        result.finish();
+      },
+      err => {
+        result.value = null;
+        result.errorMessage = err.error.errorMessage;
+        result.finish();
+      }
+    );
+  }
+
+  public resendconfirmemail(email: string, result: EntityResult<boolean>) {
+    let data = { email: email }
+
+    result.start();
+
+    return this.http.post<EntityResult<boolean>>(`${environment.authUrl}${this.apiVersion}/registration/resend-confirm-email`, data, 
     {
       headers: new HeadersBuilder()
       .json()
@@ -55,7 +116,32 @@ export class UserManagementService {
 
     result.start();
 
-    return this.http.post<EntityResult<boolean>>(`${environment.authUrl}${this.apiVersion}/register`, data, 
+    return this.http.post<EntityResult<boolean>>(`${environment.authUrl}${this.apiVersion}/resetpassword/forget`, data, 
+    {
+      headers: new HeadersBuilder()
+      .json()
+      .build(),
+      observe: 'response'
+    }).subscribe(
+      res => {
+        if(res.body != null){
+          result.value = res.body.value;
+          result.errorMessage = res.body.errorMessage;
+        }
+        result.finish();
+      },
+      err => {
+        result.value = null;
+        result.errorMessage = err.error.errorMessage;
+        result.finish();
+      }
+    );
+  }
+
+  public resetpassowrd(command: ResetPasswordCommand, result: EntityResult<boolean>) {
+    result.start();
+
+    return this.http.post<EntityResult<boolean>>(`${environment.authUrl}${this.apiVersion}/resetpassword/reset`, command, 
     {
       headers: new HeadersBuilder()
       .json()

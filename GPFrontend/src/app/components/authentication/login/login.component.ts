@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, NgForm, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { AuthenticationResponse, AuthenticationService } from '../../../services/authentication/authentication.service';
 import { EntityResult } from '../../../services/common/entity.service';
+import { UserManagementService } from '../../../services/user-management/user-management.service';
 
 @Component({
   selector: 'login',
@@ -24,6 +26,7 @@ export class LoginComponent implements OnInit {
 
   email: string = "";
   password: string = "";
+  isNotConfirmed: boolean = false;
 
   get anythingIsInvalid() {
     return (this.emailFormControl.invalid ||
@@ -32,24 +35,16 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authenticationService: AuthenticationService,
-    private snackBar: MatSnackBar) { }
+    private userManageMentService: UserManagementService,
+    private snackBar: MatSnackBar,
+    private router: Router) { }
 
   ngOnInit() {
   }
 
-  public login() {
+  login() {
 
-    if (this.emailFormControl.invalid) {
-      if(this.emailFormControl.hasError('required')){
-        return;
-      }
-      else if(this.emailFormControl.hasError('email')){
-        return;
-      }
-    }
-    else if (this.passwordFormControl.invalid) {
-      return;
-    }
+    if (this.emailFormControl.invalid || this.passwordFormControl.invalid) return; 
     
     this.authenticationResult.onFinished = () => {
       if (this.authenticationResult.hasValue)
@@ -60,10 +55,29 @@ export class LoginComponent implements OnInit {
         if (errMessage.includes("email doesn't exist") || errMessage.includes("Password is not correct")) {
             this.snackBar.open("Email or password is not correct!", "Close", { duration: 2000, panelClass: 'toast.error' } );
         }
+        if (errMessage.includes("Email is not confirmed")) {
+          this.isNotConfirmed = true;
+        }
 
       }
     }
     this.authenticationService.authenticate(this.email, this.password, this.authenticationResult);
   }
+  
+  resend() {
+    if (this.emailFormControl.invalid) return;
 
+    let resendResult = new EntityResult<boolean>();
+
+    resendResult.onFinished = () => {
+      if(resendResult.hasValue) {
+        this.snackBar.open("Confirmation link resended!", "Close", { duration: 2000, panelClass: 'toast.success' })
+        this.router.navigate(['/register-success'], { queryParams: { email: this.email } });
+      }
+      else if (resendResult.hasError) {
+        this.snackBar.open(resendResult.errorMessage, "Close", { duration: 2000, panelClass: 'toast.error' } );
+      }
+    }
+    this.userManageMentService.resendconfirmemail(this.email, resendResult);
+  }
 }

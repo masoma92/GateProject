@@ -1,4 +1,4 @@
-<div class="card col-10 offset-1 col-md-4 offset-md-4 custom-card-margin">
+<div class="card col-10 offset-1 col-md-6 offset-md-3 col-xl-4 offset-xl-4 custom-card-margin">
     <div class="header">
         <h4 class="title">Register</h4>
     </div>
@@ -26,6 +26,13 @@
                 </mat-error>
                 <mat-error *ngIf="emailFormControl.hasError('required')">
                     Email field is empty
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+                <mat-label>Birth</mat-label>
+                <input matInput type="date" [(ngModel)]="command.birth" name="birth" [formControl]="birthFormControl">
+                <mat-error *ngIf="birthFormControl.hasError('required')">
+                    Please set your birth date
                 </mat-error>
             </mat-form-field>
             <mat-form-field class="w-100">

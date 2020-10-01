@@ -1,4 +1,4 @@
-<div class="card col-10 offset-1 col-md-4 offset-md-4 custom-card-margin">
+<div class="card col-10 offset-1 col-md-6 offset-md-3 col-xl-4 offset-xl-4 custom-card-margin">
     <div class="header">
         <h4 class="title">Login</h4>
     </div>
@@ -26,6 +26,10 @@
             <div class="input-group mt-2">
                 <button class="btn btn-info w-100 mb-2" [disabled]="authenticationResult.isInProgress || anythingIsInvalid" color="primary" style="padding: 14px;" type="submit"><i *ngIf="authenticationResult.isInProgress"
                         class="fas fa-spinner fa-spin"></i>&nbsp;<b>LOGIN</b></button>
+            </div>
+            <div *ngIf="isNotConfirmed">
+                To complete the GateProject account creation process, you will need to click on the activation link that was sent to your email.
+                <span style="cursor: pointer;" (click)="resend()"><b>Request</b></span> a resend of the activation email.
             </div>
         </form>
     </div>

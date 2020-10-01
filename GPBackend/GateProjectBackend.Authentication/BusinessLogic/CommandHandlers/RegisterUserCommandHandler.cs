@@ -19,7 +19,8 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
 {
     public class RegisterUserCommandHandler : 
         IRequestHandler<RegisterUserCommand, Result<bool>>,
-        IRequestHandler<ConfirmEmailCommand, Result<bool>>
+        IRequestHandler<ConfirmEmailCommand, Result<bool>>,
+        IRequestHandler<ResendConfirmEmailCommand, Result<bool>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IOptions<SendGridEmailVariables> _companyProperties;
@@ -88,6 +89,26 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
                 user.IsConfirmed = true;
 
                 await _userRepository.Update(user);
+
+                return Result<bool>.Ok(true);
+            }
+            catch (Exception e)
+            {
+                return Result<bool>.Failure(e.Message);
+            }
+        }
+
+        public async Task<Result<bool>> Handle(ResendConfirmEmailCommand request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var user = await _userRepository.GetUserByEmail(request.Email);
+                if (user == null)
+                    return Result<bool>.BadRequest($"User doesn't exist");
+
+                var confirmationToken = TokenHelper.GenerateToken(user.PasswordSalt);
+
+                SendConfirmationEmail(request.Email, $"{user.FirstName} {user.LastName}", confirmationToken);
 
                 return Result<bool>.Ok(true);
             }
