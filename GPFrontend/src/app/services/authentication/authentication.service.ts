@@ -112,6 +112,8 @@ export class AuthenticationService {
 
     this.currentIdentity.next(new Identity(email, authenticateResult.value.jwtToken));
 
+    this.tryAuthenticateWithToken(this.storedToken);
+
     this.router.navigate(['dashboard']);
 
     authenticateResult.finish();

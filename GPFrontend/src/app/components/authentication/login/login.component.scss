@@ -1,0 +1,11 @@
+@media only screen and (max-width: 430px) {
+    .custom-forget-password {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 108px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

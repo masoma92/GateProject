@@ -49,7 +49,6 @@ export class LoginComponent implements OnInit {
     this.authenticationResult.onFinished = () => {
       if (this.authenticationResult.hasValue)
         this.snackBar.open("Successfully login!", "Close", { duration: 2000, panelClass: 'toast.success' } );
-
       else if (this.authenticationResult.hasError){
         let errMessage = this.authenticationResult.errorMessage;
         if (errMessage.includes("email doesn't exist") || errMessage.includes("Password is not correct")) {
