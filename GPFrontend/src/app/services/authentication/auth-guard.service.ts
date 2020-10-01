@@ -12,33 +12,10 @@ export class AuthGuard implements CanActivate {
     private authenticationService: AuthenticationService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-
-    const currentUser = this.authenticationService.currentIdentity.value;
-
-    return this.isLoginInProgress().then(x => {
-      if(!x){
-        if (currentUser._authenticationTokenString == null || currentUser._authenticationTokenString == ""){
-          return false;
-        }
-        this.router.navigate(['403']);
-        this.authenticationService.truncateLocalStorage();
-        return false;
-      }
-      this.router.navigate(['/login']);
-      return false;
-    });
-  }
-
-  isLoginInProgress() {
-    return new Promise<boolean>((resolve, reject) => {
-
-      this.authenticationService.isLoginInProgress.subscribe(x => {
-          console.log(this.authenticationService.currentIdentity.value._authenticationTokenString);
-          if (!x) {
-              console.log("inside async method", x)
-              resolve(x);
-          }
-      });
-  });
+    if (this.authenticationService.isAuthenticated()){
+      return true;
+    }
+    this.router.navigate(['login']);
+    return false;
   }
 }

@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace GateProjectBackend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [ApiVersion("1.0")]
+    [Route("v1/[controller]")]
     [Authorize]
     public class UserController : BaseController
     {
@@ -29,12 +30,6 @@ namespace GateProjectBackend.Controllers
             var result = await _mediator.Send(new OnUserAuthenticateCommand { Token = token });
 
             return StatusCodeResult(result);
-        }
-
-        [HttpGet("test")]
-        public async Task<IActionResult> Test()
-        {
-            return Ok();
         }
     }
 }

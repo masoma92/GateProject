@@ -32,6 +32,9 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
                 var email = claims.FirstOrDefault(x => x.Type == "email").Value;
                 var birth = claims.FirstOrDefault(x => x.Type == "birthdate").Value;
 
+                if (_userRepository.GetUserByEmail(email).Result != null)
+                    return Result<bool>.Ok(true);
+
                 await _userRepository.CreateUser(firstName, lastName, email, DateTime.Parse(birth));
                 return Result<bool>.Ok(true);
             }

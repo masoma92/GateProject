@@ -68,4 +68,32 @@ export class JwtHelper {
   
       return JSON.parse(decoded);
     }
+
+    public static isTokenExpired(token: string,offsetSeconds?: number): boolean {
+      if (!token || token === "") {
+        return true;
+      }
+      const date = this.getTokenExpirationDate(token);
+      offsetSeconds = offsetSeconds || 0;
+  
+      if (date === null) {
+        return false;
+      }
+  
+      return !(date.valueOf() > new Date().valueOf() + offsetSeconds * 1000);
+    }
+
+    private static getTokenExpirationDate(token: string): Date | null {
+      let decoded: any;
+      decoded = JwtHelper.decodeToken(token);
+  
+      if (!decoded || !decoded.hasOwnProperty("exp")) {
+        return null;
+      }
+  
+      const date = new Date(0);
+      date.setUTCSeconds(decoded.exp);
+  
+      return date;
+    }
   }
