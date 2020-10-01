@@ -63,6 +63,12 @@
                                     "maximumError": "10kb"
                                 }
                             ]
+                        },
+                        "somapc": {
+                            "fileReplacements": [{
+                                "replace": "src/environments/environment.ts",
+                                "with": "src/environments/environment.somapc.ts"
+                            }]
                         }
                     }
                 },
@@ -74,6 +80,9 @@
                     "configurations": {
                         "production": {
                             "browserTarget": "GateProjectFrontend:build:production"
+                        },
+                        "somapc": {
+                            "browserTarget": "GateProjectFrontend:build:somapc"
                         }
                     }
                 },
