@@ -9,6 +9,7 @@ namespace GateProjectBackend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class UserController : BaseController
     {
         private readonly IMediator _mediator;
@@ -19,7 +20,6 @@ namespace GateProjectBackend.Controllers
         }
 
         [HttpGet("onUserAuthenticate")]
-        [Authorize]
         public async Task<IActionResult> OnUserAuthenticate()
         {
             var headers = this.Request.Headers;

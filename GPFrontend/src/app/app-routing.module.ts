@@ -5,6 +5,8 @@ import { ForgetPasswordComponent } from './components/authentication/forget-pass
 import { LoginComponent } from './components/authentication/login/login.component';
 import { RegisterSuccessComponent } from './components/authentication/register-success/register-success.component';
 import { RegisterComponent } from './components/authentication/register/register.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { AuthGuard } from './services/authentication/auth-guard.service';
 
 
 const routes: Routes = [
@@ -14,6 +16,7 @@ const routes: Routes = [
   {path: 'register-success', component: RegisterSuccessComponent},
   {path: 'confirm-email', component: ConfirmEmailComponent},
   {path: 'forget-password', component: ForgetPasswordComponent},
+  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   {path: '**', redirectTo: ''}
 ];
 @NgModule({

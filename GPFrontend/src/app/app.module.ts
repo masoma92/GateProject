@@ -12,6 +12,10 @@ import { LoginComponent } from './components/authentication/login/login.componen
 import { RegisterComponent } from './components/authentication/register/register.component';
 import { ConfirmEmailComponent } from './components/authentication/confirm-email/confirm-email.component';
 import { RegisterSuccessComponent } from './components/authentication/register-success/register-success.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { NavbarComponent } from './components/shared/navbar/navbar.component';
+import { FooterComponent } from './components/shared/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +24,11 @@ import { RegisterSuccessComponent } from './components/authentication/register-s
     ForgetPasswordComponent,
     RegisterComponent,
     ConfirmEmailComponent,
-    RegisterSuccessComponent
+    RegisterSuccessComponent,
+    DashboardComponent,
+    SidebarComponent,
+    NavbarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

@@ -109,42 +109,10 @@ export class AuthenticationService {
     localStorage.setItem(this.LOCAL_STORAGE_LOGIN, email);
     localStorage.setItem(this.LOCAL_STORAGE_TOKEN, authenticateResult.value.jwtToken);
 
-    // this.setNewIdentity(email, authenticateResult.value.jwtToken).subscribe(x => {
-    //   if (x != null) {
-    //       this.currentIdentity.next(x);
-    //       this.isLoginInProgress.next(false);
-    //   }
-    // });
+    this.router.navigate(['/dashboard']);
 
     authenticateResult.finish();
   }
-
-  // private setNewIdentity(email: string, token: string): BehaviorSubject<Identity> {
-
-  //   let result = new BehaviorSubject<Identity>(null);
-
-  //   this.http.get<any>(environment.authUrl + '/api/v1/role/my-role', 
-  //     {
-  //       headers: new HeadersBuilder()
-  //         .json()
-  //         .withAuthorization(token)
-  //         .build(),
-  //       observe: 'response'
-  //     }
-  //   ).subscribe(
-  //     res => {
-  //       console.log("role:", res.body);
-  //       if(res.body != null) {
-  //         this._role = res.body;
-  //       }
-  //       result.next(new Identity(email, token, this._role));
-  //       this.router.navigate(['/main/dashboard']);
-  //     },
-  //     error => {
-  //     }
-  //   );
-  //   return result;
-  // }
 
   private authenticationFailed(authenticateResult: EntityResult<AuthenticationResponse>) {
     if (this.currentIdentity == null) return;
