@@ -1,6 +1,8 @@
 @import "./paper-dashboard/paper-dashboard.scss";
 body {
     background-color: #f4f3ef;
+    overflow: hidden;
+    overflow-y: auto;
 }
 
 .custom-card-margin {
