@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 
 @Component({
   selector: 'navbar',
@@ -11,25 +12,13 @@ export class NavbarComponent implements OnInit {
   private sidebarVisible: boolean = false;
   private toggleButton;
 
-  constructor(private element : ElementRef) { }
+  constructor(
+    private element : ElementRef,
+    private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
     var navbar : HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
-  }
-
-  collapse(){
-    this.isCollapsed = !this.isCollapsed;
-    const navbar = document.getElementsByTagName('nav')[0];
-    console.log(navbar);
-    if (!this.isCollapsed) {
-      navbar.classList.remove('navbar-transparent');
-      navbar.classList.add('bg-white');
-    }else{
-      navbar.classList.add('navbar-transparent');
-      navbar.classList.remove('bg-white');
-    }
-
   }
 
   sidebarToggle() {
@@ -65,5 +54,9 @@ export class NavbarComponent implements OnInit {
       this.sidebarVisible = false;
       html.classList.remove('nav-open');
   };
+
+  logout() {
+    this.authenticationService.logout();
+  }
 
 }
