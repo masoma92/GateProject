@@ -22,6 +22,7 @@ namespace GateProjectBackend.Controllers
             _mediator = mediator;
         }
 
+        [RoleBasedAuthorize(AcceptedRoles = "User")]
         [HttpGet("onUserAuthenticate")]
         public async Task<IActionResult> OnUserAuthenticate()
         {
@@ -35,8 +36,8 @@ namespace GateProjectBackend.Controllers
         {
             var fname = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "firstname").Value;
             var lname = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "lastname").Value;
-            var email = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress").Value;
-            var birth = DateTime.Parse(this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/dateofbirth").Value);
+            var email = this.HttpContext.User.Identity.Name;
+            var birth = DateTime.Parse(this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "birth").Value);
             return new OnUserAuthenticateCommand
             {
                 FirstName = fname,

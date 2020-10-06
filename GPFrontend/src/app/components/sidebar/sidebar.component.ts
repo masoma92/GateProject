@@ -10,7 +10,7 @@ export interface RouteInfo {
 
 export const ROUTES: RouteInfo[] = [
   { path: '/main', title: 'Dashboard', icon: 'fas fa-tachometer-alt', role: 'Admin, User' },
-  { path: '/main/accounts', title: 'Accounts', icon: 'fas fa-building', role: 'Admin, User' },
+  { path: '/main/accounts', title: 'Accounts', icon: 'fas fa-building', role: 'Admin' },
 ];
 
 @Component({
