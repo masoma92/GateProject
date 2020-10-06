@@ -13,7 +13,7 @@ import { AuthGuard } from './services/authentication/auth-guard.service';
 
 
 const routes: Routes = [
-  {path: '', redirectTo: '/login', pathMatch: 'full'},
+  {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'register-success', component: RegisterSuccessComponent},
@@ -23,7 +23,7 @@ const routes: Routes = [
     children: [
       {path: '', component: DashboardComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin, Role.User]}},
       {path: 'accounts', component: AccountsComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin, Role.User]}}]},
-  {path: '**', redirectTo: ''}
+  {path: '**', redirectTo: 'login'}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
