@@ -51,6 +51,14 @@ namespace GateProjectBackend.Authentication
 
             services.Configure<UrlSettings>(Configuration.GetSection("UrlSettings"));
 
+            #region COMMON_SWAGGER_JWT
+
+            _apiStartup = new ApiStartup(services, Configuration);
+            _apiStartup.AddSwaggerGen();
+            _apiStartup.ConfigureJwtAuthentication();
+
+            #endregion
+
             #region CORSCONFIG
             //** will be used
             //var corsConfig = Configuration.GetSection("CorsConfiguration").Get<CorsConfiguration>();
@@ -69,14 +77,6 @@ namespace GateProjectBackend.Authentication
 
             #endregion
 
-            #region JWTSETTINGS
-
-            var jwtSettings = new JwtSettings();
-            Configuration.Bind(nameof(jwtSettings), jwtSettings);
-            services.AddSingleton(jwtSettings);
-
-            #endregion
-
             #region SENDGRID
 
             services.Configure<SendGridEmailSettings>(Configuration.GetSection("SendGridEmailProperties"));
@@ -84,13 +84,6 @@ namespace GateProjectBackend.Authentication
             services.Configure<SendGridEmailVariables>(Configuration.GetSection("CompanyProperties"));
 
             services.AddScoped<IEmailSender, EmailSender>();
-
-            #endregion
-
-            #region SWAGGERCONFIG
-
-            _apiStartup = new ApiStartup(services, Configuration);
-            _apiStartup.AddSwaggerGen();
 
             #endregion
 

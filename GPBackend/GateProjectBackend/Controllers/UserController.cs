@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using GateProjectBackend.BusinessLogic.CommandHandlers.Commands;
 using GateProjectBackend.Resources;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -20,31 +19,6 @@ namespace GateProjectBackend.Controllers
         public UserController(IMediator mediator)
         {
             _mediator = mediator;
-        }
-
-        [RoleBasedAuthorize(AcceptedRoles = "User")]
-        [HttpGet("onUserAuthenticate")]
-        public async Task<IActionResult> OnUserAuthenticate()
-        {
-            var command = GetUserClaims();
-            var result = await _mediator.Send(command);
-
-            return StatusCodeResult(result);
-        }
-
-        private OnUserAuthenticateCommand GetUserClaims()
-        {
-            var fname = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "firstname").Value;
-            var lname = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "lastname").Value;
-            var email = this.HttpContext.User.Identity.Name;
-            var birth = DateTime.Parse(this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "birth").Value);
-            return new OnUserAuthenticateCommand
-            {
-                FirstName = fname,
-                LastName = lname,
-                Email = email,
-                Birth = birth
-            };
         }
     }
 }

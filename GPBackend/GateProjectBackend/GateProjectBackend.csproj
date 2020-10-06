@@ -18,7 +18,6 @@
   <ItemGroup>
     <PackageReference Include="MediatR" Version="8.1.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.8" />
@@ -33,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BusinessLogic\CommandHandlers\Responses\" />
     <Folder Include="BusinessLogic\RequestHandlers\Responses\" />
   </ItemGroup>
 

@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using GateProjectBackend.Common.Startup;
 using GateProjectBackend.Data;
 using GateProjectBackend.Data.Repositories;
-using GateProjectBackend.Resources.Settings;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -33,6 +33,7 @@ namespace GateProjectBackend
 
         public IConfiguration Configuration { get; }
 
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -47,6 +48,14 @@ namespace GateProjectBackend
             {
                 opt.UseSqlServer(conn);
             });
+
+            #region COMMON_SWAGGER_JWTAUTH
+
+            _apiStartup = new ApiStartup(services, Configuration);
+            _apiStartup.AddSwaggerGen(true);
+            _apiStartup.ConfigureJwtAuthentication(OnUserAuthenticated, true);
+
+            #endregion
 
             #region CORSCONFIG
             //** will be used
@@ -66,44 +75,9 @@ namespace GateProjectBackend
 
             #endregion
 
-            #region JWT_AUTHENTICATION
-
-            var jwtSettings = new JwtSettings();
-            Configuration.Bind(nameof(jwtSettings), jwtSettings);
-            services.AddSingleton(jwtSettings);
-
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    RequireExpirationTime = false,
-                    ValidateLifetime = true
-                };
-            });
-
-            #endregion
-
             #region MEDIATR
 
             services.AddMediatR(typeof(Startup));
-
-            #endregion
-
-            #region SWAGGER
-
-            _apiStartup = new ApiStartup(services, Configuration);
-            _apiStartup.AddSwaggerGen(true);
 
             #endregion
         }
@@ -135,6 +109,26 @@ namespace GateProjectBackend
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void OnUserAuthenticated(ClaimsIdentity user, TokenValidatedContext context)
+        {
+            var userRepository = context.HttpContext.RequestServices.GetService<IUserRepository>();
+            var dbUser = userRepository.GetUserByEmail(user.Name).Result;
+            
+            if (dbUser == null)
+            {
+                var fname = user.Claims.FirstOrDefault(x => x.Type == "firstname").Value;
+                var lname = user.Claims.FirstOrDefault(x => x.Type == "lastname").Value;
+                var email = user.Name;
+                var birth = DateTime.Parse(user.Claims.FirstOrDefault(x => x.Type == "birth").Value);
+                var res = userRepository.CreateUser(fname, lname, email, birth).Result;
+            }
+
+            var roleRepository = context.HttpContext.RequestServices.GetService<IRoleRepository>();
+            var role = roleRepository.GetRoleByUserEmail(user.Name).Result;
+            if (role != null)
+                user.AddClaim(new Claim("Role", role.Name));
         }
     }
 }

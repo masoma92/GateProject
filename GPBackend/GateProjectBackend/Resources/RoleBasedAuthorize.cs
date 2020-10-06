@@ -28,20 +28,19 @@ namespace GateProjectBackend.Resources
                 context.Result = new UnauthorizedResult();
                 return;
             }
-
            
             var email = context.HttpContext.User.Identity.Name;
 
-            //var role = _roleRepository.GetRoleByUserEmail(email).Result;
+            var role = context.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "Role");
 
-            //var permissions = AcceptedRoles.Split(',').Select(r => r.Trim()).ToList();
-            //foreach (var x in permissions)
-            //{
-            //    if (role != null && x == role.Name)
-            //    {
-            //        return;
-            //    }
-            //}
+            var permissions = AcceptedRoles.Split(',').Select(r => r.Trim()).ToList();
+            foreach (var x in permissions)
+            {
+                if (role != null && x == role.Value)
+                {
+                    return;
+                }
+            }
 
             context.Result = new UnauthorizedResult();
             return;

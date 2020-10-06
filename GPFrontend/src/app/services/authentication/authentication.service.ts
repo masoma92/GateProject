@@ -81,7 +81,7 @@ export class AuthenticationService {
 
     this.isLoginInProgress.next(true);
 
-    this.http.get(`${environment.adminUrl}${this.apiVersion}` + "/user/onUserAuthenticate", 
+    this.http.get(`${environment.adminUrl}${this.apiVersion}` + "/status", 
     {
       headers: new HeadersBuilder()
         .json()
@@ -90,12 +90,12 @@ export class AuthenticationService {
         observe: 'response'
     }).subscribe(
       result => {
-        if(result.body != null && result.status == 200) {
+        console.log(result);
+        if(result.status == 200) {
           this.setNewIdentity(this.storedEmail, token).subscribe(x => {
             if (x) {
               this.currentIdentity.next(x);
               this.isLoginInProgress.next(false);
-              console.log("called");
               this.router.navigate(['main']);
             }
           })
