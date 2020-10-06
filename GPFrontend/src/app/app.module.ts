@@ -12,10 +12,12 @@ import { LoginComponent } from './components/authentication/login/login.componen
 import { RegisterComponent } from './components/authentication/register/register.component';
 import { ConfirmEmailComponent } from './components/authentication/confirm-email/confirm-email.component';
 import { RegisterSuccessComponent } from './components/authentication/register-success/register-success.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
+import { AccountsComponent } from './components/+accounts/accounts.component';
+import { MainComponent } from './components/main/main.component';
+import { DashboardComponent } from './components/+dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -25,10 +27,12 @@ import { FooterComponent } from './components/shared/footer/footer.component';
     RegisterComponent,
     ConfirmEmailComponent,
     RegisterSuccessComponent,
-    DashboardComponent,
+    MainComponent,
     SidebarComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    AccountsComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

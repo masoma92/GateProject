@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using GateProjectBackend.BusinessLogic.CommandHandlers.Commands;
 using GateProjectBackend.Resources;
 using MediatR;
@@ -23,13 +25,25 @@ namespace GateProjectBackend.Controllers
         [HttpGet("onUserAuthenticate")]
         public async Task<IActionResult> OnUserAuthenticate()
         {
-            var headers = this.Request.Headers;
-            if (!headers.ContainsKey("Authorization")) return BadRequest("Authorization token not found");
-
-            headers.TryGetValue("Authorization", out var token);
-            var result = await _mediator.Send(new OnUserAuthenticateCommand { Token = token });
+            var command = GetUserClaims();
+            var result = await _mediator.Send(command);
 
             return StatusCodeResult(result);
+        }
+
+        private OnUserAuthenticateCommand GetUserClaims()
+        {
+            var fname = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "firstname").Value;
+            var lname = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "lastname").Value;
+            var email = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress").Value;
+            var birth = DateTime.Parse(this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/dateofbirth").Value);
+            return new OnUserAuthenticateCommand
+            {
+                FirstName = fname,
+                LastName = lname,
+                Email = email,
+                Birth = birth
+            };
         }
     }
 }

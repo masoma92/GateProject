@@ -24,12 +24,12 @@ export class AuthenticationService {
   apiVersion = "/v1";
   path = "/authentication"
 
-  currentIdentity = new BehaviorSubject<Identity>(new Identity('','')); // ennek a next metódusa szól a változásról mindenkinek aki fel van iratkozva a currentIdentity-re (login és logout)
+  currentIdentity = new BehaviorSubject<Identity>(new Identity('','','')); // ennek a next metódusa szól a változásról mindenkinek aki fel van iratkozva a currentIdentity-re (login és logout)
   isLoginInProgress = new BehaviorSubject<boolean>(false);
   
-  _role: string = "";
   storedToken: string = "";
   storedEmail: string = "";
+  role: string = "";
 
   constructor(
     private http: HttpClient,
@@ -77,7 +77,7 @@ export class AuthenticationService {
     return authenticateResult;
   }
 
-  tryAuthenticateWithToken(token: string): boolean {
+  tryAuthenticateWithToken(token: string, authenticateResult: EntityResult<AuthenticationResponse> = null): boolean {
 
     this.isLoginInProgress.next(true);
 
@@ -91,8 +91,16 @@ export class AuthenticationService {
     }).subscribe(
       result => {
         if(result.body != null && result.status == 200) {
-          this.isLoginInProgress.next(false);
-          this.router.navigate(['/dashboard']);
+          this.setNewIdentity(this.storedEmail, token).subscribe(x => {
+            if (x) {
+              this.currentIdentity.next(x);
+              this.isLoginInProgress.next(false);
+              console.log("called");
+              this.router.navigate(['main']);
+            }
+          })
+          if (authenticateResult)
+            authenticateResult.finish();
         }
       },
       error => {
@@ -110,11 +118,7 @@ export class AuthenticationService {
     this.storedEmail = email;
     this.storedToken = authenticateResult.value.jwtToken;
 
-    this.currentIdentity.next(new Identity(email, authenticateResult.value.jwtToken));
-
-    this.tryAuthenticateWithToken(this.storedToken);
-
-    this.router.navigate(['dashboard']);
+    this.tryAuthenticateWithToken(authenticateResult.value.jwtToken, authenticateResult);
 
     authenticateResult.finish();
   }
@@ -122,7 +126,7 @@ export class AuthenticationService {
   private authenticationFailed(authenticateResult: EntityResult<AuthenticationResponse>) {
     if (this.currentIdentity == null) return;
 
-    this.currentIdentity.next(new Identity(null, null));
+    this.currentIdentity.next(new Identity(null, null, null));
 
     authenticateResult.finish();
 }
@@ -132,7 +136,7 @@ export class AuthenticationService {
     localStorage.removeItem(this.LOCAL_STORAGE_LOGIN);
     localStorage.removeItem(this.LOCAL_STORAGE_TOKEN);
 
-    this.router.navigate(['/login']);
+    this.router.navigate(['login']);
     localStorage.removeItem('currentUser');
   }
 
@@ -146,5 +150,31 @@ export class AuthenticationService {
     // Check whether the token is expired and return
     // true or false
     return !JwtHelper.isTokenExpired(token);
+  }
+
+  private setNewIdentity(email: string, token: string): BehaviorSubject<Identity> {
+
+    let result = new BehaviorSubject<Identity>(null);
+
+    this.http.get<any>(environment.adminUrl + '/v1/role/my-role', 
+      {
+        headers: new HeadersBuilder()
+          .json()
+          .withAuthorization(token)
+          .build(),
+        observe: 'response'
+      }
+    ).subscribe(
+      res => {
+        if(res.body != null) {
+          this.role = res.body.value;
+        }
+        result.next(new Identity(email, token, this.role));
+      },
+      error => {
+        
+      }
+    );
+    return result;
   }
 }

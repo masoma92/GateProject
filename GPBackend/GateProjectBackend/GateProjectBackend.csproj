@@ -34,6 +34,7 @@
 
   <ItemGroup>
     <Folder Include="BusinessLogic\CommandHandlers\Responses\" />
+    <Folder Include="BusinessLogic\RequestHandlers\Responses\" />
   </ItemGroup>
 
 
