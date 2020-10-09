@@ -35,6 +35,14 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
+  get anythingIsInvalid() {
+    return (
+    this.passwordFormControl.invalid ||
+    this.passwordFormControl2.invalid ||
+    this.passwordFieldsNotMatch);
+  }
+
+
   get passwordFieldsNotMatch() {
     return this.command.password != this.command.password2;
   }

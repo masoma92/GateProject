@@ -24,20 +24,24 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
     {
         private readonly IUserRepository _userRepository;
         private readonly IOptions<SendGridEmailVariables> _companyProperties;
+        private readonly IOptions<SendGridEmailSettings> _sendGridEmailSettings;
         private readonly IOptions<UrlSettings> _urlSettings;
         private readonly IEmailSender _emailSender;
 
         public RegisterUserCommandHandler(
             IUserRepository userRepository,
             IOptions<SendGridEmailVariables> companyProperties,
+            IOptions<SendGridEmailSettings> sendGridEmailSettings,
             IOptions<UrlSettings> urlSettings,
             IEmailSender emailSender)
         {
             _userRepository = userRepository;
             _companyProperties = companyProperties;
+            _sendGridEmailSettings = sendGridEmailSettings;
             _emailSender = emailSender;
             _urlSettings = urlSettings;
         }
+
 
         public async Task<Result<bool>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
@@ -135,7 +139,7 @@ namespace GateProjectBackend.Authentication.BusinessLogic.Handlers
                 AuthWebUrl = _urlSettings.Value.AuthWebUrl,
                 CompanyEmail = _companyProperties.Value.CompanyEmail,
                 CompanyName = _companyProperties.Value.CompanyName,
-                TemplateId = "d-969eb763cf304e528ea2e65b4aeed35e",
+                TemplateId = _sendGridEmailSettings.Value.ConfirmEmailTemplateId,
                 ToAddress = email.ToLower(),
                 Token = token,
                 ToName = displayName

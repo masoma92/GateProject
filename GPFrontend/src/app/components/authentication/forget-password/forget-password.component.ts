@@ -43,7 +43,7 @@ export class ForgetPasswordComponent implements OnInit {
     this.result.onFinished = () => {
       if(this.result.hasValue) {
         this.snackBar.open("Successfully sent reset password email!", "Close", { duration: 2000, panelClass: 'toast.success' });
-        this.router.navigate(['/forget-password-requested']);
+        this.router.navigate(['/forget-password-requested'], { queryParams: { email: this.email } });
       }
       else if (this.result.hasError) {
         this.snackBar.open("Some error has happened!", "Close", { duration: 2000, panelClass: 'toast.error' });

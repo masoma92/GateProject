@@ -11,16 +11,14 @@ import { ForgetPasswordComponent } from './components/authentication/forget-pass
 import { LoginComponent } from './components/authentication/login/login.component';
 import { RegisterComponent } from './components/authentication/register/register.component';
 import { ConfirmEmailComponent } from './components/authentication/confirm-email/confirm-email.component';
-import { RegisterSuccessComponent } from './components/authentication/register-success/register-success.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
 import { AccountsComponent } from './components/+accounts/accounts.component';
 import { MainComponent } from './components/main/main.component';
 import { DashboardComponent } from './components/+dashboard/dashboard.component';
-import { ForgetPasswordRequestedComponent } from './components/authentication/forget-password/forget-password-requested/forget-password-requested.component';
-import { ForgetPasswordSuccessComponent } from './components/authentication/forget-password/forget-password-success/forget-password-success.component';
 import { ResetPasswordComponent } from './components/authentication/forget-password/reset-password/reset-password.component';
+import { InfoTemplateComponent } from './components/shared/info-template/info-template.component';
 
 @NgModule({
   declarations: [
@@ -29,16 +27,14 @@ import { ResetPasswordComponent } from './components/authentication/forget-passw
     ForgetPasswordComponent,
     RegisterComponent,
     ConfirmEmailComponent,
-    RegisterSuccessComponent,
     MainComponent,
     SidebarComponent,
     NavbarComponent,
     FooterComponent,
     AccountsComponent,
     DashboardComponent,
-    ForgetPasswordRequestedComponent,
-    ForgetPasswordSuccessComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    InfoTemplateComponent
   ],
   imports: [
     BrowserModule,

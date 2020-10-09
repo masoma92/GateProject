@@ -1,0 +1,8 @@
+<div class="col-10 offset-1 col-md-6 offset-md-3 col-xl-4 offset-xl-4 custom-card-margin" *ngIf="data">
+    <div class="alert alert-info">
+        <p *ngFor="let text of data.text">{{ text }}</p>
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-success btn-round" routerLink="/login"> <span *ngIf="data.isLogin">Login</span> <span *ngIf="data.isBack">Back</span></a>
+        </div>
+    </div>
+</div>

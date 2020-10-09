@@ -19,17 +19,20 @@ namespace GateProjectBackend.Authentication.BusinessLogic.CommandHandlers
     {
         private readonly IUserRepository _userRepository;
         private readonly IOptions<SendGridEmailVariables> _companyProperties;
+        private readonly IOptions<SendGridEmailSettings> _sendGridEmailSettings;
         private readonly IOptions<UrlSettings> _urlSettings;
         private readonly IEmailSender _emailSender;
 
         public ResetPasswordCommandHandler(
             IUserRepository userRepository,
             IOptions<SendGridEmailVariables> companyProperties,
+            IOptions<SendGridEmailSettings> sendGridEmailSettings,
             IOptions<UrlSettings> urlSettings,
             IEmailSender emailSender)
         {
             _userRepository = userRepository;
             _companyProperties = companyProperties;
+            _sendGridEmailSettings = sendGridEmailSettings;
             _urlSettings = urlSettings;
             _emailSender = emailSender;
         }
@@ -101,7 +104,7 @@ namespace GateProjectBackend.Authentication.BusinessLogic.CommandHandlers
                 AuthWebUrl = _urlSettings.Value.AuthWebUrl,
                 CompanyEmail = _companyProperties.Value.CompanyEmail,
                 CompanyName = _companyProperties.Value.CompanyName,
-                TemplateId = "d-e0433dc85f80493e9afe020abae1e3cd",
+                TemplateId = _sendGridEmailSettings.Value.ResetPasswordTemplateId,
                 ToAddress = email.ToLower(),
                 Token = token,
                 ToName = displayName
