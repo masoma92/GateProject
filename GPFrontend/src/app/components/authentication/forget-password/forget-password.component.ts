@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 import { EntityResult } from '../../../services/common/entity.service';
 import { UserManagementService } from '../../../services/user-management/user-management.service';
 
@@ -19,7 +21,10 @@ export class ForgetPasswordComponent implements OnInit {
 
   result = new EntityResult<boolean>();
 
-  constructor(private userManagementService: UserManagementService) { }
+  constructor(
+    private userManagementService: UserManagementService,
+    private router: Router,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit() {
   }
@@ -37,10 +42,11 @@ export class ForgetPasswordComponent implements OnInit {
 
     this.result.onFinished = () => {
       if(this.result.hasValue) {
-        console.log("success");
+        this.snackBar.open("Successfully sent reset password email!", "Close", { duration: 2000, panelClass: 'toast.success' });
+        this.router.navigate(['/forget-password-requested']);
       }
       else if (this.result.hasError) {
-        console.log("something wrong happened");
+        this.snackBar.open("Some error has happened!", "Close", { duration: 2000, panelClass: 'toast.error' });
       }
     }
 

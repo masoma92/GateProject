@@ -18,6 +18,9 @@ import { FooterComponent } from './components/shared/footer/footer.component';
 import { AccountsComponent } from './components/+accounts/accounts.component';
 import { MainComponent } from './components/main/main.component';
 import { DashboardComponent } from './components/+dashboard/dashboard.component';
+import { ForgetPasswordRequestedComponent } from './components/authentication/forget-password/forget-password-requested/forget-password-requested.component';
+import { ForgetPasswordSuccessComponent } from './components/authentication/forget-password/forget-password-success/forget-password-success.component';
+import { ResetPasswordComponent } from './components/authentication/forget-password/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,10 @@ import { DashboardComponent } from './components/+dashboard/dashboard.component'
     NavbarComponent,
     FooterComponent,
     AccountsComponent,
-    DashboardComponent
+    DashboardComponent,
+    ForgetPasswordRequestedComponent,
+    ForgetPasswordSuccessComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

@@ -71,8 +71,8 @@ namespace GateProjectBackend.Authentication.BusinessLogic.CommandHandlers
                 if (user == null)
                     return Result<bool>.BadRequest($"User with {request.Email} email doesn't exist!");
 
-                if (!user.IsConfirmed)
-                    return Result<bool>.BadRequest($"User is not activated!");
+                //if (!user.IsConfirmed)
+                //    return Result<bool>.BadRequest($"User is not activated!");
 
                 var isTokenValid = TokenHelper.IsValidToken(request.Token, user.PasswordSalt);
 
