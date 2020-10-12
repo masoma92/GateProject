@@ -112,23 +112,15 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
 
         private async Task UpdateAccountAdmins(int accountId, string modifyingUser, IEnumerable<string> adminEmails)
         {
-            var newAdmins = new List<AccountAdmin>();
-            for (int i = 0; i < adminEmails.Count(); i++)
+            var currentAccountAdmins = _accountRepository.Get(accountId).Result.Admins;
+            var newAccountAdmins = new List<AccountAdmin>();
+            foreach (var adminEmail in adminEmails)
             {
-                var user = await _userRepository.GetUserByEmail(adminEmails.ElementAt(i));
+                var user = await _userRepository.GetUserByEmail(adminEmail);
                 if (user != null)
-                {
-                    var accountAdmin = new AccountAdmin
-                    {
-                        AccountId = accountId,
-                        UserId = user.Id,
-                        CreatedAt = DateTime.UtcNow,
-                        CreatedBy = modifyingUser
-                    };
-                    newAdmins.Add(accountAdmin);
-                }
+                    newAccountAdmins.Add(new AccountAdmin { AccountId = accountId, UserId = user.Id, CreatedBy = modifyingUser, CreatedAt = DateTime.UtcNow });
             }
-            await _accountAdminRepository.Update(accountId, newAdmins);
+            await _accountAdminRepository.Update(currentAccountAdmins, newAccountAdmins);
         }
     }
 }

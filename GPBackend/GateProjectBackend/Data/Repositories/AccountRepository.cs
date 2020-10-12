@@ -39,12 +39,12 @@ namespace GateProjectBackend.Data.Repositories
 
         public async Task<Account> Get(int id)
         {
-            return await _context.Accounts.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Accounts.Include(x => x.Admins).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<ListResult<Account>> GetList(PaginationEntry pagination, Sorting sorting, string filtering)
         {
-            var query = _context.Accounts.Include(x => x.AccountType).Include(x => x.Admins).OrderByDescending(x => x.Id).AsQueryable();
+            var query = _context.Accounts.Include(x => x.AccountType).Include(x => x.Admins).OrderBy(x => x.Id).AsQueryable();
 
             // filtering
             if (!string.IsNullOrEmpty(filtering))

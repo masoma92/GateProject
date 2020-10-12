@@ -11,7 +11,7 @@ namespace GateProjectBackend.Data.Repositories
 {
     public interface IAccountAdminRepository
     {
-        Task<bool> Update(int accountId, IEnumerable<AccountAdmin> newAccountAdmins);
+        Task<bool> Update(IEnumerable<AccountAdmin> currentAccountAdmins, IEnumerable<AccountAdmin> newAccountAdmins);
     }
     public class AccountAdminRepository : IAccountAdminRepository
     {
@@ -22,15 +22,10 @@ namespace GateProjectBackend.Data.Repositories
             _context = context;
         }
 
-        // modositani
-        public async Task<bool> Update(int accountId, IEnumerable<AccountAdmin> newAccountAdmins)
+        public async Task<bool> Update(IEnumerable<AccountAdmin> currentAccountAdmins, IEnumerable<AccountAdmin> newAccountAdmins)
         {
-            var accountAdmins = _context.AccountAdmins.ToList();
-            accountAdmins.RemoveAll(x => x.AccountId == accountId);
-            foreach (var item in newAccountAdmins)
-            {
-                _context.AccountAdmins.Add(item);
-            }
+            _context.Set<AccountAdmin>().RemoveRange(currentAccountAdmins.Except(newAccountAdmins, x => x.UserId));
+            _context.Set<AccountAdmin>().AddRange(newAccountAdmins.Except(currentAccountAdmins, x => x.UserId));
             await _context.SaveChangesAsync();
             return true;
         }
