@@ -1,4 +1,6 @@
-﻿using GateProjectBackend.Resources;
+﻿using GateProjectBackend.BusinessLogic.RequestHandlers.Requests;
+using GateProjectBackend.Resources;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,10 +16,20 @@ namespace GateProjectBackend.Controllers
     [Authorize]
     public class StatusController : BaseController
     {
+        private readonly IMediator _mediator;
+
+        public StatusController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        // return role!
         [HttpGet]
         public async Task<IActionResult> GetStatus()
         {
-            return Ok();
+            var result = await _mediator.Send(new GetMyRoleRequest { Email = HttpContext.User.Identity.Name });
+
+            return StatusCodeResult(result);
         }
     }
 }

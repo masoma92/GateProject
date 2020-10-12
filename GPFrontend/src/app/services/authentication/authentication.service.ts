@@ -81,7 +81,7 @@ export class AuthenticationService {
 
     this.isLoginInProgress.next(true);
 
-    this.http.get(`${environment.adminUrl}${this.apiVersion}` + "/status", 
+    this.http.get<any>(`${environment.adminUrl}${this.apiVersion}` + "/status", 
     {
       headers: new HeadersBuilder()
         .json()
@@ -90,21 +90,16 @@ export class AuthenticationService {
         observe: 'response'
     }).subscribe(
       result => {
-        console.log(result);
-        if(result.status == 200) {
-          this.setNewIdentity(this.storedEmail, token).subscribe(x => {
-            if (x) {
-              this.currentIdentity.next(x);
-              this.isLoginInProgress.next(false);
-              this.router.navigate(['main']);
-            }
-          })
-          if (authenticateResult)
-            authenticateResult.finish();
+        if(result.body != null) {
+          this.role = result.body.value;
+          this.currentIdentity.next(new Identity(this.storedEmail, token, this.role));
+          this.isLoginInProgress.next(false);
+          this.router.navigate(['main']);
+          authenticateResult.finish();
         }
       },
       error => {
-        this.isLoginInProgress.next(false);   
+        this.isLoginInProgress.next(false);
       }
     );
 
@@ -150,31 +145,5 @@ export class AuthenticationService {
     // Check whether the token is expired and return
     // true or false
     return !JwtHelper.isTokenExpired(token);
-  }
-
-  private setNewIdentity(email: string, token: string): BehaviorSubject<Identity> {
-
-    let result = new BehaviorSubject<Identity>(null);
-
-    this.http.get<any>(environment.adminUrl + '/v1/role/my-role', 
-      {
-        headers: new HeadersBuilder()
-          .json()
-          .withAuthorization(token)
-          .build(),
-        observe: 'response'
-      }
-    ).subscribe(
-      res => {
-        if(res.body != null) {
-          this.role = res.body.value;
-        }
-        result.next(new Identity(email, token, this.role));
-      },
-      error => {
-        
-      }
-    );
-    return result;
   }
 }
