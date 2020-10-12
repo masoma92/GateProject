@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using GateProjectBackend.BusinessLogic.RequestHandlers.Requests;
 using GateProjectBackend.Resources;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +12,7 @@ namespace GateProjectBackend.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("v1/[controller]")]
+    [RoleBasedAuthorize(AcceptedRoles = "Admin, User")]
     public class UserController : BaseController
     {
         private readonly IMediator _mediator;
@@ -20,11 +22,14 @@ namespace GateProjectBackend.Controllers
             _mediator = mediator;
         }
 
-        [RoleBasedAuthorize(AcceptedRoles = "Admin")]
-        [HttpGet]
-        public async Task<IActionResult> GetStatus()
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetUsers()
         {
-            return Ok();
+            var request = new GetAllUsersRequest();
+
+            var result = await _mediator.Send(request);
+
+            return StatusCodeResult(result);
         }
     }
 }

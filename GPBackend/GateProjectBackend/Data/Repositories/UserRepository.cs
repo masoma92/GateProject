@@ -11,6 +11,7 @@ namespace GateProjectBackend.Data.Repositories
     {
         Task<User> GetUserByEmail(string email);
         Task<User> CreateUser(string firstName, string lastName, string email, DateTime birth);
+        Task<IEnumerable<User>> GetAll();
     }
     public class UserRepository : IUserRepository
     {
@@ -40,6 +41,11 @@ namespace GateProjectBackend.Data.Repositories
             var result = _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
             return result.Entity;
+        }
+
+        public async Task<IEnumerable<User>> GetAll()
+        {
+            return await _context.Users.ToListAsync();
         }
 
         public async Task<User> GetUserByEmail(string email)
