@@ -7,11 +7,15 @@ using System.Threading.Tasks;
 namespace GateProjectBackend.Data.Models
 {
     [Table("AccountAdmins")]
-    public class AccountAdmin : ModelBase
+    public class AccountAdmin
     {
         public int UserId { get; set; }
         public User User { get; set; }
         public int AccountId { get; set; }
         public Account Account { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string ModifiedBy { get; set; }
+        public DateTime? MoidifiedAt { get; set; }
     }
 }

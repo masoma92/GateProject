@@ -31,7 +31,10 @@ namespace GateProjectBackend.Data.Repositories
 
         public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            var account = await _context.Accounts.FirstOrDefaultAsync(x => x.Id == id);
+            _context.Accounts.Remove(account);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<Account> Get(int id)

@@ -3,6 +3,7 @@ using GateProjectBackend.BusinessLogic.RequestHandlers.Requests;
 using GateProjectBackend.Common;
 using GateProjectBackend.Resources;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -65,6 +66,17 @@ namespace GateProjectBackend.Controllers
                 return BadRequest(ModelState);
 
             command.ModifiedBy = HttpContext.User.Identity.Name;
+
+            var result = await _mediator.Send(command);
+
+            return StatusCodeResult(result);
+        }
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteAccount([FromBody] DeleteAccountCommand command)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             var result = await _mediator.Send(command);
 

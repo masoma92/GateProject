@@ -13,6 +13,8 @@
     <Compile Remove="Migrations\20200914081024_initialize authdb.Designer.cs" />
     <Compile Remove="Migrations\20200925173602_init db.cs" />
     <Compile Remove="Migrations\20200925173602_init db.Designer.cs" />
+    <Compile Remove="Migrations\20200925191408_initGPDB.cs" />
+    <Compile Remove="Migrations\20200925191408_initGPDB.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

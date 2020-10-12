@@ -14,7 +14,8 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
 {
     public class AccountCommandHandler : 
         IRequestHandler<CreateAccountCommand, Result<bool>>,
-        IRequestHandler<UpdateAccountCommand, Result<bool>>
+        IRequestHandler<UpdateAccountCommand, Result<bool>>,
+        IRequestHandler<DeleteAccountCommand, Result<bool>>
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IAccountTypeRepository _accountTypeRepository;
@@ -75,6 +76,20 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
 
                 var res = await _accountRepository.Update( account);
                 return Result<bool>.Ok(res);
+            }
+            catch (Exception e)
+            {
+                return Result<bool>.Failure(e.Message);
+            }
+        }
+
+        public async Task<Result<bool>> Handle(DeleteAccountCommand request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                await _accountRepository.Delete(request.Id);
+
+                return Result<bool>.Ok(true);
             }
             catch (Exception e)
             {

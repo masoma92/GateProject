@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GateProjectBackend.Migrations
 {
     [DbContext(typeof(GPDbContext))]
-    [Migration("20200925191408_initGPDB")]
-    partial class initGPDB
+    [Migration("20201012165400_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -69,6 +69,92 @@ namespace GateProjectBackend.Migrations
                     b.HasIndex("AccountTypeId");
 
                     b.ToTable("Accounts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccountTypeId = 1,
+                            City = "Budapest",
+                            ContactEmail = "asd@gmail.com",
+                            Country = "Hungary",
+                            CreatedAt = new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(5913),
+                            CreatedBy = "SYSTEM",
+                            Name = "TestOffice",
+                            Street = "Szuglo utca",
+                            StreetNo = "53",
+                            Zip = "1145"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccountTypeId = 3,
+                            City = "Budapest",
+                            ContactEmail = "asd@gmail.com",
+                            Country = "Hungary",
+                            CreatedAt = new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(6667),
+                            CreatedBy = "SYSTEM",
+                            Name = "TestSchool",
+                            Street = "Szuglo utca",
+                            StreetNo = "53",
+                            Zip = "1146"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AccountTypeId = 1,
+                            City = "Budapest",
+                            ContactEmail = "asd@gmail.com",
+                            Country = "Hungary",
+                            CreatedAt = new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(6683),
+                            CreatedBy = "SYSTEM",
+                            Name = "TestOffice2",
+                            Street = "Szuglo utca",
+                            StreetNo = "53",
+                            Zip = "1147"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AccountTypeId = 2,
+                            City = "Budapest",
+                            ContactEmail = "asd@gmail.com",
+                            Country = "Hungary",
+                            CreatedAt = new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(6685),
+                            CreatedBy = "SYSTEM",
+                            Name = "TestHome",
+                            Street = "Szuglo utca",
+                            StreetNo = "53",
+                            Zip = "1148"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AccountTypeId = 4,
+                            City = "Budapest",
+                            ContactEmail = "asd@gmail.com",
+                            Country = "Hungary",
+                            CreatedAt = new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(6751),
+                            CreatedBy = "SYSTEM",
+                            Name = "TestAccomodation",
+                            Street = "Szuglo utca",
+                            StreetNo = "53",
+                            Zip = "1149"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AccountTypeId = 1,
+                            City = "Budapest",
+                            ContactEmail = "asd@gmail.com",
+                            Country = "Hungary",
+                            CreatedAt = new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(6753),
+                            CreatedBy = "SYSTEM",
+                            Name = "TestOffice",
+                            Street = "Szuglo utca",
+                            StreetNo = "53",
+                            Zip = "1150"
+                        });
                 });
 
             modelBuilder.Entity("GateProjectBackend.Data.Models.AccountAdmin", b =>
@@ -85,9 +171,6 @@ namespace GateProjectBackend.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -99,6 +182,15 @@ namespace GateProjectBackend.Migrations
                     b.HasIndex("AccountId");
 
                     b.ToTable("AccountAdmins");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            AccountId = 1,
+                            CreatedAt = new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(8025),
+                            CreatedBy = "SYSTEM"
+                        });
                 });
 
             modelBuilder.Entity("GateProjectBackend.Data.Models.AccountType", b =>
@@ -125,6 +217,16 @@ namespace GateProjectBackend.Migrations
                         {
                             Id = 2,
                             Name = "Home"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "School"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Accomodation"
                         });
                 });
 
@@ -141,9 +243,6 @@ namespace GateProjectBackend.Migrations
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
@@ -372,6 +471,20 @@ namespace GateProjectBackend.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Birth = new DateTime(1992, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(1518),
+                            CreatedBy = "SYSTEM",
+                            Email = "soma.makai@gmail.com",
+                            FirstName = "Soma",
+                            IsActive = true,
+                            LastName = "Makai",
+                            RoleId = 2
+                        });
                 });
 
             modelBuilder.Entity("GateProjectBackend.Data.Models.UserGate", b =>
@@ -393,9 +506,6 @@ namespace GateProjectBackend.Migrations
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GateProjectBackend.Migrations
 {
-    public partial class initGPDB : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -157,7 +157,6 @@ namespace GateProjectBackend.Migrations
                 {
                     UserId = table.Column<int>(nullable: false),
                     AccountId = table.Column<int>(nullable: false),
-                    Id = table.Column<int>(nullable: false),
                     CreatedBy = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     ModifiedBy = table.Column<string>(nullable: true),
@@ -186,7 +185,6 @@ namespace GateProjectBackend.Migrations
                 {
                     UserId = table.Column<int>(nullable: false),
                     AccountId = table.Column<int>(nullable: false),
-                    Id = table.Column<int>(nullable: false),
                     CreatedBy = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     ModifiedBy = table.Column<string>(nullable: true),
@@ -246,13 +244,12 @@ namespace GateProjectBackend.Migrations
                 {
                     UserId = table.Column<int>(nullable: false),
                     GateId = table.Column<int>(nullable: false),
-                    Id = table.Column<int>(nullable: false),
+                    AccessRight = table.Column<bool>(nullable: false),
+                    AdminRight = table.Column<bool>(nullable: false),
                     CreatedBy = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     ModifiedBy = table.Column<string>(nullable: true),
-                    MoidifiedAt = table.Column<DateTime>(nullable: true),
-                    AccessRight = table.Column<bool>(nullable: false),
-                    AdminRight = table.Column<bool>(nullable: false)
+                    MoidifiedAt = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -277,7 +274,9 @@ namespace GateProjectBackend.Migrations
                 values: new object[,]
                 {
                     { 1, "Office" },
-                    { 2, "Home" }
+                    { 2, "Home" },
+                    { 3, "School" },
+                    { 4, "Accomodation" }
                 });
 
             migrationBuilder.InsertData(
@@ -307,6 +306,29 @@ namespace GateProjectBackend.Migrations
                     { 1, "User" },
                     { 2, "Admin" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Accounts",
+                columns: new[] { "Id", "AccountTypeId", "City", "ContactEmail", "Country", "CreatedAt", "CreatedBy", "ModifiedBy", "MoidifiedAt", "Name", "Street", "StreetNo", "Zip" },
+                values: new object[,]
+                {
+                    { 1, 1, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(5913), "SYSTEM", null, null, "TestOffice", "Szuglo utca", "53", "1145" },
+                    { 3, 1, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(6683), "SYSTEM", null, null, "TestOffice2", "Szuglo utca", "53", "1147" },
+                    { 6, 1, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(6753), "SYSTEM", null, null, "TestOffice", "Szuglo utca", "53", "1150" },
+                    { 4, 2, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(6685), "SYSTEM", null, null, "TestHome", "Szuglo utca", "53", "1148" },
+                    { 2, 3, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(6667), "SYSTEM", null, null, "TestSchool", "Szuglo utca", "53", "1146" },
+                    { 5, 4, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(6751), "SYSTEM", null, null, "TestAccomodation", "Szuglo utca", "53", "1149" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Birth", "CreatedAt", "CreatedBy", "Email", "FirstName", "IsActive", "LastName", "ModifiedBy", "MoidifiedAt", "RfidKey", "RoleId" },
+                values: new object[] { 1, new DateTime(1992, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(1518), "SYSTEM", "soma.makai@gmail.com", "Soma", true, "Makai", null, null, null, 2 });
+
+            migrationBuilder.InsertData(
+                table: "AccountAdmins",
+                columns: new[] { "UserId", "AccountId", "CreatedAt", "CreatedBy", "ModifiedBy", "MoidifiedAt" },
+                values: new object[] { 1, 1, new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(8025), "SYSTEM", null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountAdmins_AccountId",
