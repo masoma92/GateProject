@@ -11,7 +11,6 @@ namespace GateProjectBackend.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("v1/[controller]")]
-    [Authorize]
     public class UserController : BaseController
     {
         private readonly IMediator _mediator;
@@ -19,6 +18,13 @@ namespace GateProjectBackend.Controllers
         public UserController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [RoleBasedAuthorize(AcceptedRoles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> GetStatus()
+        {
+            return Ok();
         }
     }
 }

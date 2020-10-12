@@ -1,0 +1,34 @@
+﻿using GateProjectBackend.Common;
+using MediatR;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace GateProjectBackend.BusinessLogic.CommandHandlers.Commands
+{
+    public class UpdateAccountCommand : IRequest<Result<bool>>
+    {
+        [Required]
+        public int Id { get; set; }
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public string Zip { get; set; }
+        [Required]
+        public string Country { get; set; }
+        [Required]
+        public string City { get; set; }
+        [Required]
+        public string Street { get; set; }
+        [Required]
+        public string StreetNo { get; set; }
+        [Required]
+        public string AccountType { get; set; }
+        [Required]
+        public string ContactEmail { get; set; }
+        public IEnumerable<string> AdminEmails { get; set; }
+        public string ModifiedBy { get; set; }
+    }
+}

@@ -1,4 +1,5 @@
-﻿using GateProjectBackend.Data.Models;
+﻿using GateProjectBackend.Common;
+using GateProjectBackend.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -46,7 +47,9 @@ namespace GateProjectBackend.Data
 
             modelBuilder.Entity<GateType>().HasData(
                 new GateType { Id = 1, Name = "Entrance" },
-                new GateType { Id = 2, Name = "Garage" });
+                new GateType { Id = 2, Name = "Garage" },
+                new GateType { Id = 3, Name = "School" },
+                new GateType { Id = 4, Name = "Hotel" });
 
             // accounts and admins many-to-many join table
             modelBuilder.Entity<AccountAdmin>().HasKey(a => new { a.UserId, a.AccountId });
