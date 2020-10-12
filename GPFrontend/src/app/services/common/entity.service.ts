@@ -128,7 +128,7 @@ export class EntityService<T, TCreate = T, TUpdate = T> {
   getList(result: EntityListResult<T>, listPagination: ListPagination, sorting: Sorting, filtering: string) {
 
     result.start();
-    this.http.get<EntityResult<ListRecords<T>>>(`${this.serverName}${this.apiVersion}${this.getPath()}`,
+    this.http.get<EntityResult<ListRecords<T>>>(`${this.serverName}${this.apiVersion}${this.getPath()}/get-all`,
       {
         headers: new HeadersBuilder()
           .json()
@@ -221,7 +221,7 @@ export class EntityService<T, TCreate = T, TUpdate = T> {
   // Create entity
   create(data: TCreate, result: EntityResult<number>) {
     result.start();
-    return this.http.post<EntityResult<number>>(`${this.serverName}${this.apiVersion}${this.getPath()}`, data,
+    return this.http.post<EntityResult<number>>(`${this.serverName}${this.apiVersion}${this.getPath()}/create`, data,
       {
         headers: new HeadersBuilder()
           .json()
@@ -247,7 +247,7 @@ export class EntityService<T, TCreate = T, TUpdate = T> {
   update(id: number, data: TUpdate, result: EntityResult<number>) {
 
     result.start();
-    this.http.put<EntityResult<number>>(`${this.serverName}${this.apiVersion}${this.getPath()}/${id}`, data,
+    this.http.put<EntityResult<number>>(`${this.serverName}${this.apiVersion}${this.getPath()}/update`, data,
       {
         headers: new HeadersBuilder()
           .json()

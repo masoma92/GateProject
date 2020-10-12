@@ -1,0 +1,74 @@
+<div class="card" *ngIf="getResult.hasValue">
+    <div class="header">
+        <h4 class="title">Account Details</h4>
+    </div>
+    <div class="content">
+        <form>
+            <mat-form-field class="w-100">
+                <mat-label>Name</mat-label>
+                <input matInput type="text" [(ngModel)]="getResult.value.name" name="name" [formControl]="nameFormControl" cdkFocusInitial>
+                <mat-error *ngIf="nameFormControl.hasError('required')">
+                    Please enter name
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+                <mat-label>Zip</mat-label>
+                <input matInput type="text" [(ngModel)]="getResult.value.zip" name="zip" [formControl]="zipFormControl">
+                <mat-error *ngIf="zipFormControl.hasError('required')">
+                    Please enter zip
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+                <mat-label>Country</mat-label>
+                <input matInput type="text" [(ngModel)]="getResult.value.country" name="country" [formControl]="countryFormControl">
+                <mat-error *ngIf="countryFormControl.hasError('required')">
+                    Please enter country
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+                <mat-label>Street</mat-label>
+                <input matInput type="text" [(ngModel)]="getResult.value.street" name="street" [formControl]="streetFormControl">
+                <mat-error *ngIf="streetFormControl.hasError('required')">
+                    Please enter street
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+                <mat-label>StreetNo</mat-label>
+                <input matInput type="text" [(ngModel)]="getResult.value.streetNo" name="streetNo" [formControl]="streetNoFormControl">
+                <mat-error *ngIf="streetNoFormControl.hasError('required')">
+                    Please enter streetno
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+                <mat-label>AccountType</mat-label>
+                <input matInput type="text" [(ngModel)]="getResult.value.accountType" name="accountType" [formControl]="accountTypeFormControl">
+                <mat-error *ngIf="accountTypeFormControl.hasError('required')">
+                    Please enter accounttype
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+                <mat-label>ContactEmail</mat-label>
+                <input matInput type="email" [(ngModel)]="getResult.value.contactEmail" name="contactEmail" [formControl]="contactEmailFormControl">
+                <mat-error *ngIf="contactEmailFormControl.hasError('required')">
+                    Please enter email
+                </mat-error>
+            </mat-form-field>
+            <!-- <mat-form-field class="w-100">
+                <mat-label>AdminEmails</mat-label>
+                <input matInput type="password" [(ngModel)]="command.password" name="password1" [formControl]="passwordFormControl">
+                <mat-error *ngIf="passwordFormControl.hasError('required')">
+                    Please enter password
+                </mat-error>
+            </mat-form-field> -->
+        </form>
+    </div>
+    <div class="card-footer">
+        <div class="d-flex justify-content-around">
+            <a class="btn btn-primary btn-round" routerLink="/login">Login</a>
+            <a class="btn btn-primary btn-round custom-forget-password" routerLink="/forget-password">Forget Password</a>
+        </div>
+    </div>
+</div>
+<div *ngIf="!getResult.isInProgress" class="d-flex justify-content-center">
+    <i class="fas fa-spinner fa-spin fa-2x"></i>
+</div>

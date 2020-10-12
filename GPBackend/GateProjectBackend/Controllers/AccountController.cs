@@ -26,6 +26,16 @@ namespace GateProjectBackend.Controllers
             _mediator = mediator;
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAccount(int id)
+        {
+            var command = new GetAccountRequest { Id = id };
+
+            var result = await _mediator.Send(command);
+
+            return StatusCodeResult(result);
+        }
+
         [HttpGet("get-all")]
         public async Task<IActionResult> GetAccounts()
         {
@@ -72,12 +82,10 @@ namespace GateProjectBackend.Controllers
             return StatusCodeResult(result);
         }
 
-        [HttpDelete("delete")]
-        public async Task<IActionResult> DeleteAccount([FromBody] DeleteAccountCommand command)
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteAccount(int id)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
+            var command = new DeleteAccountCommand { Id = id };
             var result = await _mediator.Send(command);
 
             return StatusCodeResult(result);

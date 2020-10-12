@@ -19,6 +19,7 @@ import { MainComponent } from './components/main/main.component';
 import { DashboardComponent } from './components/+dashboard/dashboard.component';
 import { ResetPasswordComponent } from './components/authentication/forget-password/reset-password/reset-password.component';
 import { InfoTemplateComponent } from './components/shared/info-template/info-template.component';
+import { AccountDetailsComponent } from './components/+accounts/account-details/account-details.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { InfoTemplateComponent } from './components/shared/info-template/info-te
     AccountsComponent,
     DashboardComponent,
     ResetPasswordComponent,
-    InfoTemplateComponent
+    InfoTemplateComponent,
+    AccountDetailsComponent
   ],
   imports: [
     BrowserModule,

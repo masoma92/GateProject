@@ -95,7 +95,8 @@ export class AuthenticationService {
           this.currentIdentity.next(new Identity(this.storedEmail, token, this.role));
           this.isLoginInProgress.next(false);
           this.router.navigate(['main']);
-          authenticateResult.finish();
+          if (authenticateResult)
+            authenticateResult.finish();
         }
       },
       error => {
