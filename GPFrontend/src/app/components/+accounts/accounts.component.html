@@ -6,7 +6,7 @@
         </mat-form-field>
 
         <div class="mat-elevation-z8">
-            <button matTooltip="Create new account" mat-mini-fab color="primary" style="position: absolute; right: 20px; top: 61px;"><i class="fas fa-plus"></i></button>
+            <button (click)="openCreateDialog()" matTooltip="Create new account" mat-mini-fab color="primary" style="position: absolute; right: 20px; top: 61px;"><i class="fas fa-plus"></i></button>
             <table mat-table [dataSource]="dataSource" matSort>
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sorter()"> ID </th>
@@ -44,7 +44,7 @@
             <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-6 mt-5 mt-lg-0">
         <account-details (updatedAccountEmitter)="getList()" [accountId]="accountId"></account-details>
     </div>
 </div>

@@ -70,9 +70,13 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
                 Country = account.Country,
                 Street = account.Street,
                 StreetNo = account.StreetNo,
-                Zip = account.Zip,
-                Admins = admins
+                Zip = account.Zip
             };
+            response.AdminEmails = new List<string>();
+            foreach (var admin in admins)
+            {
+                response.AdminEmails.Add(admin.Email);
+            }
             return response;
         }
 

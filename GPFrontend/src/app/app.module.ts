@@ -20,7 +20,8 @@ import { DashboardComponent } from './components/+dashboard/dashboard.component'
 import { ResetPasswordComponent } from './components/authentication/forget-password/reset-password/reset-password.component';
 import { InfoTemplateComponent } from './components/shared/info-template/info-template.component';
 import { AccountDetailsComponent } from './components/+accounts/account-details/account-details.component';
-import { CreateAccountDialogComponent } from './components/+accounts/create-account/create-account-dialog/create-account-dialog.component';
+import { CreateAccountDialogComponent } from './components/+accounts/create-account/create-account-dialog.component';
+import { ManageAdminsDialogComponent } from './components/+accounts/manage-admins/manage-admins-dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { CreateAccountDialogComponent } from './components/+accounts/create-acco
     ResetPasswordComponent,
     InfoTemplateComponent,
     AccountDetailsComponent,
-    CreateAccountDialogComponent
+    CreateAccountDialogComponent,
+    ManageAdminsDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +52,7 @@ import { CreateAccountDialogComponent } from './components/+accounts/create-acco
     ReactiveFormsModule
   ],
   providers: [],
+  entryComponents: [CreateAccountDialogComponent, ManageAdminsDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

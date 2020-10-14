@@ -26,6 +26,13 @@
                 </mat-error>
             </mat-form-field>
             <mat-form-field class="w-100">
+                <mat-label>City</mat-label>
+                <input matInput type="text" [(ngModel)]="getResult.value.city" name="city" [formControl]="cityFormControl">
+                <mat-error *ngIf="cityFormControl.hasError('required')">
+                    Please enter city
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
                 <mat-label>Street</mat-label>
                 <input matInput type="text" [(ngModel)]="getResult.value.street" name="street" [formControl]="streetFormControl">
                 <mat-error *ngIf="streetFormControl.hasError('required')">
@@ -39,12 +46,12 @@
                     Please enter streetno
                 </mat-error>
             </mat-form-field>
-            <mat-form-field class="w-100">
+            <mat-form-field appearance="fill" class="w-100" *ngIf="selectedAccountType">
                 <mat-label>AccountType</mat-label>
-                <input matInput type="text" [(ngModel)]="getResult.value.accountType" name="accountType" [formControl]="accountTypeFormControl">
-                <mat-error *ngIf="accountTypeFormControl.hasError('required')">
-                    Please enter accounttype
-                </mat-error>
+                <mat-select [(value)]="selectedAccountType">
+                    <mat-option [value]="option.name" *ngFor="let option of accountTypes">{{ option.name }}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
             <mat-form-field class="w-100">
                 <mat-label>ContactEmail</mat-label>
@@ -53,20 +60,13 @@
                     Please enter email
                 </mat-error>
             </mat-form-field>
-            <!-- <mat-form-field class="w-100">
-                <mat-label>AdminEmails</mat-label>
-                <input matInput type="password" [(ngModel)]="command.password" name="password1" [formControl]="passwordFormControl">
-                <mat-error *ngIf="passwordFormControl.hasError('required')">
-                    Please enter password
-                </mat-error>
-            </mat-form-field> -->
         </form>
     </div>
     <div class="card-footer">
         <div class="d-flex justify-content-around">
-            <button [disabled]="updateResult.isInProgress" class="btn btn-primary btn-round"><i *ngIf="updateResult.isInProgress"
+            <button [disabled]="updateResult.isInProgress" class="btn btn-primary btn-round" (click)="manageAdmins()"><i *ngIf="updateResult.isInProgress"
                 class="fas fa-spinner fa-spin"></i>&nbsp;Manage admins</button>
-            <button [disabled]="updateResult.isInProgress" class="btn btn-success btn-round" (click)="save()"><i *ngIf="updateResult.isInProgress"
+            <button [disabled]="updateResult.isInProgress || anythingIsInvalid()" class="btn btn-success btn-round" (click)="save()"><i *ngIf="updateResult.isInProgress"
                 class="fas fa-spinner fa-spin"></i>&nbsp;Save</button>
             <button [disabled]="deleteResult.isInProgress" class="btn btn-danger btn-round" (click)="delete()"><i *ngIf="deleteResult.isInProgress"
                 class="fas fa-spinner fa-spin"></i>&nbsp;Delete Account</button>

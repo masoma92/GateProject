@@ -10,6 +10,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const materialModules = [
   MatIconModule,
@@ -21,7 +24,10 @@ const materialModules = [
   MatTooltipModule,
   MatTableModule,
   MatPaginatorModule,
-  MatSortModule
+  MatSortModule,
+  MatDialogModule,
+  MatSelectModule,
+  MatAutocompleteModule
 ];
 
 @NgModule({
@@ -32,6 +38,7 @@ const materialModules = [
   exports: [
     ...materialModules
   ],
+  providers: [ { provide: MAT_DIALOG_DATA, useValue: [] } ]
 })
 
 export class AngularMaterialModule { }

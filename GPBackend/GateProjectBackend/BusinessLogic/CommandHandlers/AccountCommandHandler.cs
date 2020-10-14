@@ -73,7 +73,9 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
                 if (request.AdminEmails != null)
                     await UpdateAccountAdmins(account.Id, request.ModifiedBy, request.AdminEmails);
 
-                UpdateAccountProperties(account, request);
+                var accountType = await _accountTypeRepository.GetAccountTypeByName(request.AccountType);
+
+                UpdateAccountProperties(account, request, accountType);
 
                 var res = await _accountRepository.Update( account);
                 return Result<bool>.Ok(res);
@@ -98,7 +100,7 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
             }
         }
 
-        private void UpdateAccountProperties(Account currentAccount, UpdateAccountCommand request)
+        private void UpdateAccountProperties(Account currentAccount, UpdateAccountCommand request, AccountType accountType)
         {
             currentAccount.Name = request.Name;
             currentAccount.Zip = request.Zip;
@@ -107,6 +109,7 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
             currentAccount.Street = request.Street;
             currentAccount.StreetNo = request.StreetNo;
             currentAccount.ContactEmail = request.ContactEmail;
+            currentAccount.AccountTypeId = accountType == null ? 1 : accountType.Id;
             currentAccount.ModifiedBy = request.ModifiedBy;
             currentAccount.MoidifiedAt = DateTime.UtcNow;
         }

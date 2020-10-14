@@ -1,11 +1,12 @@
 import { ChangeDetectorRef } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatPaginator, MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
 import { ListPagination } from 'src/app/core/pagination/list-pagination';
 import { Account } from 'src/app/services/account/account';
 import { AccountService } from 'src/app/services/account/account.service';
 import { EntityListResult, Sorting } from 'src/app/services/common/entity.service';
+import { CreateAccountDialogComponent } from './create-account/create-account-dialog.component';
 
 @Component({
   selector: 'accounts',
@@ -28,7 +29,9 @@ export class AccountsComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   constructor(private accountService: AccountService,
-    private changeDetectorRefs: ChangeDetectorRef) {
+    private changeDetectorRefs: ChangeDetectorRef,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar) {
     this.getList();
   }
 
@@ -69,6 +72,24 @@ export class AccountsComponent implements OnInit {
   sorter() {
     console.log(this.sort.active);
     console.log(this.sort.start);
+  }
+
+  openCreateDialog(): void {
+    const dialogRef = this.dialog.open(CreateAccountDialogComponent, {
+      width: '350px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        if (result == "success"){
+          this.snackBar.open("Account successfully added!!", "Close", { duration: 2000, panelClass: 'toast.success' } );
+          this.getList();
+        }
+        else{
+          this.snackBar.open(result, "Close", { duration: 2000, panelClass: 'toast.success' } );
+        }
+      }
+    });
   }
 
 }

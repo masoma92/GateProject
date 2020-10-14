@@ -1,6 +1,5 @@
 ﻿using GateProjectBackend.BusinessLogic.RequestHandlers.Responses;
 using GateProjectBackend.Common;
-using GateProjectBackend.Data.Models;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GateProjectBackend.BusinessLogic.RequestHandlers.Requests
 {
-    public class GetAllUsersRequest : IRequest<Result<ListResult<UserResponse>>>
+    public class GetAllAccountTypesRequest : IRequest<Result<ListResult<AccountTypeResponse>>>
     {
     }
 }

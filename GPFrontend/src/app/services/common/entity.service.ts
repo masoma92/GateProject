@@ -219,9 +219,9 @@ export class EntityService<T, TCreate = T, TUpdate = T> {
   }
 
   // Create entity
-  create(data: TCreate, result: EntityResult<number>) {
+  create(data: TCreate, result: EntityResult<boolean>) {
     result.start();
-    return this.http.post<EntityResult<number>>(`${this.serverName}${this.apiVersion}${this.getPath()}/create`, data,
+    return this.http.post<EntityResult<boolean>>(`${this.serverName}${this.apiVersion}${this.getPath()}/create`, data,
       {
         headers: new HeadersBuilder()
           .json()

@@ -1,4 +1,5 @@
-﻿using GateProjectBackend.Data.Models;
+﻿using GateProjectBackend.Common;
+using GateProjectBackend.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace GateProjectBackend.Data.Repositories
     {
         Task<User> GetUserByEmail(string email);
         Task<User> CreateUser(string firstName, string lastName, string email, DateTime birth);
-        Task<IEnumerable<User>> GetAll();
+        Task<ListResult<User>> GetAll();
     }
     public class UserRepository : IUserRepository
     {
@@ -43,9 +44,11 @@ namespace GateProjectBackend.Data.Repositories
             return result.Entity;
         }
 
-        public async Task<IEnumerable<User>> GetAll()
+        public async Task<ListResult<User>> GetAll()
         {
-            return await _context.Users.ToListAsync();
+            var query = await _context.Users.OrderBy(x => x.Email).ToListAsync();
+
+            return new ListResult<User>(query, query.Count);
         }
 
         public async Task<User> GetUserByEmail(string email)

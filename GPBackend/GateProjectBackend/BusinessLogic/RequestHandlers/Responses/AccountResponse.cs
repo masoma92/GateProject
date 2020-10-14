@@ -17,6 +17,6 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers.Responses
         public string StreetNo { get; set; }
         public string AccountType { get; set; }
         public string ContactEmail { get; set; }
-        public IEnumerable<User> Admins { get; set; }
+        public List<string> AdminEmails { get; set; }
     }
 }

@@ -1,9 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AccountService } from 'src/app/services/account/account.service';
-import { EntityResult } from 'src/app/services/common/entity.service';
+import { EntityListResult, EntityResult, Sorting } from 'src/app/services/common/entity.service';
 import { Account, UpdateAccountCommand } from 'src/app/services/account/account';
 import { FormControl, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { ListPagination } from 'src/app/core/pagination/list-pagination';
+import { AccountType, AccountTypeService } from 'src/app/services/account-type/account-type.service';
+import { ManageAdminsDialogComponent } from '../manage-admins/manage-admins-dialog.component';
 
 @Component({
   selector: 'account-details',
@@ -23,16 +26,16 @@ export class AccountDetailsComponent implements OnInit {
   countryFormControl = new FormControl('', [
     Validators.required
   ]);
+
+  cityFormControl = new FormControl('', [
+    Validators.required
+  ]);
   
   streetFormControl = new FormControl('', [
     Validators.required
   ]);
 
   streetNoFormControl = new FormControl('', [
-    Validators.required
-  ]);
-  
-  accountTypeFormControl = new FormControl('', [
     Validators.required
   ]);
   
@@ -48,6 +51,7 @@ export class AccountDetailsComponent implements OnInit {
       console.log(value);
       this._accountId = value;
       this.get();
+      this.getAccountTypes();
     }
   }
 
@@ -60,9 +64,17 @@ export class AccountDetailsComponent implements OnInit {
   getResult = new EntityResult<Account>();
   updateResult = new EntityResult<boolean>();
   deleteResult = new EntityResult<boolean>();
+  accountTypeResult = new EntityListResult<AccountType>();
+
+  accountTypes: AccountType[] = [];
+  selectedAccountType: string = "";
+
+  currentAdminEmails: string[];
 
   constructor(private accountService: AccountService,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private accountTypeService: AccountTypeService,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
   }
@@ -75,6 +87,8 @@ export class AccountDetailsComponent implements OnInit {
   }
 
   save() {
+    this.getResult.value.accountType = this.selectedAccountType;
+    console.log(this.getResult.value.accountType);
     this.updateResult.onFinished = () => {
       if (this.updateResult.hasValue){
         this.updatedAccountEmitter.emit('success');
@@ -99,6 +113,41 @@ export class AccountDetailsComponent implements OnInit {
       }
     }
     this.accountService.delete(this.accountId, this.deleteResult);
+  }
+
+  getAccountTypes(pagination: ListPagination = null, sorting: Sorting = null, filter: string = null){
+    this.accountTypeResult.onFinished = () => {
+      if (this.accountTypeResult.hasValue)
+        console.log("called");
+        this.accountTypes = this.accountTypeResult.value;
+        this.selectedAccountType = this.accountTypes[0].name;
+    }
+    
+    this.accountTypeService.getList(this.accountTypeResult, pagination || new ListPagination(), sorting || new Sorting(), filter || "");
+  }
+
+  manageAdmins() {
+    const dialogRef = this.dialog.open(ManageAdminsDialogComponent, {
+      data: this.getResult.value.adminEmails,
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getResult.value.adminEmails = result;
+        this.save();
+      }
+    });
+  }
+
+  anythingIsInvalid() {
+    return (this.nameFormControl.invalid || 
+    this.zipFormControl.invalid ||
+    this.countryFormControl.invalid ||
+    this.cityFormControl.invalid ||
+    this.streetFormControl.invalid ||
+    this.streetNoFormControl.invalid ||
+    this.contactEmailFormControl.invalid )
   }
 
 }
