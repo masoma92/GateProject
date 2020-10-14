@@ -22,6 +22,7 @@ import { InfoTemplateComponent } from './components/shared/info-template/info-te
 import { AccountDetailsComponent } from './components/+accounts/account-details/account-details.component';
 import { CreateAccountDialogComponent } from './components/+accounts/create-account/create-account-dialog.component';
 import { ManageAdminsDialogComponent } from './components/+accounts/manage-admins/manage-admins-dialog.component';
+import { GatesComponent } from './components/+gates/gates.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ManageAdminsDialogComponent } from './components/+accounts/manage-admin
     InfoTemplateComponent,
     AccountDetailsComponent,
     CreateAccountDialogComponent,
-    ManageAdminsDialogComponent
+    ManageAdminsDialogComponent,
+    GatesComponent
   ],
   imports: [
     BrowserModule,

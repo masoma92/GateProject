@@ -44,6 +44,9 @@ namespace GateProjectBackend
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IAccountTypeRepository, AccountTypeRepository>();
             services.AddScoped<IAccountAdminRepository, AccountAdminRepository>();
+            services.AddScoped<IUserGateRepository, UserGateRepository>();
+            services.AddScoped<IGateRepository, GateRepository>();
+            services.AddScoped<IGateTypeRepository, GateTypeRepository>();
 
             string conn = Configuration.GetConnectionString("CONN");
 

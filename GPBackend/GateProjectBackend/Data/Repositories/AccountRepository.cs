@@ -11,7 +11,7 @@ namespace GateProjectBackend.Data.Repositories
 {
     public interface IAccountRepository : IRepository<Account>
     {
-
+        Task<Account> GetAccountByName(string name);
     }
     public class AccountRepository : IAccountRepository
     {
@@ -40,6 +40,11 @@ namespace GateProjectBackend.Data.Repositories
         public async Task<Account> Get(int id)
         {
             return await _context.Accounts.Include(x => x.Admins).Include(x => x.AccountType).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<Account> GetAccountByName(string name)
+        {
+            return await _context.Accounts.FirstOrDefaultAsync(x => x.Name == name);
         }
 
         public async Task<ListResult<Account>> GetList(PaginationEntry pagination, Sorting sorting, string filtering)

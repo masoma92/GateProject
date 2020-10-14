@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AccountsComponent } from './components/+accounts/accounts.component';
 import { DashboardComponent } from './components/+dashboard/dashboard.component';
+import { GatesComponent } from './components/+gates/gates.component';
 import { ConfirmEmailComponent } from './components/authentication/confirm-email/confirm-email.component';
 import { ForgetPasswordComponent } from './components/authentication/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './components/authentication/forget-password/reset-password/reset-password.component';
@@ -26,7 +27,8 @@ const routes: Routes = [
   {path: 'main', component: MainComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin, Role.User]},
     children: [
       {path: '', component: DashboardComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin, Role.User]}},
-      {path: 'accounts', component: AccountsComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin, Role.User]}}]},
+      {path: 'accounts', component: AccountsComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin]}},
+      {path: 'gates', component: GatesComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin]}}]},
   {path: '**', redirectTo: 'login'}
 ];
 @NgModule({

@@ -53,7 +53,7 @@ namespace GateProjectBackend.Data.Repositories
 
         public async Task<User> GetUserByEmail(string email)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+            return await _context.Users.Include(x => x.Role).FirstOrDefaultAsync(x => x.Email == email);
         }
     }
 }
