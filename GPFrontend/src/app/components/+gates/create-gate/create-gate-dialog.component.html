@@ -1,0 +1,31 @@
+<form (submit)="create($event)">
+    <mat-form-field class="w-100">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" [(ngModel)]="createGateCommand.name" name="name" [formControl]="nameFormControl" cdkFocusInitial>
+        <mat-error *ngIf="nameFormControl.hasError('required')">
+            Please enter name
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-100" *ngIf="selectedGateType">
+        <mat-label>GateType</mat-label>
+        <mat-select [(value)]="selectedGateType">
+            <mat-option [value]="option.name" *ngFor="let option of gateTypes">{{ option.name }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-100" *ngIf="filteredOptions">
+        <mat-label>Account</mat-label>
+        <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)='select($event.option.value)'>
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{option}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <div class="input-group mt-2">
+        <button class="btn btn-info w-100 mb-2" [disabled]="result.isInProgress || nameFormControl.invalid" color="primary" style="padding: 14px;" type="submit"><i *ngIf="result.isInProgress"
+                class="fas fa-spinner fa-spin"></i>&nbsp;<b>CREATE</b></button>
+    </div>
+</form>

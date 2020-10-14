@@ -38,7 +38,6 @@ export class AccountsComponent implements OnInit {
   ngOnInit() {}
 
   getList(pagination: ListPagination = null, sorting: Sorting = null, filter: string = null){
-    console.log("called");
     this.result.onFinished = () => {
       if (this.result.hasValue)
         this.dataSource = new MatTableDataSource(this.result.value);

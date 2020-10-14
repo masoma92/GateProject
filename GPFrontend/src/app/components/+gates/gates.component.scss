@@ -1,0 +1,25 @@
+.truncate-cell {
+    max-width: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+// td,
+// th {
+//     width: 25%;
+// }
+.mat-row:hover {
+    background: #b1b1b16b;
+    border-radius: 4px;
+    cursor: pointer;
+}

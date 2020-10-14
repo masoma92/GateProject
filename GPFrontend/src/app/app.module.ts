@@ -23,6 +23,8 @@ import { AccountDetailsComponent } from './components/+accounts/account-details/
 import { CreateAccountDialogComponent } from './components/+accounts/create-account/create-account-dialog.component';
 import { ManageAdminsDialogComponent } from './components/+accounts/manage-admins/manage-admins-dialog.component';
 import { GatesComponent } from './components/+gates/gates.component';
+import { CreateGateDialogComponent } from './components/+gates/create-gate/create-gate-dialog.component';
+import { GateDetailsComponent } from './components/+gates/gate-details/gate-details.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { GatesComponent } from './components/+gates/gates.component';
     AccountDetailsComponent,
     CreateAccountDialogComponent,
     ManageAdminsDialogComponent,
-    GatesComponent
+    GatesComponent,
+    CreateGateDialogComponent,
+    GateDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +58,7 @@ import { GatesComponent } from './components/+gates/gates.component';
     ReactiveFormsModule
   ],
   providers: [],
-  entryComponents: [CreateAccountDialogComponent, ManageAdminsDialogComponent],
+  entryComponents: [CreateAccountDialogComponent, ManageAdminsDialogComponent, CreateGateDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

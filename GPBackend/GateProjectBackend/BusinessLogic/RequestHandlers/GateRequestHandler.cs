@@ -108,6 +108,7 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
                 response.Add(new GateResponse
                 {
                     Id = item.Id,
+                    Name = item.Name,
                     AccountName = item.Account == null ? "" : item.Account.Name,
                     CharacteristicId = item.CharacteristicId,
                     GateTypeName = item.GateType.Name,

@@ -1,0 +1,55 @@
+<div class="card" *ngIf="getResult.hasValue">
+    <div class="header">
+        <h4 class="title text-center">Gate Details</h4>
+    </div>
+    <div class="content" style="margin-top: 0px; min-height: auto;">
+        <form>
+            <mat-form-field class="w-100">
+                <mat-label>Name</mat-label>
+                <input matInput type="text" [(ngModel)]="getResult.value.name" name="name" [formControl]="nameFormControl" cdkFocusInitial>
+                <mat-error *ngIf="nameFormControl.hasError('required')">
+                    Please enter name
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+                <mat-label>Characteristic Id</mat-label>
+                <input matInput type="text" [(ngModel)]="getResult.value.characteristicId" name="charid" disabled readonly>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+                <mat-label>Service id</mat-label>
+                <input matInput type="text" [(ngModel)]="getResult.value.serviceId" name="servId" disabled readonly>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-100" *ngIf="selectedGateType">
+                <mat-label>GateType</mat-label>
+                <mat-select [(value)]="selectedGateType">
+                    <mat-option [value]="option.name" *ngFor="let option of gateTypes">{{ option.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-100" *ngIf="filteredOptions">
+                <mat-label>Account</mat-label>
+                <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)='select($event.option.value)'>
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{option}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+        </form>
+    </div>
+    <div class="card-footer">
+        <div class="d-flex justify-content-around">
+            <button [disabled]="updateResult.isInProgress" class="btn btn-primary btn-round" (click)="manageUsers()"><i *ngIf="updateResult.isInProgress"
+                class="fas fa-spinner fa-spin"></i>&nbsp;Manage users</button>
+            <button [disabled]="updateResult.isInProgress" class="btn btn-success btn-round" (click)="save()"><i *ngIf="updateResult.isInProgress"
+                class="fas fa-spinner fa-spin"></i>&nbsp;Save</button>
+            <button [disabled]="deleteResult.isInProgress" class="btn btn-danger btn-round" (click)="delete()"><i *ngIf="deleteResult.isInProgress"
+                class="fas fa-spinner fa-spin"></i>&nbsp;Delete gate</button>
+        </div>
+    </div>
+</div>
+<div *ngIf="getResult.isInProgress" class="d-flex justify-content-center">
+    <i class="fas fa-spinner fa-spin fa-2x"></i>
+</div>

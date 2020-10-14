@@ -1,1 +1,55 @@
-<p>gates works!</p>
+<div class="row">
+    <div class="col-lg-6">
+        <mat-form-field>
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" [(ngModel)]="filterInput" placeholder="Filter for name..." #input>
+        </mat-form-field>
+
+        <div class="mat-elevation-z8">
+            <button *ngIf="authenticationService.role == 'Admin'" (click)="openCreateDialog()" matTooltip="Create new gate" mat-mini-fab color="primary" style="position: absolute; right: 20px; top: 61px;"><i class="fas fa-plus"></i></button>
+            <table mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sorter()"> ID </th>
+                    <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sorter()"> Name </th>
+                    <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="gateTypeName">
+                    <th mat-header-cell *matHeaderCellDef> Type </th>
+                    <td mat-cell *matCellDef="let row"> {{row.gateTypeName}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="serviceId">
+                    <th mat-header-cell *matHeaderCellDef> Serv. Id </th>
+                    <td mat-cell *matCellDef="let row" class="truncate-cell"> {{row.serviceId}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="characteristicId">
+                    <th mat-header-cell *matHeaderCellDef> Char. Id </th>
+                    <td mat-cell *matCellDef="let row" class="truncate-cell"> {{row.characteristicId }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="accountName">
+                    <th mat-header-cell *matHeaderCellDef> Account </th>
+                    <td mat-cell *matCellDef="let row"> {{row.accountName }} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRow(row)"></tr>
+
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                </tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        </div>
+    </div>
+    <div class="col-lg-6 mt-5 mt-lg-0">
+        <gate-details (updatedAccountEmitter)="getList()" [gateId]="gateId"></gate-details>
+    </div>
+</div>

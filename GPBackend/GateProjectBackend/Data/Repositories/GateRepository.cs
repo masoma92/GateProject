@@ -35,7 +35,7 @@ namespace GateProjectBackend.Data.Repositories
 
         public async Task<Gate> Get(int id)
         {
-            return await _context.Gates.Include(x => x.Users).Include(x => x.GateType).FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Gates.Include(x => x.Users).Include(x => x.GateType).Include(x => x.Account).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<ListResult<Gate>> GetList(PaginationEntry pagination, Sorting sorting, string filtering)

@@ -51,7 +51,6 @@ export class AccountDetailsComponent implements OnInit {
       console.log(value);
       this._accountId = value;
       this.get();
-      this.getAccountTypes();
     }
   }
 
@@ -81,7 +80,7 @@ export class AccountDetailsComponent implements OnInit {
 
   get() {
     this.getResult.onFinished = () => {
-      console.log(this.getResult.value);
+      this.getAccountTypes();
     }
     this.accountService.get(this.accountId, this.getResult);
   }
@@ -118,9 +117,8 @@ export class AccountDetailsComponent implements OnInit {
   getAccountTypes(pagination: ListPagination = null, sorting: Sorting = null, filter: string = null){
     this.accountTypeResult.onFinished = () => {
       if (this.accountTypeResult.hasValue)
-        console.log("called");
         this.accountTypes = this.accountTypeResult.value;
-        this.selectedAccountType = this.accountTypes[0].name;
+        this.selectedAccountType = this.getResult.value.accountType;
     }
     
     this.accountTypeService.getList(this.accountTypeResult, pagination || new ListPagination(), sorting || new Sorting(), filter || "");
