@@ -244,10 +244,10 @@ export class EntityService<T, TCreate = T, TUpdate = T> {
       });
   }
 
-  update(id: number, data: TUpdate, result: EntityResult<number>) {
+  update(data: TUpdate, result: EntityResult<boolean>) {
 
     result.start();
-    this.http.put<EntityResult<number>>(`${this.serverName}${this.apiVersion}${this.getPath()}/update`, data,
+    this.http.put<EntityResult<boolean>>(`${this.serverName}${this.apiVersion}${this.getPath()}/update`, data,
       {
         headers: new HeadersBuilder()
           .json()
@@ -270,10 +270,10 @@ export class EntityService<T, TCreate = T, TUpdate = T> {
   }
 
   //Delete entities 
-  delete(id: number, result: EntityResult<number>) {
+  delete(id: number, result: EntityResult<boolean>) {
 
     result.start();
-    return this.http.delete<EntityResult<number>>(`${this.serverName}${this.apiVersion}${this.getPath()}/${id}`,
+    return this.http.delete<EntityResult<boolean>>(`${this.serverName}${this.apiVersion}${this.getPath()}/delete/${id}`,
       {
         headers: new HeadersBuilder()
           .json()

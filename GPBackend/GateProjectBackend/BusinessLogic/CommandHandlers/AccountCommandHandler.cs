@@ -70,7 +70,8 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
                 if (account == null)
                     return Result<bool>.BadRequest($"Account with Id: {request.Id} not found!");
 
-                await UpdateAccountAdmins(account.Id, request.ModifiedBy, request.AdminEmails);
+                if (request.AdminEmails != null)
+                    await UpdateAccountAdmins(account.Id, request.ModifiedBy, request.AdminEmails);
 
                 UpdateAccountProperties(account, request);
 

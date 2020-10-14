@@ -1,8 +1,8 @@
 <div class="card" *ngIf="getResult.hasValue">
     <div class="header">
-        <h4 class="title">Account Details</h4>
+        <h4 class="title text-center">Account Details</h4>
     </div>
-    <div class="content">
+    <div class="content" style="margin-top: 0px; min-height: auto;">
         <form>
             <mat-form-field class="w-100">
                 <mat-label>Name</mat-label>
@@ -64,11 +64,15 @@
     </div>
     <div class="card-footer">
         <div class="d-flex justify-content-around">
-            <a class="btn btn-primary btn-round" routerLink="/login">Login</a>
-            <a class="btn btn-primary btn-round custom-forget-password" routerLink="/forget-password">Forget Password</a>
+            <button [disabled]="updateResult.isInProgress" class="btn btn-primary btn-round"><i *ngIf="updateResult.isInProgress"
+                class="fas fa-spinner fa-spin"></i>&nbsp;Manage admins</button>
+            <button [disabled]="updateResult.isInProgress" class="btn btn-success btn-round" (click)="save()"><i *ngIf="updateResult.isInProgress"
+                class="fas fa-spinner fa-spin"></i>&nbsp;Save</button>
+            <button [disabled]="deleteResult.isInProgress" class="btn btn-danger btn-round" (click)="delete()"><i *ngIf="deleteResult.isInProgress"
+                class="fas fa-spinner fa-spin"></i>&nbsp;Delete Account</button>
         </div>
     </div>
 </div>
-<div *ngIf="!getResult.isInProgress" class="d-flex justify-content-center">
+<div *ngIf="getResult.isInProgress" class="d-flex justify-content-center">
     <i class="fas fa-spinner fa-spin fa-2x"></i>
 </div>

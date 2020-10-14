@@ -16,10 +16,13 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
         IRequestHandler<GetAccountRequest, Result<AccountResponse>>
     {
         private readonly IAccountRepository _accountRepository;
+        private readonly IAccountAdminRepository _accountAdminRepository;
 
-        public AccountRequestHandler(IAccountRepository accountRepository)
+        public AccountRequestHandler(IAccountRepository accountRepository,
+            IAccountAdminRepository accountAdminRepository)
         {
             _accountRepository = accountRepository;
+            _accountAdminRepository = accountAdminRepository;
         }
         public async Task<Result<ListResult<AccountResponse>>> Handle(GetAllAccountsRequest request, CancellationToken cancellationToken)
         {
@@ -41,9 +44,11 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
         {
             try
             {
-                var result = await _accountRepository.Get(request.Id);
+                var account = await _accountRepository.Get(request.Id);
 
-                var response = CreateResponse(result);
+                var admins = await _accountAdminRepository.GetAllUsersByAccountId(request.Id);
+
+                var response = CreateResponse(account, admins);
 
                 return Result<AccountResponse>.Ok(response);
             }
@@ -53,19 +58,20 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
             }
         }
 
-        private AccountResponse CreateResponse(Account result)
+        private AccountResponse CreateResponse(Account account, IEnumerable<User> admins)
         {
             AccountResponse response = new AccountResponse
             {
-                Id = result.Id,
-                AccountType = result.AccountType.Name,
-                City = result.City,
-                Name = result.Name,
-                ContactEmail = result.ContactEmail,
-                Country = result.Country,
-                Street = result.Street,
-                StreetNo = result.StreetNo,
-                Zip = result.Zip
+                Id = account.Id,
+                AccountType = account.AccountType.Name,
+                City = account.City,
+                Name = account.Name,
+                ContactEmail = account.ContactEmail,
+                Country = account.Country,
+                Street = account.Street,
+                StreetNo = account.StreetNo,
+                Zip = account.Zip,
+                Admins = admins
             };
             return response;
         }

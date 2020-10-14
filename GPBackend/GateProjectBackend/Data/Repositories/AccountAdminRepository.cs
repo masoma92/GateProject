@@ -12,6 +12,7 @@ namespace GateProjectBackend.Data.Repositories
     public interface IAccountAdminRepository
     {
         Task<bool> Update(IEnumerable<AccountAdmin> currentAccountAdmins, IEnumerable<AccountAdmin> newAccountAdmins);
+        Task<IEnumerable<User>> GetAllUsersByAccountId(int accountId);
     }
     public class AccountAdminRepository : IAccountAdminRepository
     {
@@ -20,6 +21,11 @@ namespace GateProjectBackend.Data.Repositories
         public AccountAdminRepository(GPDbContext context)
         {
             _context = context;
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsersByAccountId(int accountId)
+        {
+            return await _context.AccountAdmins.Include(x => x.User).Where(x => x.AccountId == accountId).Select(x => x.User).ToListAsync();
         }
 
         public async Task<bool> Update(IEnumerable<AccountAdmin> currentAccountAdmins, IEnumerable<AccountAdmin> newAccountAdmins)
