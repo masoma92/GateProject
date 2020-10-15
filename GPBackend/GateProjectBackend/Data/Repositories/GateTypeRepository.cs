@@ -10,6 +10,7 @@ namespace GateProjectBackend.Data.Repositories
 {
     public interface IGateTypeRepository
     {
+        Task<GateType> GetGateType(int id);
         Task<GateType> GetGateTypeByName(string name);
         Task<ListResult<GateType>> GetList();
     }
@@ -21,6 +22,12 @@ namespace GateProjectBackend.Data.Repositories
         {
             _context = context;
         }
+
+        public async Task<GateType> GetGateType(int id)
+        {
+            return await _context.GateTypes.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public async Task<GateType> GetGateTypeByName(string name)
         {
             return await _context.GateTypes.FirstOrDefaultAsync(x => x.Name == name);

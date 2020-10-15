@@ -30,7 +30,10 @@ namespace GateProjectBackend.Data.Repositories
 
         public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            var gate = await _context.Gates.FirstOrDefaultAsync(x => x.Id == id);
+            _context.Gates.Remove(gate);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<Gate> Get(int id)
@@ -62,7 +65,9 @@ namespace GateProjectBackend.Data.Repositories
 
         public async Task<bool> Update(Gate entity)
         {
-            throw new NotImplementedException();
+            _context.Gates.Update(entity);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

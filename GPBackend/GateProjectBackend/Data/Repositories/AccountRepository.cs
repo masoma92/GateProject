@@ -31,7 +31,7 @@ namespace GateProjectBackend.Data.Repositories
 
         public async Task<bool> Delete(int id)
         {
-            var account = await _context.Accounts.FirstOrDefaultAsync(x => x.Id == id);
+            var account = await _context.Accounts.Include(x => x.Gates).FirstOrDefaultAsync(x => x.Id == id);
             _context.Accounts.Remove(account);
             await _context.SaveChangesAsync();
             return true;

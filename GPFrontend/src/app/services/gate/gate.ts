@@ -1,7 +1,7 @@
-export class UserGates {
+export class UserGate {
     email: string;
-    accessRight: boolean;
-    adminRight: boolean;
+    accessRight: boolean = false;
+    adminRight: boolean = false;
 }
 
 export class Gate {
@@ -11,7 +11,8 @@ export class Gate {
     serviceId: string;
     characteristicId: string;
     accountName: string;
-    users: UserGates[];
+    requestAdminAccess: boolean;
+    users: UserGate[];
 }
 
 export class CreateGateCommand {

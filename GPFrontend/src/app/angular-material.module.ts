@@ -13,6 +13,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const materialModules = [
   MatIconModule,
@@ -27,7 +28,8 @@ const materialModules = [
   MatSortModule,
   MatDialogModule,
   MatSelectModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatCheckboxModule
 ];
 
 @NgModule({

@@ -74,5 +74,29 @@ namespace GateProjectBackend.Controllers
 
             return StatusCodeResult(result);
         }
+
+        [RoleBasedAuthorize(AcceptedRoles = "Admin, User")]
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateGate([FromBody] UpdateGateCommand command)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            command.ModifiedBy = HttpContext.User.Identity.Name;
+
+            var result = await _mediator.Send(command);
+
+            return StatusCodeResult(result);
+        }
+
+        [RoleBasedAuthorize(AcceptedRoles = "Admin")]
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteGate(int id)
+        {
+            var command = new DeleteGateCommand { Id = id };
+            var result = await _mediator.Send(command);
+
+            return StatusCodeResult(result);
+        }
     }
 }

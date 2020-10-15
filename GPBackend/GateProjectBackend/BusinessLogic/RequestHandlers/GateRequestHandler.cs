@@ -20,16 +20,22 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IUserGateRepository _userGateRepository;
+        private readonly IAccountRepository _accountRepository;
+        private readonly IGateTypeRepository _gateTypeRepository;
 
         public GateRequestHandler(IGateRepository gateRepository,
             IUserRepository userRepository,
             IRoleRepository roleRepository,
-            IUserGateRepository userGateRepository)
+            IUserGateRepository userGateRepository,
+            IAccountRepository accountRepository,
+            IGateTypeRepository gateTypeRepository)
         {
             _gateRepository = gateRepository;
             _userRepository = userRepository;
             _roleRepository = roleRepository;
             _userGateRepository = userGateRepository;
+            _accountRepository = accountRepository;
+            _gateTypeRepository = gateTypeRepository;
         }
 
         public async Task<Result<GateResponse>> Handle(GetGateRequest request, CancellationToken cancellationToken)
@@ -72,7 +78,7 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
                     gates = temp.Select(x => x.Gate).ToList();
                 }
 
-                var response = CreateListResponse(gates);
+                var response = CreateListResponse(gates, role.Name);
 
                 return Result<ListResult<GateResponse>>.Ok(response);
             }
@@ -89,33 +95,57 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
             response.Name = gate.Name;
             response.GateTypeName = gate.GateType.Name;
             response.AccountName = gate.Account == null ? "" : gate.Account.Name;
+            response.RequestAdminAccess = adminAccess;
+
+            var usersByGateId = _userGateRepository.GetAllUsersByGateId(gate.Id).Result;
+
             if (adminAccess)
             {
                 response.ServiceId = gate.ServiceId;
                 response.CharacteristicId = gate.CharacteristicId;
-                response.Users = CollectUserGates(gate.Users);
+                response.Users = CollectUserGates(usersByGateId.ToList());
             }
 
             return response;
         }
 
-        private ListResult<GateResponse> CreateListResponse(List<Gate> result)
+        private ListResult<GateResponse> CreateListResponse(List<Gate> result, string roleName)
         {
             List<GateResponse> response = new List<GateResponse>();
-            foreach (var item in result)
+            if (roleName == "Admin")
             {
-                var usersByGateId = _userGateRepository.GetAllUsersByGateId(item.Id).Result;
-                response.Add(new GateResponse
+                foreach (var item in result)
                 {
-                    Id = item.Id,
-                    Name = item.Name,
-                    AccountName = item.Account == null ? "" : item.Account.Name,
-                    CharacteristicId = item.CharacteristicId,
-                    GateTypeName = item.GateType.Name,
-                    ServiceId = item.ServiceId,
-                    Users = CollectUserGates(usersByGateId.ToList())
-                });
+                    var usersByGateId = _userGateRepository.GetAllUsersByGateId(item.Id).Result;
+                    response.Add(new GateResponse
+                    {
+                        Id = item.Id,
+                        Name = item.Name,
+                        AccountName = item.Account == null ? "" : item.Account.Name,
+                        CharacteristicId = item.CharacteristicId,
+                        GateTypeName = item.GateType.Name,
+                        ServiceId = item.ServiceId,
+                        Users = CollectUserGates(usersByGateId.ToList())
+                    });
+                }
             }
+            if (roleName == "User")
+            {
+                foreach (var item in result)
+                {
+                    var gateType = _gateTypeRepository.GetGateType(item.GateTypeId).Result;
+                    response.Add(new GateResponse
+                    {
+                        Id = item.Id,
+                        Name = item.Name,
+                        AccountName = item.AccountId.HasValue ? _accountRepository.Get(item.AccountId.Value).Result.Name : "",
+                        CharacteristicId = item.CharacteristicId,
+                        GateTypeName = gateType.Name,
+                        ServiceId = item.ServiceId
+                    });
+                }
+            }
+            
             return new ListResult<GateResponse>(response, response.Count);
         }
 

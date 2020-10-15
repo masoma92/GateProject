@@ -19,6 +19,7 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers.Responses
         public string ServiceId { get; set; }
         public string CharacteristicId { get; set; }
         public string AccountName { get; set; }
+        public bool RequestAdminAccess { get; set; }
         public List<UserGateResponse> Users { get; set; }
     }
 }

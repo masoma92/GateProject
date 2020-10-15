@@ -24,10 +24,10 @@ export class GatesComponent implements OnInit {
   selectedRow;
   gateId: number;
 
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private accountService: GateService,
+  constructor(private gateService: GateService,
     private changeDetectorRefs: ChangeDetectorRef,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -47,7 +47,7 @@ export class GatesComponent implements OnInit {
         this.refresh();
     }
     
-    this.accountService.getList(this.result, pagination || new ListPagination(), sorting || new Sorting(), filter || "");
+    this.gateService.getList(this.result, pagination || new ListPagination(), sorting || new Sorting(), filter || "");
   }
 
   applyFilter() {
