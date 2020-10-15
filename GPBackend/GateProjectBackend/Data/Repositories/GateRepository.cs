@@ -11,7 +11,8 @@ namespace GateProjectBackend.Data.Repositories
 {
     public interface IGateRepository : IRepository<Gate>
     {
-
+        IEnumerable<Gate> GetAllGatesFromAccounts(IEnumerable<Account> accounts);
+        bool IsAdminOfTheGate(int gateId, int userId);
     }
     public class GateRepository : IGateRepository
     {
@@ -41,6 +42,20 @@ namespace GateProjectBackend.Data.Repositories
             return await _context.Gates.Include(x => x.Users).Include(x => x.GateType).Include(x => x.Account).FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public IEnumerable<Gate> GetAllGatesFromAccounts(IEnumerable<Account> accounts)
+        {
+            var gates = new List<Gate>();
+            foreach (var account in accounts)
+            {
+                var currentGates = _context.Gates.Where(x => x.AccountId == account.Id);
+                foreach (var gate in currentGates)
+                {
+                    gates.Add(gate);
+                }
+            }
+            return gates;
+        }
+
         public async Task<ListResult<Gate>> GetList(PaginationEntry pagination, Sorting sorting, string filtering)
         {
             var query = _context.Gates.Include(x => x.GateType).Include(x => x.Account).Include(x => x.Users).OrderBy(x => x.Id).AsQueryable();
@@ -61,6 +76,17 @@ namespace GateProjectBackend.Data.Repositories
             var result = await pagedQuery.ToListAsync();
 
             return new ListResult<Gate>(result, result.Count);
+        }
+
+        public bool IsAdminOfTheGate(int gateId, int userId)
+        {
+            var gate = _context.Gates.Include(x => x.Account).FirstOrDefault(x => x.Id == gateId);
+
+            var account = _context.Accounts.Include(x => x.Admins).FirstOrDefault(x => x.Id == gate.Account.Id);
+
+            bool isAdmin = _context.AccountAdmins.Any(x => x.AccountId == account.Id && x.UserId == userId);
+
+            return isAdmin;
         }
 
         public async Task<bool> Update(Gate entity)

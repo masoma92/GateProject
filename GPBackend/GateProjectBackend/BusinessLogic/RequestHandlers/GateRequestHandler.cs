@@ -7,6 +7,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,13 +23,15 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
         private readonly IUserGateRepository _userGateRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly IGateTypeRepository _gateTypeRepository;
+        private readonly IAccountAdminRepository _accountAdminRepository;
 
         public GateRequestHandler(IGateRepository gateRepository,
             IUserRepository userRepository,
             IRoleRepository roleRepository,
             IUserGateRepository userGateRepository,
             IAccountRepository accountRepository,
-            IGateTypeRepository gateTypeRepository)
+            IGateTypeRepository gateTypeRepository,
+            IAccountAdminRepository accountAdminRepository)
         {
             _gateRepository = gateRepository;
             _userRepository = userRepository;
@@ -36,6 +39,7 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
             _userGateRepository = userGateRepository;
             _accountRepository = accountRepository;
             _gateTypeRepository = gateTypeRepository;
+            _accountAdminRepository = accountAdminRepository;
         }
 
         public async Task<Result<GateResponse>> Handle(GetGateRequest request, CancellationToken cancellationToken)
@@ -44,8 +48,8 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
             {
                 var user = await _userRepository.GetUserByEmail(request.RequestedBy);
                 var access = await _userGateRepository.CheckAccess(request.Id, user.Id);
-                var adminAccess = await _userGateRepository.CheckAdminAccess(request.Id, user.Id) || user.Role.Name == "Admin";
-                if (!access && user.Role.Name == "User")
+                var adminAccess = await _userGateRepository.CheckAdminAccess(request.Id, user.Id) || user.Role.Name == "Admin" || _gateRepository.IsAdminOfTheGate(request.Id, user.Id); //javitani accountadmin
+                if (!access && user.Role.Name == "User" && !(_gateRepository.IsAdminOfTheGate(request.Id, user.Id)))
                     return Result<GateResponse>.BadRequest("No access to this gate!");
 
                 var gate = await _gateRepository.Get(request.Id);
@@ -76,6 +80,16 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
                     var temp = await _userGateRepository.GetAllGatesByUserIdAndAccess(user.Id);
 
                     gates = temp.Select(x => x.Gate).ToList();
+
+                    // ha valaki admin latja a kapukat, de jogosultsagot adnia kell maganak attol fuggetlenul
+
+                    var adminAccounts = await _accountAdminRepository.GetAllAccountsWhereUserIsAdmin(user.Id);
+                    var adminGates = _gateRepository.GetAllGatesFromAccounts(adminAccounts);
+                    foreach (var gate in adminGates)
+                    {
+                        if (!gates.Select(x => x.Name).Contains(gate.Name))
+                            gates.Add(gate);
+                    }
                 }
 
                 var response = CreateListResponse(gates, role.Name);
