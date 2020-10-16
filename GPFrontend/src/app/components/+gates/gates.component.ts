@@ -31,7 +31,7 @@ export class GatesComponent implements OnInit {
     private changeDetectorRefs: ChangeDetectorRef,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private authenticationService: AuthenticationService) {
+    public authenticationService: AuthenticationService) {
     this.getList();
   }
 

@@ -1,4 +1,4 @@
-<form (submit)="create($event)">
+<form (submit)="create()">
     <mat-form-field class="w-100">
         <mat-label>Name</mat-label>
         <input matInput type="text" [(ngModel)]="createGateCommand.name" name="name" [formControl]="nameFormControl" cdkFocusInitial>

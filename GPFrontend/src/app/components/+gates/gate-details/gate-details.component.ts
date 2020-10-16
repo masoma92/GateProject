@@ -62,7 +62,7 @@ export class GateDetailsComponent implements OnInit {
     private accountService: AccountService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private authenticationService: AuthenticationService) { }
+    public authenticationService: AuthenticationService) { }
 
   ngOnInit() {
   }

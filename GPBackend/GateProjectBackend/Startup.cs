@@ -66,16 +66,18 @@ namespace GateProjectBackend
             #region CORSCONFIG
             //** will be used
             //var corsConfig = Configuration.GetSection("CorsConfiguration").Get<CorsConfiguration>();
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy(name: "GPAuthAllowedOrigins",
-            //        builder =>
-            //        {
-            //            builder.WithOrigins(corsConfig?.AcceptedUrls?.ToArray());
-            //        });
-            //});
 
-            services.AddCors(options => options.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "GateCorsConfig",
+                    builder => builder
+                            .AllowAnyOrigin()
+                            .AllowAnyHeader());
+                //builder =>
+                //{
+                //    builder.WithOrigins(corsConfig?.AcceptedUrls?.ToArray());
+                //});
+            });
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
 
@@ -109,17 +111,17 @@ namespace GateProjectBackend
 
             app.UseRouting();
 
-            app.UseCors();
+            app.UseCors("GateCorsConfig");
 
             app.UseMvc();
 
             //** will be used
             //app.UseCors("GPAuthAllowedOrigins")
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
         }
 
         private void OnUserAuthenticated(ClaimsIdentity user, TokenValidatedContext context)

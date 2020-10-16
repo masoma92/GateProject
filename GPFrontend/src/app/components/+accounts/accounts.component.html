@@ -2,7 +2,7 @@
     <div class="col-lg-6">
         <mat-form-field>
             <mat-label>Filter</mat-label>
-            <input matInput (keyup)="applyFilter($event)" [(ngModel)]="filterInput" placeholder="Filter for name..." #input>
+            <input matInput (keyup)="applyFilter()" [(ngModel)]="filterInput" placeholder="Filter for name..." #input>
         </mat-form-field>
 
         <div class="mat-elevation-z8">

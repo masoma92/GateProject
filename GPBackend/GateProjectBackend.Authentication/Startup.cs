@@ -62,16 +62,18 @@ namespace GateProjectBackend.Authentication
             #region CORSCONFIG
             //** will be used
             //var corsConfig = Configuration.GetSection("CorsConfiguration").Get<CorsConfiguration>();
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy(name: "GPAuthAllowedOrigins",
-            //        builder =>
-            //        {
-            //            builder.WithOrigins(corsConfig?.AcceptedUrls?.ToArray());
-            //        });
-            //});
 
-            services.AddCors(options => options.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AuthCorsConfig",
+                    builder => builder
+                            .AllowAnyOrigin()
+                            .AllowAnyHeader());
+                //builder =>
+                //{
+                //    builder.WithOrigins(corsConfig?.AcceptedUrls?.ToArray());
+                //});
+            });
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
 
@@ -111,17 +113,14 @@ namespace GateProjectBackend.Authentication
 
             app.UseRouting();
 
-            app.UseCors();
+            app.UseCors("AuthCorsConfig");
 
             app.UseMvc();
 
-            //** will be used
-            //app.UseCors("GPAuthAllowedOrigins")
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
         }
     }
 }
