@@ -20,7 +20,7 @@
 
                 <ng-container matColumnDef="address">
                     <th mat-header-cell *matHeaderCellDef> Address </th>
-                    <td mat-cell *matCellDef="let row"> {{row.country}}, {{row.zip}} {{row.city}}, {{row.street}} {{row.streetNo}} </td>
+                    <td mat-cell *matCellDef="let row" class="truncate-cell" [matTooltip]="concatAddress(row)"> {{concatAddress(row)}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="accountType">
@@ -30,7 +30,7 @@
 
                 <ng-container matColumnDef="contactEmail">
                     <th mat-header-cell *matHeaderCellDef> Contact </th>
-                    <td mat-cell *matCellDef="let row"> {{row.contactEmail }} </td>
+                    <td mat-cell *matCellDef="let row" class="truncate-cell" [matTooltip]="row.contactEmail"> {{row.contactEmail }} </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

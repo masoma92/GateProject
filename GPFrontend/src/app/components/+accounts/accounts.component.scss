@@ -7,10 +7,17 @@ table {
     width: 100%;
 }
 
-td,
-th {
-    width: 25%;
+.truncate-cell {
+    max-width: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
+// td,
+// th {
+//     width: 25%;
+// }
 
 .mat-row:hover {
     background: #b1b1b16b;

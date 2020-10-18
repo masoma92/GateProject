@@ -91,4 +91,8 @@ export class AccountsComponent implements OnInit {
     });
   }
 
+  concatAddress(row) {
+    return `${row.country}, ${row.zip} ${row.city}, ${row.street} ${row.streetNo}`;
+  }
+
 }
