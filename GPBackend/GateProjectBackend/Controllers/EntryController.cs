@@ -1,5 +1,4 @@
 ﻿using GateProjectBackend.BusinessLogic.CommandHandlers.Commands;
-using GateProjectBackend.BusinessLogic.RequestHandlers.Requests;
 using GateProjectBackend.Resources;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -23,8 +22,8 @@ namespace GateProjectBackend.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Enter([FromBody]EntryCommand command)
+        [HttpPost()]
+        public async Task<IActionResult> Enter([FromBody] EntryCommand command)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
