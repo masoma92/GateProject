@@ -69,7 +69,6 @@ export class CreateGateDialogComponent implements OnInit {
   }
 
   setFilteredOptions() {
-    console.log(this.options);
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),

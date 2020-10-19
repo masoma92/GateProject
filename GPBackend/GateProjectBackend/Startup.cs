@@ -72,7 +72,8 @@ namespace GateProjectBackend
                 options.AddPolicy(name: "GateCorsConfig",
                     builder => builder
                             .AllowAnyOrigin()
-                            .AllowAnyHeader());
+                            .AllowAnyHeader()
+                            .AllowAnyMethod());
                 //builder =>
                 //{
                 //    builder.WithOrigins(corsConfig?.AcceptedUrls?.ToArray());

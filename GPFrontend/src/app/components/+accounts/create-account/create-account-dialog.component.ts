@@ -62,7 +62,6 @@ export class CreateAccountDialogComponent implements OnInit {
   getAccountTypes(pagination: ListPagination = null, sorting: Sorting = null, filter: string = null){
     this.accountTypeResult.onFinished = () => {
       if (this.accountTypeResult.hasValue)
-        console.log("called");
         this.accountTypes = this.accountTypeResult.value;
         this.selectedAccountType = this.accountTypes[0].name;
     }

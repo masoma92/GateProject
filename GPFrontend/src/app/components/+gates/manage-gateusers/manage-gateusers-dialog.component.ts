@@ -27,7 +27,6 @@ export class ManageGateusersDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<ManageGateusersDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public currentUsers: UserGate[],
     private userService: UserService) {
-      console.log(currentUsers);
       this.getUsers();
     }
 

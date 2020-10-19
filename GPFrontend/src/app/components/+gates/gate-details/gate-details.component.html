@@ -41,11 +41,11 @@
     </div>
     <div class="card-footer" *ngIf="getResult.value.requestAdminAccess">
         <div class="d-flex justify-content-around">
-            <button [disabled]="updateResult.isInProgress" class="btn btn-primary btn-round" (click)="manageUsers()"><i *ngIf="updateResult.isInProgress"
+            <button [disabled]="updateResult.isInProgress || deleteResult.isInProgress" class="btn btn-primary btn-round" (click)="manageUsers()"><i *ngIf="updateResult.isInProgress"
                 class="fas fa-spinner fa-spin"></i>&nbsp;Manage users</button>
-            <button [disabled]="updateResult.isInProgress" class="btn btn-success btn-round" (click)="save()"><i *ngIf="updateResult.isInProgress"
+            <button [disabled]="updateResult.isInProgress || deleteResult.isInProgress" class="btn btn-success btn-round" (click)="save()"><i *ngIf="updateResult.isInProgress"
                 class="fas fa-spinner fa-spin"></i>&nbsp;Save</button>
-            <button [disabled]="deleteResult.isInProgress || authenticationService.role != 'Admin'" class="btn btn-danger btn-round" (click)="delete()"><i *ngIf="deleteResult.isInProgress"
+            <button [disabled]="deleteResult.isInProgress || updateResult.isInProgress || authenticationService.role != 'Admin'" class="btn btn-danger btn-round" (click)="delete()"><i *ngIf="deleteResult.isInProgress"
                 class="fas fa-spinner fa-spin"></i>&nbsp;Delete gate</button>
         </div>
     </div>

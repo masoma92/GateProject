@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GateProjectBackend.Migrations
 {
     [DbContext(typeof(GPDbContext))]
-    [Migration("20201015134121_deletebehaviour")]
-    partial class deletebehaviour
+    [Migration("20201018172330_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -78,7 +78,7 @@ namespace GateProjectBackend.Migrations
                             City = "Budapest",
                             ContactEmail = "asd@gmail.com",
                             Country = "Hungary",
-                            CreatedAt = new DateTime(2020, 10, 15, 13, 41, 21, 427, DateTimeKind.Utc).AddTicks(7116),
+                            CreatedAt = new DateTime(2020, 10, 18, 17, 23, 30, 119, DateTimeKind.Utc).AddTicks(509),
                             CreatedBy = "SYSTEM",
                             Name = "TestOffice",
                             Street = "Szuglo utca",
@@ -92,7 +92,7 @@ namespace GateProjectBackend.Migrations
                             City = "Budapest",
                             ContactEmail = "asd@gmail.com",
                             Country = "Hungary",
-                            CreatedAt = new DateTime(2020, 10, 15, 13, 41, 21, 427, DateTimeKind.Utc).AddTicks(7879),
+                            CreatedAt = new DateTime(2020, 10, 18, 17, 23, 30, 119, DateTimeKind.Utc).AddTicks(1259),
                             CreatedBy = "SYSTEM",
                             Name = "TestSchool",
                             Street = "Szuglo utca",
@@ -106,7 +106,7 @@ namespace GateProjectBackend.Migrations
                             City = "Budapest",
                             ContactEmail = "asd@gmail.com",
                             Country = "Hungary",
-                            CreatedAt = new DateTime(2020, 10, 15, 13, 41, 21, 427, DateTimeKind.Utc).AddTicks(7893),
+                            CreatedAt = new DateTime(2020, 10, 18, 17, 23, 30, 119, DateTimeKind.Utc).AddTicks(1273),
                             CreatedBy = "SYSTEM",
                             Name = "TestOffice2",
                             Street = "Szuglo utca",
@@ -120,7 +120,7 @@ namespace GateProjectBackend.Migrations
                             City = "Budapest",
                             ContactEmail = "asd@gmail.com",
                             Country = "Hungary",
-                            CreatedAt = new DateTime(2020, 10, 15, 13, 41, 21, 427, DateTimeKind.Utc).AddTicks(7895),
+                            CreatedAt = new DateTime(2020, 10, 18, 17, 23, 30, 119, DateTimeKind.Utc).AddTicks(1275),
                             CreatedBy = "SYSTEM",
                             Name = "TestHome",
                             Street = "Szuglo utca",
@@ -134,7 +134,7 @@ namespace GateProjectBackend.Migrations
                             City = "Budapest",
                             ContactEmail = "asd@gmail.com",
                             Country = "Hungary",
-                            CreatedAt = new DateTime(2020, 10, 15, 13, 41, 21, 427, DateTimeKind.Utc).AddTicks(7896),
+                            CreatedAt = new DateTime(2020, 10, 18, 17, 23, 30, 119, DateTimeKind.Utc).AddTicks(1276),
                             CreatedBy = "SYSTEM",
                             Name = "TestAccomodation",
                             Street = "Szuglo utca",
@@ -148,7 +148,7 @@ namespace GateProjectBackend.Migrations
                             City = "Budapest",
                             ContactEmail = "asd@gmail.com",
                             Country = "Hungary",
-                            CreatedAt = new DateTime(2020, 10, 15, 13, 41, 21, 427, DateTimeKind.Utc).AddTicks(7897),
+                            CreatedAt = new DateTime(2020, 10, 18, 17, 23, 30, 119, DateTimeKind.Utc).AddTicks(1278),
                             CreatedBy = "SYSTEM",
                             Name = "TestOffice",
                             Street = "Szuglo utca",
@@ -188,7 +188,7 @@ namespace GateProjectBackend.Migrations
                         {
                             UserId = 1,
                             AccountId = 1,
-                            CreatedAt = new DateTime(2020, 10, 15, 13, 41, 21, 427, DateTimeKind.Utc).AddTicks(9140),
+                            CreatedAt = new DateTime(2020, 10, 18, 17, 23, 30, 119, DateTimeKind.Utc).AddTicks(2520),
                             CreatedBy = "SYSTEM"
                         });
                 });
@@ -477,7 +477,7 @@ namespace GateProjectBackend.Migrations
                         {
                             Id = 1,
                             Birth = new DateTime(1992, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedAt = new DateTime(2020, 10, 15, 13, 41, 21, 427, DateTimeKind.Utc).AddTicks(2858),
+                            CreatedAt = new DateTime(2020, 10, 18, 17, 23, 30, 118, DateTimeKind.Utc).AddTicks(6235),
                             CreatedBy = "SYSTEM",
                             Email = "soma.makai@gmail.com",
                             FirstName = "Soma",
@@ -563,8 +563,7 @@ namespace GateProjectBackend.Migrations
                 {
                     b.HasOne("GateProjectBackend.Data.Models.Account", "Account")
                         .WithMany("Gates")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("AccountId");
 
                     b.HasOne("GateProjectBackend.Data.Models.GateType", "GateType")
                         .WithMany()

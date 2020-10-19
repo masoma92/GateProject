@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GateProjectBackend.Authentication.Migrations
 {
-    public partial class authdbinit : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,9 +16,9 @@ namespace GateProjectBackend.Authentication.Migrations
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: false),
+                    Birth = table.Column<DateTime>(nullable: false),
                     PasswordHash = table.Column<byte[]>(nullable: false),
                     PasswordSalt = table.Column<byte[]>(nullable: false),
-                    ActivationToken = table.Column<string>(nullable: false),
                     IsConfirmed = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>

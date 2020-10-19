@@ -50,6 +50,19 @@ namespace GateProjectBackend.Data.Repositories
         {
             _context.Set<UserGate>().RemoveRange(currentGateUsers.Except(newGateUsers, x => x.UserId));
             _context.Set<UserGate>().AddRange(newGateUsers.Except(currentGateUsers, x => x.UserId));
+
+            await _context.SaveChangesAsync();
+
+            foreach (var newGateUser in newGateUsers)
+            {
+                var userGate = _context.UserGates.FirstOrDefault(x => x.UserId == newGateUser.UserId && x.GateId == newGateUser.GateId);
+                userGate.AccessRight = newGateUser.AccessRight;
+                userGate.AdminRight = newGateUser.AdminRight;
+                userGate.ModifiedBy = newGateUser.ModifiedBy;
+                userGate.MoidifiedAt = newGateUser.MoidifiedAt;
+                _context.UserGates.Update(userGate);
+            }
+
             await _context.SaveChangesAsync();
             return true;
         }

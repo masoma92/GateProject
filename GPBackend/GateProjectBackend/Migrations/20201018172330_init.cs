@@ -312,23 +312,23 @@ namespace GateProjectBackend.Migrations
                 columns: new[] { "Id", "AccountTypeId", "City", "ContactEmail", "Country", "CreatedAt", "CreatedBy", "ModifiedBy", "MoidifiedAt", "Name", "Street", "StreetNo", "Zip" },
                 values: new object[,]
                 {
-                    { 1, 1, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(5913), "SYSTEM", null, null, "TestOffice", "Szuglo utca", "53", "1145" },
-                    { 3, 1, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(6683), "SYSTEM", null, null, "TestOffice2", "Szuglo utca", "53", "1147" },
-                    { 6, 1, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(6753), "SYSTEM", null, null, "TestOffice", "Szuglo utca", "53", "1150" },
-                    { 4, 2, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(6685), "SYSTEM", null, null, "TestHome", "Szuglo utca", "53", "1148" },
-                    { 2, 3, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(6667), "SYSTEM", null, null, "TestSchool", "Szuglo utca", "53", "1146" },
-                    { 5, 4, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(6751), "SYSTEM", null, null, "TestAccomodation", "Szuglo utca", "53", "1149" }
+                    { 1, 1, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 18, 17, 23, 30, 119, DateTimeKind.Utc).AddTicks(509), "SYSTEM", null, null, "TestOffice", "Szuglo utca", "53", "1145" },
+                    { 3, 1, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 18, 17, 23, 30, 119, DateTimeKind.Utc).AddTicks(1273), "SYSTEM", null, null, "TestOffice2", "Szuglo utca", "53", "1147" },
+                    { 6, 1, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 18, 17, 23, 30, 119, DateTimeKind.Utc).AddTicks(1278), "SYSTEM", null, null, "TestOffice", "Szuglo utca", "53", "1150" },
+                    { 4, 2, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 18, 17, 23, 30, 119, DateTimeKind.Utc).AddTicks(1275), "SYSTEM", null, null, "TestHome", "Szuglo utca", "53", "1148" },
+                    { 2, 3, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 18, 17, 23, 30, 119, DateTimeKind.Utc).AddTicks(1259), "SYSTEM", null, null, "TestSchool", "Szuglo utca", "53", "1146" },
+                    { 5, 4, "Budapest", "asd@gmail.com", "Hungary", new DateTime(2020, 10, 18, 17, 23, 30, 119, DateTimeKind.Utc).AddTicks(1276), "SYSTEM", null, null, "TestAccomodation", "Szuglo utca", "53", "1149" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Birth", "CreatedAt", "CreatedBy", "Email", "FirstName", "IsActive", "LastName", "ModifiedBy", "MoidifiedAt", "RfidKey", "RoleId" },
-                values: new object[] { 1, new DateTime(1992, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(1518), "SYSTEM", "soma.makai@gmail.com", "Soma", true, "Makai", null, null, null, 2 });
+                values: new object[] { 1, new DateTime(1992, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 10, 18, 17, 23, 30, 118, DateTimeKind.Utc).AddTicks(6235), "SYSTEM", "soma.makai@gmail.com", "Soma", true, "Makai", null, null, null, 2 });
 
             migrationBuilder.InsertData(
                 table: "AccountAdmins",
                 columns: new[] { "UserId", "AccountId", "CreatedAt", "CreatedBy", "ModifiedBy", "MoidifiedAt" },
-                values: new object[] { 1, 1, new DateTime(2020, 10, 12, 16, 54, 0, 645, DateTimeKind.Utc).AddTicks(8025), "SYSTEM", null, null });
+                values: new object[] { 1, 1, new DateTime(2020, 10, 18, 17, 23, 30, 119, DateTimeKind.Utc).AddTicks(2520), "SYSTEM", null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountAdmins_AccountId",

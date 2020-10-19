@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GateProjectBackend.Authentication.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20200916114255_add birth column")]
-    partial class addbirthcolumn
+    [Migration("20201018172028_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

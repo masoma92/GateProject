@@ -7,8 +7,14 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200914081700_initialize authdb.cs" />
     <Compile Remove="Migrations\20200914081700_initialize authdb.Designer.cs" />
+    <Compile Remove="Migrations\20200914092321_authdb init.cs" />
+    <Compile Remove="Migrations\20200914092321_authdb init.Designer.cs" />
     <Compile Remove="Migrations\20200914092653_test.cs" />
     <Compile Remove="Migrations\20200914092653_test.Designer.cs" />
+    <Compile Remove="Migrations\20200914110639_remove confirmation token.cs" />
+    <Compile Remove="Migrations\20200914110639_remove confirmation token.Designer.cs" />
+    <Compile Remove="Migrations\20200916114255_add birth column.cs" />
+    <Compile Remove="Migrations\20200916114255_add birth column.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

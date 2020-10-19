@@ -28,7 +28,6 @@ export class ManageAdminsDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<ManageAdminsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public currentAdminEmails: string[],
     private userService: UserService) {
-      console.log(currentAdminEmails);
       this.getUsers();
     }
 

@@ -48,7 +48,6 @@ export class AccountDetailsComponent implements OnInit {
 
   @Input('accountId') set accountId(value: number){
     if (value) {
-      console.log(value);
       this._accountId = value;
       this.get();
     }
@@ -87,7 +86,6 @@ export class AccountDetailsComponent implements OnInit {
 
   save() {
     this.getResult.value.accountType = this.selectedAccountType;
-    console.log(this.getResult.value.accountType);
     this.updateResult.onFinished = () => {
       if (this.updateResult.hasValue){
         this.updatedAccountEmitter.emit('success');
