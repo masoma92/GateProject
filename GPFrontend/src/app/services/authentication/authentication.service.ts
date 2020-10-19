@@ -115,8 +115,6 @@ export class AuthenticationService {
     this.storedToken = authenticateResult.value.jwtToken;
 
     this.tryAuthenticateWithToken(authenticateResult.value.jwtToken, authenticateResult);
-
-    authenticateResult.finish();
   }
 
   private authenticationFailed(authenticateResult: EntityResult<AuthenticationResponse>) {
