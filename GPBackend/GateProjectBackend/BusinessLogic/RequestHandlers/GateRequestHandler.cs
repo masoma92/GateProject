@@ -157,7 +157,7 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
                         CharacteristicId = item.CharacteristicId,
                         GateTypeName = gateType.Name,
                         ServiceId = item.ServiceId,
-                        AdminAccess = _userGateRepository.CheckAdminAccess(item.Id, user.Id).Result
+                        AdminAccess = _gateRepository.IsAdminOfTheGate(item.Id, user.Id)
                     });
                 }
             }

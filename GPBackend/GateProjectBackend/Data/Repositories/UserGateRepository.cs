@@ -39,7 +39,7 @@ namespace GateProjectBackend.Data.Repositories
 
         public async Task<bool> CheckAdminAccess(int gateId, int userId)
         {
-            return await _context.UserGates.AnyAsync(x => x.UserId == userId && x.GateId == gateId && x.AccessRight && x.AdminRight);
+            return await _context.UserGates.AnyAsync(x => x.UserId == userId && x.GateId == gateId && x.AdminRight);
         }
 
         public async Task<IEnumerable<UserGate>> GetAllGatesByUserIdAndAccess(int userId)
