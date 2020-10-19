@@ -11,7 +11,7 @@ export class Gate {
     serviceId: string;
     characteristicId: string;
     accountName: string;
-    requestAdminAccess: boolean;
+    adminAccess: boolean;
     users: UserGate[];
 }
 

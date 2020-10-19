@@ -28,7 +28,13 @@ namespace GateProjectBackend.Data.Repositories
 
         public async Task<bool> CheckAccess(int gateId, int userId)
         {
-            return await _context.UserGates.AnyAsync(x => x.UserId == userId && x.GateId == gateId && x.AccessRight);
+            var gate = _context.Gates.Include(x => x.Account).FirstOrDefault(x => x.Id == gateId);
+
+            var account = _context.Accounts.Include(x => x.Admins).FirstOrDefault(x => x.Id == gate.Account.Id);
+
+            bool isAdmin = _context.AccountAdmins.Any(x => x.AccountId == account.Id && x.UserId == userId);
+
+            return await _context.UserGates.AnyAsync(x => x.UserId == userId && x.GateId == gateId && x.AccessRight) || isAdmin;
         }
 
         public async Task<bool> CheckAdminAccess(int gateId, int userId)

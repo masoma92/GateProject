@@ -48,7 +48,7 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
             {
                 var user = await _userRepository.GetUserByEmail(request.RequestedBy);
                 var access = await _userGateRepository.CheckAccess(request.Id, user.Id);
-                var adminAccess = await _userGateRepository.CheckAdminAccess(request.Id, user.Id) || user.Role.Name == "Admin" || _gateRepository.IsAdminOfTheGate(request.Id, user.Id); //javitani accountadmin
+                var adminAccess = await _userGateRepository.CheckAdminAccess(request.Id, user.Id) || user.Role.Name == "Admin" || _gateRepository.IsAdminOfTheGate(request.Id, user.Id);
                 if (!access && user.Role.Name == "User" && !(_gateRepository.IsAdminOfTheGate(request.Id, user.Id)))
                     return Result<GateResponse>.BadRequest("No access to this gate!");
 
@@ -92,7 +92,7 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
                     }
                 }
 
-                var response = CreateListResponse(gates, role.Name);
+                var response = CreateListResponse(gates, user);
 
                 return Result<ListResult<GateResponse>>.Ok(response);
             }
@@ -109,7 +109,7 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
             response.Name = gate.Name;
             response.GateTypeName = gate.GateType.Name;
             response.AccountName = gate.Account == null ? "" : gate.Account.Name;
-            response.RequestAdminAccess = adminAccess;
+            response.AdminAccess = adminAccess;
 
             var usersByGateId = _userGateRepository.GetAllUsersByGateId(gate.Id).Result;
 
@@ -123,10 +123,10 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
             return response;
         }
 
-        private ListResult<GateResponse> CreateListResponse(List<Gate> result, string roleName)
+        private ListResult<GateResponse> CreateListResponse(List<Gate> result, User user)
         {
             List<GateResponse> response = new List<GateResponse>();
-            if (roleName == "Admin")
+            if (user.Role.Name == "Admin")
             {
                 foreach (var item in result)
                 {
@@ -139,11 +139,12 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
                         CharacteristicId = item.CharacteristicId,
                         GateTypeName = item.GateType.Name,
                         ServiceId = item.ServiceId,
+                        AdminAccess = true,
                         Users = CollectUserGates(usersByGateId.ToList())
                     });
                 }
             }
-            if (roleName == "User")
+            if (user.Role.Name == "User")
             {
                 foreach (var item in result)
                 {
@@ -155,7 +156,8 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
                         AccountName = item.AccountId.HasValue ? _accountRepository.Get(item.AccountId.Value).Result.Name : "",
                         CharacteristicId = item.CharacteristicId,
                         GateTypeName = gateType.Name,
-                        ServiceId = item.ServiceId
+                        ServiceId = item.ServiceId,
+                        AdminAccess = _userGateRepository.CheckAdminAccess(item.Id, user.Id).Result
                     });
                 }
             }

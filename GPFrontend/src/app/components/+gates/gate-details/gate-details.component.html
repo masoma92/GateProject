@@ -6,7 +6,7 @@
         <form>
             <mat-form-field class="w-100">
                 <mat-label>Name</mat-label>
-                <input matInput type="text" [readonly]="!getResult.value.requestAdminAccess" [(ngModel)]="getResult.value.name" name="name" [formControl]="nameFormControl" cdkFocusInitial>
+                <input matInput type="text" [readonly]="!getResult.value.adminAccess" [(ngModel)]="getResult.value.name" name="name" [formControl]="nameFormControl" cdkFocusInitial>
                 <mat-error *ngIf="nameFormControl.hasError('required')">
                     Please enter name
                 </mat-error>
@@ -21,7 +21,7 @@
             </mat-form-field>
             <mat-form-field appearance="fill" class="w-100" *ngIf="selectedGateType">
                 <mat-label>GateType</mat-label>
-                <mat-select [(value)]="selectedGateType" [disabled]="!getResult.value.requestAdminAccess">
+                <mat-select [(value)]="selectedGateType" [disabled]="!getResult.value.adminAccess">
                     <mat-option [value]="option.name" *ngFor="let option of gateTypes">{{ option.name }}
                     </mat-option>
                 </mat-select>
@@ -39,7 +39,7 @@
 
         </form>
     </div>
-    <div class="card-footer" *ngIf="getResult.value.requestAdminAccess">
+    <div class="card-footer" *ngIf="getResult.value.adminAccess">
         <div class="d-flex justify-content-around">
             <button [disabled]="updateResult.isInProgress || deleteResult.isInProgress" class="btn btn-primary btn-round" (click)="manageUsers()"><i *ngIf="updateResult.isInProgress"
                 class="fas fa-spinner fa-spin"></i>&nbsp;Manage users</button>
