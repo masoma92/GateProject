@@ -9,4 +9,6 @@ export const environment = {
 
   adminUrl: 'https://localhost:5000',
   authUrl: 'https://localhost:5001'
+  // adminUrl: 'https://admingateproject.azurewebsites.net',
+  // authUrl: 'https://authgateproject.azurewebsites.net'
 };

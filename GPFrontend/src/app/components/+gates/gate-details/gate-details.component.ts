@@ -89,6 +89,7 @@ export class GateDetailsComponent implements OnInit {
   getAccounts(pagination: ListPagination = null, sorting: Sorting = null, filter: string = null){
     this.accountResult.onFinished = () => {
       if (this.accountResult.hasValue){
+        this.options = [];
         this.accountResult.value.forEach(x => {
           this.options.push(x.name);
         });
