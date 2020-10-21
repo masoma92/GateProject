@@ -11,7 +11,6 @@ import { ForgetPasswordComponent } from './components/authentication/forget-pass
 import { LoginComponent } from './components/authentication/login/login.component';
 import { RegisterComponent } from './components/authentication/register/register.component';
 import { ConfirmEmailComponent } from './components/authentication/confirm-email/confirm-email.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
 import { AccountsComponent } from './components/+accounts/accounts.component';
@@ -26,6 +25,7 @@ import { CreateGateDialogComponent } from './components/+gates/create-gate/creat
 import { GateDetailsComponent } from './components/+gates/gate-details/gate-details.component';
 import { ManageGateusersDialogComponent } from './components/+gates/manage-gateusers/manage-gateusers-dialog.component';
 import { ManageUsersDialogComponent } from './components/+accounts/manage-users/manage-users-dialog.component';
+import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
