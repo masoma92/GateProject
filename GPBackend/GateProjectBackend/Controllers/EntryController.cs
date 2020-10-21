@@ -12,7 +12,6 @@ namespace GateProjectBackend.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("v1/[controller]")]
-    [RoleBasedAuthorize(AcceptedRoles = "Admin, User")]
     public class EntryController : BaseController
     {
         private readonly IMediator _mediator;
@@ -23,7 +22,8 @@ namespace GateProjectBackend.Controllers
         }
 
         [HttpPost()]
-        public async Task<IActionResult> Enter([FromBody] EntryCommand command)
+        [RoleBasedAuthorize(AcceptedRoles = "Admin, User")]
+        public async Task<IActionResult> Enter([FromBody] JwtEntryCommand command)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

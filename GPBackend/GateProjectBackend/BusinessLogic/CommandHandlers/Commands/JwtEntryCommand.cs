@@ -8,12 +8,10 @@ using System.Threading.Tasks;
 
 namespace GateProjectBackend.BusinessLogic.CommandHandlers.Commands
 {
-    public class EntryCommand : IRequest<Result<bool>>
+    public class JwtEntryCommand : IRequest<Result<bool>>
     {
         [Required]
-        public string CharacteristicId { get; set; }
-        [Required]
-        public string ServiceId { get; set; }
-        public string Email { get; set; }
+        public int GateId { get; set; }
+        public string Email { get; set; } // kontrollerben kap értéket!!!
     }
 }

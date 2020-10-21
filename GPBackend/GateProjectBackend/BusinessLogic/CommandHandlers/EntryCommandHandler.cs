@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GateProjectBackend.BusinessLogic.CommandHandlers
 {
-    public class EntryCommandHandler : IRequestHandler<EntryCommand, Result<bool>>
+    public class EntryCommandHandler : IRequestHandler<JwtEntryCommand, Result<bool>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserGateRepository _userGateRepository;
@@ -24,15 +24,16 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
             _userGateRepository = userGateRepository;
             _gateRepository = gateRepository;
         }
-        public async Task<Result<bool>> Handle(EntryCommand request, CancellationToken cancellationToken)
+        public async Task<Result<bool>> Handle(JwtEntryCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 var user = await _userRepository.GetUserByEmail(request.Email);
+                var gate = await _gateRepository.Get(request.GateId);
 
-                // TODO
+                var access = await _userGateRepository.CheckAccess(gate.Id, user.Id);
 
-                return Result<bool>.Ok(true);
+                return Result<bool>.Ok(access);
             }
             catch (Exception e)
             {
