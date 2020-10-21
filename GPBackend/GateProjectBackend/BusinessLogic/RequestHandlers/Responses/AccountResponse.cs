@@ -18,5 +18,6 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers.Responses
         public string AccountType { get; set; }
         public string ContactEmail { get; set; }
         public List<string> AdminEmails { get; set; }
+        public List<string> UserEmails { get; set; }
     }
 }

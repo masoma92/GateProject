@@ -45,7 +45,7 @@
                 class="fas fa-spinner fa-spin"></i>&nbsp;Manage users</button>
             <button [disabled]="updateResult.isInProgress || deleteResult.isInProgress" class="btn btn-success btn-round" (click)="save()"><i *ngIf="updateResult.isInProgress"
                 class="fas fa-spinner fa-spin"></i>&nbsp;Save</button>
-            <button [disabled]="deleteResult.isInProgress || updateResult.isInProgress || authenticationService.role != 'Admin'" class="btn btn-danger btn-round" (click)="delete()"><i *ngIf="deleteResult.isInProgress"
+            <button *ngIf="authenticationService.role == 'Admin'" [disabled]="deleteResult.isInProgress || updateResult.isInProgress" class="btn btn-danger btn-round" (click)="delete()"><i *ngIf="deleteResult.isInProgress"
                 class="fas fa-spinner fa-spin"></i>&nbsp;Delete gate</button>
         </div>
     </div>

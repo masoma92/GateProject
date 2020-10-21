@@ -6,7 +6,8 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { ListPagination } from 'src/app/core/pagination/list-pagination';
 import { AccountType, AccountTypeService } from 'src/app/services/account-type/account-type.service';
-import { ManageAdminsDialogComponent } from '../manage-admins/manage-admins-dialog.component';
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import { ManageUsersDialogComponent } from '../manage-users/manage-users-dialog.component';
 
 @Component({
   selector: 'account-details',
@@ -72,6 +73,7 @@ export class AccountDetailsComponent implements OnInit {
   constructor(private accountService: AccountService,
     private snackBar: MatSnackBar,
     private accountTypeService: AccountTypeService,
+    public authenticationService: AuthenticationService,
     public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -123,7 +125,7 @@ export class AccountDetailsComponent implements OnInit {
   }
 
   manageAdmins() {
-    const dialogRef = this.dialog.open(ManageAdminsDialogComponent, {
+    const dialogRef = this.dialog.open(ManageUsersDialogComponent, {
       data: this.getResult.value.adminEmails,
       width: '400px'
     });
@@ -131,6 +133,20 @@ export class AccountDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.getResult.value.adminEmails = result;
+        this.save();
+      }
+    });
+  }
+
+  manageUsers() {
+    const dialogRef = this.dialog.open(ManageUsersDialogComponent, {
+      data: this.getResult.value.userEmails,
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getResult.value.userEmails = result;
         this.save();
       }
     });
@@ -145,5 +161,4 @@ export class AccountDetailsComponent implements OnInit {
     this.streetNoFormControl.invalid ||
     this.contactEmailFormControl.invalid )
   }
-
 }

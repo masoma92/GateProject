@@ -21,11 +21,11 @@ import { ResetPasswordComponent } from './components/authentication/forget-passw
 import { InfoTemplateComponent } from './components/shared/info-template/info-template.component';
 import { AccountDetailsComponent } from './components/+accounts/account-details/account-details.component';
 import { CreateAccountDialogComponent } from './components/+accounts/create-account/create-account-dialog.component';
-import { ManageAdminsDialogComponent } from './components/+accounts/manage-admins/manage-admins-dialog.component';
 import { GatesComponent } from './components/+gates/gates.component';
 import { CreateGateDialogComponent } from './components/+gates/create-gate/create-gate-dialog.component';
 import { GateDetailsComponent } from './components/+gates/gate-details/gate-details.component';
 import { ManageGateusersDialogComponent } from './components/+gates/manage-gateusers/manage-gateusers-dialog.component';
+import { ManageUsersDialogComponent } from './components/+accounts/manage-users/manage-users-dialog.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +44,7 @@ import { ManageGateusersDialogComponent } from './components/+gates/manage-gateu
     InfoTemplateComponent,
     AccountDetailsComponent,
     CreateAccountDialogComponent,
-    ManageAdminsDialogComponent,
+    ManageUsersDialogComponent,
     GatesComponent,
     CreateGateDialogComponent,
     GateDetailsComponent,
@@ -62,7 +62,7 @@ import { ManageGateusersDialogComponent } from './components/+gates/manage-gateu
   providers: [],
   entryComponents: [
     CreateAccountDialogComponent, 
-    ManageAdminsDialogComponent, 
+    ManageUsersDialogComponent, 
     CreateGateDialogComponent,
     ManageGateusersDialogComponent
   ],

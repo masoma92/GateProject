@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GateProjectBackend.BusinessLogic.CommandHandlers.Commands
@@ -12,6 +13,7 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers.Commands
     {
         [Required]
         public int GateId { get; set; }
-        public string Email { get; set; } // nem kell megadni
+        [JsonIgnore]
+        public string Email { get; set; }
     }
 }

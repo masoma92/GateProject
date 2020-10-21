@@ -5,6 +5,7 @@ import { MatDialog, MatPaginator, MatSnackBar, MatSort, MatTableDataSource } fro
 import { ListPagination } from 'src/app/core/pagination/list-pagination';
 import { Account } from 'src/app/services/account/account';
 import { AccountService } from 'src/app/services/account/account.service';
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { EntityListResult, Sorting } from 'src/app/services/common/entity.service';
 import { CreateAccountDialogComponent } from './create-account/create-account-dialog.component';
 
@@ -31,6 +32,7 @@ export class AccountsComponent implements OnInit {
   constructor(private accountService: AccountService,
     private changeDetectorRefs: ChangeDetectorRef,
     public dialog: MatDialog,
+    public authenticationService: AuthenticationService,
     private snackBar: MatSnackBar) {
     this.getList();
   }

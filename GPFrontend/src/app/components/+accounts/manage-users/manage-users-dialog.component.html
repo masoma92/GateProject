@@ -18,7 +18,7 @@
 </div>
 
 <div>
-    <div *ngFor="let email of currentAdminEmails"><i class="fas fa-times" style="cursor: pointer;" (click)="remove(email)"></i>&nbsp;{{email}}</div>
+    <div *ngFor="let email of currentUserEmails"><i class="fas fa-times" style="cursor: pointer;" (click)="remove(email)"></i>&nbsp;{{email}}</div>
 </div>
 <div *ngIf="warningMessage">
     {{ warningMessage }}

@@ -1,6 +1,7 @@
 ﻿using GateProjectBackend.BusinessLogic.RequestHandlers.Requests;
 using GateProjectBackend.Resources;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace GateProjectBackend.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("v1/[controller]")]
-    [RoleBasedAuthorize(AcceptedRoles = "Admin")]
+    [Authorize]
     public class AccountTypeController : BaseController
     {
         private readonly IMediator _mediator;

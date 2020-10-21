@@ -1,4 +1,5 @@
 ﻿using GateProjectBackend.BusinessLogic.RequestHandlers.Requests;
+using GateProjectBackend.BusinessLogic.RequestHandlers.Responses;
 using GateProjectBackend.Common;
 using GateProjectBackend.Data.Repositories;
 using MediatR;
@@ -10,30 +11,40 @@ using System.Threading.Tasks;
 
 namespace GateProjectBackend.BusinessLogic.RequestHandlers
 {
-    public class RoleRequestHandler : IRequestHandler<GetMyRoleRequest, Result<string>>
+    public class RoleRequestHandler : IRequestHandler<GetMyRoleRequest, Result<GetMyRoleResponse>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
+        private readonly IAccountAdminRepository _accountAdminRepository;
 
-        public RoleRequestHandler(IUserRepository userRepository, IRoleRepository roleRepository)
+        public RoleRequestHandler(
+            IUserRepository userRepository, 
+            IRoleRepository roleRepository,
+            IAccountAdminRepository accountAdminRepository)
         {
             _userRepository = userRepository;
             _roleRepository = roleRepository;
+            _accountAdminRepository = accountAdminRepository;
         }
-        public async Task<Result<string>> Handle(GetMyRoleRequest request, CancellationToken cancellationToken)
+
+        public async Task<Result<GetMyRoleResponse>> Handle(GetMyRoleRequest request, CancellationToken cancellationToken)
         {
             try
             {
                 var user = await _userRepository.GetUserByEmail(request.Email);
                 if (user == null)
-                    return Result<string>.BadRequest("User doesn't exist!");
+                    return Result<GetMyRoleResponse>.BadRequest("User doesn't exist!");
                 var role = await _roleRepository.GetRoleByUserEmail(request.Email);
 
-                return Result<string>.Ok(role.Name);
+                var isAccountAdmin = await _accountAdminRepository.IsAccountAdmin(user.Id);
+
+                var response = new GetMyRoleResponse { Role = role.Name, IsAccountAdmin = isAccountAdmin };
+
+                return Result<GetMyRoleResponse>.Ok(response);
             }
             catch (Exception e)
             {
-                return Result<string>.Failure(e.Message);
+                return Result<GetMyRoleResponse>.Failure(e.Message);
             }
         }
     }

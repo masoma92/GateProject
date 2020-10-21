@@ -1,14 +1,17 @@
-﻿using GateProjectBackend.Common;
+﻿using GateProjectBackend.BusinessLogic.RequestHandlers.Responses;
+using GateProjectBackend.Common;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GateProjectBackend.BusinessLogic.RequestHandlers.Requests
 {
-    public class GetMyRoleRequest : IRequest<Result<string>>
+    public class GetMyRoleRequest : IRequest<Result<GetMyRoleResponse>>
     {
-        public string Email { get; set; } // nem kell megadni
+        [JsonIgnore]
+        public string Email { get; set; }
     }
 }

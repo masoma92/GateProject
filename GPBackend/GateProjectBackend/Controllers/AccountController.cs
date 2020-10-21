@@ -16,7 +16,7 @@ namespace GateProjectBackend.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("v1/[controller]")]
-    [RoleBasedAuthorize(AcceptedRoles = "Admin")]
+    [Authorize]
     public class AccountController : BaseController
     {
         private readonly IMediator _mediator;
@@ -30,6 +30,8 @@ namespace GateProjectBackend.Controllers
         public async Task<IActionResult> GetAccount(int id)
         {
             var command = new GetAccountRequest { Id = id };
+
+            command.RequestEmail = HttpContext.User.Identity.Name;
 
             var result = await _mediator.Send(command);
 
@@ -51,11 +53,14 @@ namespace GateProjectBackend.Controllers
             request.Filtering = filtering;
             //var decodedString = JsonInHttpHeader.Decode(filtering);
 
+            request.RequestEmail = HttpContext.User.Identity.Name;
+
             var result = await _mediator.Send(request);
 
             return StatusCodeResult(result);
         }
 
+        [RoleBasedAuthorize(AcceptedRoles = "Admin")]
         [HttpPost("create")]
         public async Task<IActionResult> CreateAccount([FromBody] CreateAccountCommand command)
         {
@@ -82,6 +87,7 @@ namespace GateProjectBackend.Controllers
             return StatusCodeResult(result);
         }
 
+        [RoleBasedAuthorize(AcceptedRoles = "Admin")]
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAccount(int id)
         {

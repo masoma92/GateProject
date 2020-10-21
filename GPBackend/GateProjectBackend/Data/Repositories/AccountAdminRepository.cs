@@ -14,6 +14,8 @@ namespace GateProjectBackend.Data.Repositories
         Task<bool> Update(IEnumerable<AccountAdmin> currentAccountAdmins, IEnumerable<AccountAdmin> newAccountAdmins);
         Task<IEnumerable<User>> GetAllUsersByAccountId(int accountId);
         Task<IEnumerable<Account>> GetAllAccountsWhereUserIsAdmin(int userId);
+        Task<bool> IsAccountAdmin(int userId);
+        Task<bool> IsAdminOfAccount(int userId, int accountId);
     }
     public class AccountAdminRepository : IAccountAdminRepository
     {
@@ -36,6 +38,16 @@ namespace GateProjectBackend.Data.Repositories
         public async Task<IEnumerable<User>> GetAllUsersByAccountId(int accountId)
         {
             return await _context.AccountAdmins.Include(x => x.User).Where(x => x.AccountId == accountId).Select(x => x.User).ToListAsync();
+        }
+
+        public async Task<bool> IsAccountAdmin(int userId)
+        {
+            return await _context.AccountAdmins.AnyAsync(x => x.UserId == userId);
+        }
+
+        public async Task<bool> IsAdminOfAccount(int userId, int accountId)
+        {
+            return await _context.AccountAdmins.AnyAsync(x => x.UserId == userId && x.AccountId == accountId);
         }
 
         public async Task<bool> Update(IEnumerable<AccountAdmin> currentAccountAdmins, IEnumerable<AccountAdmin> newAccountAdmins)

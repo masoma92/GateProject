@@ -68,7 +68,9 @@
                 class="fas fa-spinner fa-spin"></i>&nbsp;Manage admins</button>
             <button [disabled]="updateResult.isInProgress || deleteResult.isInProgress || anythingIsInvalid()" class="btn btn-success btn-round" (click)="save()"><i *ngIf="updateResult.isInProgress"
                 class="fas fa-spinner fa-spin"></i>&nbsp;Save</button>
-            <button [disabled]="deleteResult.isInProgress || updateResult.isInProgress" class="btn btn-danger btn-round" (click)="delete()"><i *ngIf="deleteResult.isInProgress"
+            <button [disabled]="updateResult.isInProgress || deleteResult.isInProgress" class="btn btn-info btn-round" (click)="manageUsers()"><i *ngIf="updateResult.isInProgress"
+                class="fas fa-spinner fa-spin"></i>&nbsp;Manage users</button>
+            <button *ngIf="authenticationService.role == 'Admin'" [disabled]="deleteResult.isInProgress || updateResult.isInProgress" class="btn btn-danger btn-round" (click)="delete()"><i *ngIf="deleteResult.isInProgress"
                 class="fas fa-spinner fa-spin"></i>&nbsp;Delete Account</button>
         </div>
     </div>

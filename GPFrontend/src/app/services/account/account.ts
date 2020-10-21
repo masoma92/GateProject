@@ -9,6 +9,7 @@ export class Account {
     accountType: string;
     contactEmail: string;
     adminEmails: string[];
+    userEmails: string[];
 }
 
 export class CreateAccountCommand {
@@ -33,4 +34,5 @@ export class UpdateAccountCommand {
     accountType: string;
     contactEmail: string;
     adminEmails: string[];
+    userEmails: string[];
 }

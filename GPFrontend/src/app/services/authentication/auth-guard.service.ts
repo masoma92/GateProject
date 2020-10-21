@@ -11,34 +11,22 @@ export class AuthGuard implements CanActivate {
     private router: Router,
     private authenticationService: AuthenticationService) { }
 
-  // canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-
-  //   this.authenticationService.isLoginInProgress.subscribe(loginInProgress => {
-  //     if (!loginInProgress){
-  //       if (this.authenticationService.isAuthenticated()) {
-  //         if (route.data.roles && route.data.roles.indexOf(this.authenticationService.currentIdentity.value._role) === -1){
-  //           // this.router.navigate(['403']);
-  //           this.authenticationService.truncateLocalStorage();
-  //           return false;
-  //         }
-  //         return true;
-  //       }
-  //     }
-  //   });
-
-  //   this.router.navigate(['login']);
-  //   return false;
-  // }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
     return this.isLoginInProgress().then(loginInProgress => {
       if (!loginInProgress){
         if (this.authenticationService.isAuthenticated()) {
           if (route.data.roles && route.data.roles.indexOf(this.authenticationService.currentIdentity.value._role) === -1){
-            // this.router.navigate(['403']);
+            if (route.data.isAccountAdmin && this.authenticationService.currentIdentity.value._isAccountAdmin)
+            {
+              return true;
+            }
             this.authenticationService.truncateLocalStorage();
+              
             return false;
           }
+            // this.router.navigate(['403']);
+
           return true;
         }
       }

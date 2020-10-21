@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GateProjectBackend.BusinessLogic.CommandHandlers.Commands
@@ -29,6 +30,8 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers.Commands
         [Required]
         public string ContactEmail { get; set; }
         public IEnumerable<string> AdminEmails { get; set; }
-        public string ModifiedBy { get; set; } // nem kell megadni
+        public IEnumerable<string> UserEmails { get; set; }
+        [JsonIgnore]
+        public string ModifiedBy { get; set; }
     }
 }

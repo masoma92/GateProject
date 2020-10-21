@@ -5,6 +5,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GateProjectBackend.BusinessLogic.RequestHandlers.Requests
@@ -14,6 +15,7 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers.Requests
         public PaginationEntry PaginationEntry { get; set; }
         public Sorting Sorting { get; set; }
         public string Filtering { get; set; }
-        public string RequestedUserName { get; set; } // nem kell megadni
+        [JsonIgnore]
+        public string RequestedUserName { get; set; }
     }
 }

@@ -27,7 +27,7 @@ const routes: Routes = [
   {path: 'main', component: MainComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin, Role.User]},
     children: [
       {path: '', component: DashboardComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin, Role.User]}},
-      {path: 'accounts', component: AccountsComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin]}},
+      {path: 'accounts', component: AccountsComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin], isAccountAdmin: true}},
       {path: 'gates', component: GatesComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin, Role.User]}}]},
   {path: '**', redirectTo: 'login'}
 ];

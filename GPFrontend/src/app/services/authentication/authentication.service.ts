@@ -30,6 +30,7 @@ export class AuthenticationService {
   storedToken: string = "";
   storedEmail: string = "";
   role: string = "";
+  isAccountAdmin: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -91,8 +92,9 @@ export class AuthenticationService {
     }).subscribe(
       result => {
         if(result.body != null) {
-          this.role = result.body.value;
-          this.currentIdentity.next(new Identity(this.storedEmail, token, this.role));
+          this.role = result.body.value.role;
+          this.isAccountAdmin = result.body.value.isAccountAdmin;
+          this.currentIdentity.next(new Identity(this.storedEmail, token, this.role, this.isAccountAdmin));
           this.isLoginInProgress.next(false);
           this.router.navigate(['main']);
           if (authenticateResult)

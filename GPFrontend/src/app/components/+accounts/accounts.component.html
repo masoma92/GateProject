@@ -6,7 +6,7 @@
         </mat-form-field>
 
         <div class="mat-elevation-z8">
-            <button (click)="openCreateDialog()" matTooltip="Create new account" mat-mini-fab color="primary" style="position: absolute; right: 20px; top: 61px;"><i class="fas fa-plus"></i></button>
+            <button *ngIf="authenticationService.role == 'Admin'" (click)="openCreateDialog()" matTooltip="Create new account" mat-mini-fab color="primary" style="position: absolute; right: 20px; top: 61px;"><i class="fas fa-plus"></i></button>
             <table mat-table [dataSource]="dataSource" matSort>
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sorter()"> ID </th>

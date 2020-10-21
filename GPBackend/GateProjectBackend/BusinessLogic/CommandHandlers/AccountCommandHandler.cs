@@ -21,17 +21,20 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
         private readonly IAccountTypeRepository _accountTypeRepository;
         private readonly IUserRepository _userRepository;
         private readonly IAccountAdminRepository _accountAdminRepository;
+        private readonly IAccountUserRepository _accountUserRepository;
 
         public AccountCommandHandler(
             IAccountRepository accountRepository,
             IAccountTypeRepository accountTypeRepository,
             IUserRepository userRepository,
-            IAccountAdminRepository accountAdminRepository)
+            IAccountAdminRepository accountAdminRepository,
+            IAccountUserRepository accountUserRepository)
         {
             _accountRepository = accountRepository;
             _accountTypeRepository = accountTypeRepository;
             _userRepository = userRepository;
             _accountAdminRepository = accountAdminRepository;
+            _accountUserRepository = accountUserRepository;
         }
         public async Task<Result<bool>> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
@@ -66,6 +69,14 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
         {
             try
             {
+                var user = await _userRepository.GetUserByEmail(request.ModifiedBy);
+                var isAdminOfAccount = await _accountAdminRepository.IsAdminOfAccount(user.Id, request.Id);
+
+                if (user.Role.Name != "Admin" && !isAdminOfAccount)
+                {
+                    return Result<bool>.BadRequest("No access!");
+                }
+
                 var account = await _accountRepository.Get(request.Id);
                 if (account == null)
                     return Result<bool>.BadRequest($"Account with Id: {request.Id} not found!");
@@ -73,11 +84,14 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
                 if (request.AdminEmails != null)
                     await UpdateAccountAdmins(account.Id, request.ModifiedBy, request.AdminEmails);
 
+                if (request.UserEmails != null)
+                    await UpdateAccountUsers(account.Id, request.ModifiedBy, request.UserEmails);
+
                 var accountType = await _accountTypeRepository.GetAccountTypeByName(request.AccountType);
 
                 UpdateAccountProperties(account, request, accountType);
 
-                var res = await _accountRepository.Update( account);
+                var res = await _accountRepository.Update(account);
                 return Result<bool>.Ok(res);
             }
             catch (Exception e)
@@ -125,6 +139,19 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
                     newAccountAdmins.Add(new AccountAdmin { AccountId = accountId, UserId = user.Id, CreatedBy = modifyingUser, CreatedAt = DateTime.UtcNow });
             }
             await _accountAdminRepository.Update(currentAccountAdmins, newAccountAdmins);
+        }
+
+        private async Task UpdateAccountUsers(int accountId, string modifyingUser, IEnumerable<string> userEmails)
+        {
+            var currentAccountUsers = _accountRepository.Get(accountId).Result.Users;
+            var newAccountUsers = new List<AccountUser>();
+            foreach (var userEmail in userEmails)
+            {
+                var user = await _userRepository.GetUserByEmail(userEmail);
+                if (user != null)
+                    newAccountUsers.Add(new AccountUser { AccountId = accountId, UserId = user.Id, CreatedBy = modifyingUser, CreatedAt = DateTime.UtcNow });
+            }
+            await _accountUserRepository.Update(currentAccountUsers, newAccountUsers);
         }
     }
 }

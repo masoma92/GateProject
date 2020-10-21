@@ -23,7 +23,7 @@ namespace GateProjectBackend.Controllers
             _mediator = mediator;
         }
 
-        // return role!
+        // return role and account admin status!
         [HttpGet]
         public async Task<IActionResult> GetStatus()
         {

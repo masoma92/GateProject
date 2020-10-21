@@ -9,11 +9,11 @@ import { User, UserService } from 'src/app/services/user/user.service';
 import { map, startWith } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-manage-admins-dialog',
-  templateUrl: './manage-admins-dialog.component.html',
-  styleUrls: ['./manage-admins-dialog.component.scss']
+  selector: 'app-manage-users-dialog',
+  templateUrl: './manage-users-dialog.component.html',
+  styleUrls: ['./manage-users-dialog.component.scss']
 })
-export class ManageAdminsDialogComponent implements OnInit {
+export class ManageUsersDialogComponent implements OnInit {
 
   warningMessage: string = "";
 
@@ -25,8 +25,8 @@ export class ManageAdminsDialogComponent implements OnInit {
 
   getUsersResult = new EntityListResult<User>();
 
-  constructor(public dialogRef: MatDialogRef<ManageAdminsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public currentAdminEmails: string[],
+  constructor(public dialogRef: MatDialogRef<ManageUsersDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public currentUserEmails: string[],
     private userService: UserService) {
       this.getUsers();
     }
@@ -68,11 +68,11 @@ export class ManageAdminsDialogComponent implements OnInit {
       this.warningMessage = "You must select first!";
       return;
     }
-    if (this.currentAdminEmails.indexOf(this.selectedOption) != -1){
-      this.warningMessage = "Admin already in the list!";
+    if (this.currentUserEmails.indexOf(this.selectedOption) != -1){
+      this.warningMessage = "User already in the list!";
       return;
     }
-    this.currentAdminEmails.push(this.selectedOption);
+    this.currentUserEmails.push(this.selectedOption);
     this.warningMessage = "";
   }
 
@@ -81,14 +81,14 @@ export class ManageAdminsDialogComponent implements OnInit {
   }
 
   remove(email) {
-    const index = this.currentAdminEmails.indexOf(email);
+    const index = this.currentUserEmails.indexOf(email);
     if (index > -1) {
-      this.currentAdminEmails.splice(index, 1);
+      this.currentUserEmails.splice(index, 1);
     }
   }
 
   save() {
-    this.dialogRef.close(this.currentAdminEmails);
+    this.dialogRef.close(this.currentUserEmails);
   }
 
 }

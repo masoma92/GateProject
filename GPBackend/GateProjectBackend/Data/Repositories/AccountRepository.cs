@@ -39,7 +39,7 @@ namespace GateProjectBackend.Data.Repositories
 
         public async Task<Account> Get(int id)
         {
-            return await _context.Accounts.Include(x => x.Admins).Include(x => x.AccountType).FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Accounts.Include(x => x.Admins).Include(x => x.Users).Include(x => x.AccountType).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Account> GetAccountByName(string name)
@@ -49,7 +49,7 @@ namespace GateProjectBackend.Data.Repositories
 
         public async Task<ListResult<Account>> GetList(PaginationEntry pagination, Sorting sorting, string filtering)
         {
-            var query = _context.Accounts.Include(x => x.AccountType).Include(x => x.Admins).OrderBy(x => x.Id).AsQueryable();
+            var query = _context.Accounts.Include(x => x.AccountType).Include(x => x.Admins).Include(x => x.Users).OrderBy(x => x.Id).AsQueryable();
 
             // filtering
             if (!string.IsNullOrEmpty(filtering))
