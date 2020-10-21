@@ -111,10 +111,9 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
             response.AccountName = gate.Account == null ? "" : gate.Account.Name;
             response.AdminAccess = adminAccess;
 
-            var usersByGateId = _userGateRepository.GetAllUsersByGateId(gate.Id).Result;
-
             if (adminAccess)
             {
+                var usersByGateId = _userGateRepository.GetAllUsersByGateId(gate.Id).Result;
                 response.ServiceId = gate.ServiceId;
                 response.CharacteristicId = gate.CharacteristicId;
                 response.Users = CollectUserGates(usersByGateId.ToList());

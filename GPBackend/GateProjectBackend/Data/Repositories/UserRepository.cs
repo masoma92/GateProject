@@ -11,7 +11,7 @@ namespace GateProjectBackend.Data.Repositories
     public interface IUserRepository
     {
         Task<User> GetUserByEmail(string email);
-        Task<User> CreateUser(string firstName, string lastName, string email, DateTime birth);
+        Task<User> CreateUser(string firstName, string lastName, string email, DateTime birth, string rfidKey);
         Task<ListResult<User>> GetAll();
     }
     public class UserRepository : IUserRepository
@@ -23,7 +23,7 @@ namespace GateProjectBackend.Data.Repositories
             _context = context;
         }
 
-        public async Task<User> CreateUser(string firstName, string lastName, string email, DateTime birth)
+        public async Task<User> CreateUser(string firstName, string lastName, string email, DateTime birth, string rfidKey)
         {
             if (_context.Users.Any(x => x.Email == email))
                 throw new Exception("User already exist!");
@@ -35,6 +35,7 @@ namespace GateProjectBackend.Data.Repositories
                 Email = email,
                 Birth = birth,
                 IsActive = true,
+                RfidKey = rfidKey,
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = "SYSTEM",
                 RoleId = 1

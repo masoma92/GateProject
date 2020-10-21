@@ -21,7 +21,18 @@ namespace GateProjectBackend.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost()]
+        [HttpPost("rfid")]
+        public async Task<IActionResult> EnterWithRfid([FromBody] RfidEntryCommand command)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _mediator.Send(command);
+
+            return StatusCodeResult(result);
+        }
+
+        [HttpPost]
         [RoleBasedAuthorize(AcceptedRoles = "Admin, User")]
         public async Task<IActionResult> Enter([FromBody] JwtEntryCommand command)
         {

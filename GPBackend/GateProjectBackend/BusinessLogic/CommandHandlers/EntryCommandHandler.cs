@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 
 namespace GateProjectBackend.BusinessLogic.CommandHandlers
 {
-    public class EntryCommandHandler : IRequestHandler<JwtEntryCommand, Result<bool>>
+    public class EntryCommandHandler : 
+        IRequestHandler<JwtEntryCommand, Result<bool>>,
+        IRequestHandler<RfidEntryCommand, Result<bool>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserGateRepository _userGateRepository;
@@ -28,10 +30,7 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
         {
             try
             {
-                var user = await _userRepository.GetUserByEmail(request.Email);
-                var gate = await _gateRepository.Get(request.GateId);
-
-                var access = await _userGateRepository.CheckAccess(gate.Id, user.Id);
+                var access = await CheckAccess(request.Email, request.GateId);
 
                 return Result<bool>.Ok(access);
             }
@@ -39,6 +38,30 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
             {
                 return Result<bool>.Failure(e.Message);
             }
+        }
+
+        public async Task<Result<bool>> Handle(RfidEntryCommand request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var email = TokenHelper.Decrypt(request.RfidKey);
+
+                var access = await CheckAccess(email, request.GateId);
+
+                return Result<bool>.Ok(access);
+            }
+            catch (Exception e)
+            {
+                return Result<bool>.Failure(e.Message);
+            }
+        }
+
+        private async Task<bool> CheckAccess(string email, int gateId)
+        {
+            var user = await _userRepository.GetUserByEmail(email);
+            var gate = await _gateRepository.Get(gateId);
+
+            return await _userGateRepository.CheckAccess(gate.Id, user.Id);
         }
     }
 }

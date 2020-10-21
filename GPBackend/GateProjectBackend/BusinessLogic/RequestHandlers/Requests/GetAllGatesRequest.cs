@@ -14,6 +14,6 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers.Requests
         public PaginationEntry PaginationEntry { get; set; }
         public Sorting Sorting { get; set; }
         public string Filtering { get; set; }
-        public string RequestedUserName { get; set; }
+        public string RequestedUserName { get; set; } // nem kell megadni
     }
 }

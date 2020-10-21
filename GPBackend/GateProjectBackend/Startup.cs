@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using GateProjectBackend.Common;
 using GateProjectBackend.Common.Startup;
 using GateProjectBackend.Data;
 using GateProjectBackend.Data.Repositories;
@@ -136,7 +137,8 @@ namespace GateProjectBackend
                 var lname = user.Claims.FirstOrDefault(x => x.Type == "lastname").Value;
                 var email = user.Name;
                 var birth = DateTime.Parse(user.Claims.FirstOrDefault(x => x.Type == "birth").Value);
-                var res = userRepository.CreateUser(fname, lname, email, birth).Result;
+                var rfidKey = TokenHelper.Encrypt(email);
+                var res = userRepository.CreateUser(fname, lname, email, birth, rfidKey).Result;
             }
 
             var roleRepository = context.HttpContext.RequestServices.GetService<IRoleRepository>();
