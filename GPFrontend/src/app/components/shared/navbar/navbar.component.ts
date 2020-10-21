@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { ROUTES } from '../sidebar/sidebar.component';
 
@@ -18,8 +18,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     private element: ElementRef,
     private authenticationService: AuthenticationService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute) {
+    private router: Router) {
       this.router.events.subscribe((event) => {
 
         if (event instanceof NavigationEnd) {
