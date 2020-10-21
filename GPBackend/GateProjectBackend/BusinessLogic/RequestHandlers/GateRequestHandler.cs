@@ -48,8 +48,8 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
             {
                 var user = await _userRepository.GetUserByEmail(request.RequestedBy);
                 var access = await _userGateRepository.CheckAccess(request.Id, user.Id);
-                var adminAccess = await _userGateRepository.CheckAdminAccess(request.Id, user.Id) || user.Role.Name == "Admin" || _gateRepository.IsAdminOfTheGate(request.Id, user.Id);
-                if (!access && user.Role.Name == "User" && !(_gateRepository.IsAdminOfTheGate(request.Id, user.Id)))
+                var adminAccess = await _userGateRepository.CheckAdminAccess(request.Id, user.Id) || user.Role.Name == "Admin" || _gateRepository.IsAccountAdminOfTheGate(request.Id, user.Id);
+                if (!access && user.Role.Name == "User" && !(_gateRepository.IsAccountAdminOfTheGate(request.Id, user.Id)))
                     return Result<GateResponse>.BadRequest("No access to this gate!");
 
                 var gate = await _gateRepository.Get(request.Id);
@@ -157,7 +157,7 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
                         CharacteristicId = item.CharacteristicId,
                         GateTypeName = gateType.Name,
                         ServiceId = item.ServiceId,
-                        AdminAccess = _gateRepository.IsAdminOfTheGate(item.Id, user.Id)
+                        AdminAccess = _gateRepository.IsAccountAdminOfTheGate(item.Id, user.Id)
                     });
                 }
             }

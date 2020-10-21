@@ -12,7 +12,7 @@ namespace GateProjectBackend.Data.Repositories
     public interface IGateRepository : IRepository<Gate>
     {
         IEnumerable<Gate> GetAllGatesFromAccounts(IEnumerable<Account> accounts);
-        bool IsAdminOfTheGate(int gateId, int userId);
+        bool IsAccountAdminOfTheGate(int gateId, int userId);
     }
     public class GateRepository : IGateRepository
     {
@@ -78,7 +78,7 @@ namespace GateProjectBackend.Data.Repositories
             return new ListResult<Gate>(result, result.Count);
         }
 
-        public bool IsAdminOfTheGate(int gateId, int userId)
+        public bool IsAccountAdminOfTheGate(int gateId, int userId)
         {
             var gate = _context.Gates.Include(x => x.Account).FirstOrDefault(x => x.Id == gateId);
 
