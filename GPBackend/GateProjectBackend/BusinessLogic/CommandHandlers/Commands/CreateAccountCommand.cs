@@ -26,6 +26,6 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers.Commands
         public string AccountType { get; set; }
         [Required]
         public string ContactEmail { get; set; }
-        public string CreatedBy { get; set; }
+        public string CreatedBy { get; set; } // nem kell megadni
     }
 }

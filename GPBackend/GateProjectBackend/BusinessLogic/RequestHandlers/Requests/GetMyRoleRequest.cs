@@ -9,6 +9,6 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers.Requests
 {
     public class GetMyRoleRequest : IRequest<Result<string>>
     {
-        public string Email { get; set; }
+        public string Email { get; set; } // nem kell megadni
     }
 }

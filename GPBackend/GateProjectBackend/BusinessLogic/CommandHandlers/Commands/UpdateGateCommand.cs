@@ -19,6 +19,6 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers.Commands
         public string GateTypeName { get; set; }
         public string AccountName { get; set; }
         public List<UserGateResponse> Users { get; set; }
-        public string ModifiedBy { get; set; }
+        public string ModifiedBy { get; set; } // nem kell megadni
     }
 }

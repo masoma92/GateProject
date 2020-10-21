@@ -15,6 +15,6 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers.Commands
         [Required]
         public string GateTypeName { get; set; }
         public string AccountName { get; set; }
-        public string CreatedBy { get; set; }
+        public string CreatedBy { get; set; } // nem kell megadni
     }
 }

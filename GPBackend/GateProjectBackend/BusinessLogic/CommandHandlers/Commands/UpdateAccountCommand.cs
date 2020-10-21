@@ -29,6 +29,6 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers.Commands
         [Required]
         public string ContactEmail { get; set; }
         public IEnumerable<string> AdminEmails { get; set; }
-        public string ModifiedBy { get; set; }
+        public string ModifiedBy { get; set; } // nem kell megadni
     }
 }

@@ -11,6 +11,6 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers.Requests
     public class GetGateRequest : IRequest<Result<GateResponse>>
     {
         public int Id { get; set; }
-        public string RequestedBy { get; set; }
+        public string RequestedBy { get; set; } // nem kell megadni
     }
 }

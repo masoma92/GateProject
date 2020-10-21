@@ -12,6 +12,6 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers.Commands
     {
         [Required]
         public int GateId { get; set; }
-        public string Email { get; set; } // kontrollerben kap értéket!!!
+        public string Email { get; set; } // nem kell megadni
     }
 }
