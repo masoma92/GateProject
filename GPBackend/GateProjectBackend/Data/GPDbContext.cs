@@ -52,19 +52,8 @@ namespace GateProjectBackend.Data
                 new GateType { Id = 1, Name = "Entrance" },
                 new GateType { Id = 2, Name = "Garage" });
 
-            modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, FirstName = "Soma", LastName = "Makai", Email = "soma.makai@gmail.com", Birth = DateTime.Parse("1992.03.17"), CreatedAt = DateTime.UtcNow, CreatedBy = "SYSTEM", IsActive = true, RoleId = 2 });
-
             modelBuilder.Entity<Account>().HasData(
-                new Account { Id = 1, Name = "TestOffice", Zip = "1145", Country = "Hungary", City = "Budapest", Street = "Szuglo utca", StreetNo = "53", CreatedAt = DateTime.UtcNow, CreatedBy = "SYSTEM", AccountTypeId = 1, ContactEmail = "asd@gmail.com" },
-                new Account { Id = 2, Name = "TestSchool", Zip = "1146", Country = "Hungary", City = "Budapest", Street = "Szuglo utca", StreetNo = "53", CreatedAt = DateTime.UtcNow, CreatedBy = "SYSTEM", AccountTypeId = 3, ContactEmail = "asd@gmail.com" },
-                new Account { Id = 3, Name = "TestOffice2", Zip = "1147", Country = "Hungary", City = "Budapest", Street = "Szuglo utca", StreetNo = "53", CreatedAt = DateTime.UtcNow, CreatedBy = "SYSTEM", AccountTypeId = 1, ContactEmail = "asd@gmail.com" },
-                new Account { Id = 4, Name = "TestHome", Zip = "1148", Country = "Hungary", City = "Budapest", Street = "Szuglo utca", StreetNo = "53", CreatedAt = DateTime.UtcNow, CreatedBy = "SYSTEM", AccountTypeId = 2, ContactEmail = "asd@gmail.com" },
-                new Account { Id = 5, Name = "TestAccomodation", Zip = "1149", Country = "Hungary", City = "Budapest", Street = "Szuglo utca", StreetNo = "53", CreatedAt = DateTime.UtcNow, CreatedBy = "SYSTEM", AccountTypeId = 4, ContactEmail = "asd@gmail.com" },
-                new Account { Id = 6, Name = "TestOffice", Zip = "1150", Country = "Hungary", City = "Budapest", Street = "Szuglo utca", StreetNo = "53", CreatedAt = DateTime.UtcNow, CreatedBy = "SYSTEM", AccountTypeId = 1, ContactEmail = "asd@gmail.com" });
-
-            modelBuilder.Entity<AccountAdmin>().HasData(
-                new AccountAdmin { AccountId = 1, UserId = 1, CreatedAt = DateTime.UtcNow, CreatedBy = "SYSTEM" });
+                new Account { Id = 1, Name = "TestHome", Zip = "1145", Country = "Hungary", City = "Budapest", Street = "Szuglo utca", StreetNo = "53", CreatedAt = DateTime.UtcNow, CreatedBy = "SYSTEM", AccountTypeId = 2, ContactEmail = "soma.makai@gmail.com" });
 
             // accounts and admins many-to-many join table
             modelBuilder.Entity<AccountAdmin>().HasKey(a => new { a.UserId, a.AccountId });

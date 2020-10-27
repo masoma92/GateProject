@@ -35,7 +35,7 @@ namespace GateProjectBackend.Common.Test
         [TestCase("")]
         [TestCase("asd")]
         [TestCase("asdodjhfiwueghf2893572905r782r0u2hfinwkvjbn3oi4njuvo3i9y3ibnvg")]
-        [TestCase("mucaandras@gmail.com")]
+        [TestCase("soma.makai@gmail.com")]
         public void Encrypt_Should_ReturnSameValueAsInput_When_Called(string input)
         {
             var encryptedData = TokenHelper.Encrypt<string>(input);

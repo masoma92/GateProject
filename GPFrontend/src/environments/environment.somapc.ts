@@ -7,8 +7,8 @@ export const environment = {
   production: false,
   environmentName: 'somapc',
 
-  // adminUrl: 'https://localhost:5000',
-  // authUrl: 'https://localhost:5001'
-  adminUrl: 'https://admingateproject.azurewebsites.net',
-  authUrl: 'https://authgateproject.azurewebsites.net'
+  adminUrl: 'https://localhost:5000',
+  authUrl: 'https://localhost:5001'
+  // adminUrl: 'https://admingateproject.azurewebsites.net',
+  // authUrl: 'https://authgateproject.azurewebsites.net'
 };
