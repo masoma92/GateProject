@@ -69,7 +69,7 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
                 var adminAccess = await _userGateRepository.CheckAdminAccess(command.Id, user.Id);
                 if (!adminAccess && !user.Role.Name.Equals("Admin"))
                 {
-                    return Result<bool>.BadRequest("You have no access to modify gate!");
+                    return Result<bool>.AccessDenied("You have no access to modify gate!");
                 }
 
                 var gateType = await _gateTypeRepository.GetGateTypeByName(command.GateTypeName);

@@ -12,6 +12,7 @@ namespace GateProjectBackend.Data.Repositories
     public interface IAccountRepository : IRepository<Account>
     {
         Task<Account> GetAccountByName(string name);
+        Task<int> GetSumOfAccounts();
     }
     public class AccountRepository : IAccountRepository
     {
@@ -67,6 +68,11 @@ namespace GateProjectBackend.Data.Repositories
             var result = await pagedQuery.ToListAsync();
 
             return new ListResult<Account>(result, result.Count);
+        }
+
+        public async Task<int> GetSumOfAccounts()
+        {
+            return await _context.Accounts.CountAsync();
         }
 
         public async Task<bool> Update(Account entity)

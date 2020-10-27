@@ -38,7 +38,7 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
 
                 if (user.Role.Name != "Admin" && !IsAccountAdmin(user.Id))
                 {
-                    return Result<ListResult<AccountResponse>>.BadRequest("No access!");
+                    return Result<ListResult<AccountResponse>>.AccessDenied("No access!");
                 }
 
                 var result = await _accountRepository.GetList(request.PaginationEntry, request.Sorting, request.Filtering);
@@ -69,7 +69,7 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
 
                 if (user.Role.Name != "Admin" && !isAdminOfAccount)
                 {
-                    return Result<AccountResponse>.BadRequest("No access!");
+                    return Result<AccountResponse>.AccessDenied("No access!");
                 }
 
                 var account = await _accountRepository.Get(request.Id);

@@ -13,6 +13,9 @@ namespace GateProjectBackend.Data.Repositories
         Task<User> GetUserByEmail(string email);
         Task<User> CreateUser(string firstName, string lastName, string email, DateTime birth, string rfidKey);
         Task<ListResult<User>> GetAll();
+        Task<int> GetSumOfUsers();
+        Task<int> GetSumOfUsersByAccountId(int accountId);
+        Task<int> GetSumOfAdminsByAccountId(int accountId);
     }
     public class UserRepository : IUserRepository
     {
@@ -50,6 +53,21 @@ namespace GateProjectBackend.Data.Repositories
             var query = await _context.Users.OrderBy(x => x.Email).ToListAsync();
 
             return new ListResult<User>(query, query.Count);
+        }
+
+        public async Task<int> GetSumOfAdminsByAccountId(int accountId)
+        {
+            return await _context.AccountAdmins.Where(x => x.AccountId == accountId).CountAsync();
+        }
+
+        public async Task<int> GetSumOfUsers()
+        {
+            return await _context.Users.CountAsync();
+        }
+
+        public async Task<int> GetSumOfUsersByAccountId(int accountId)
+        {
+            return await _context.AccountUsers.Where(x => x.AccountId == accountId).CountAsync();
         }
 
         public async Task<User> GetUserByEmail(string email)

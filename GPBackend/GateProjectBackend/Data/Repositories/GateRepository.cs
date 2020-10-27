@@ -13,6 +13,11 @@ namespace GateProjectBackend.Data.Repositories
     {
         IEnumerable<Gate> GetAllGatesFromAccounts(IEnumerable<Account> accounts);
         bool IsAccountAdminOfTheGate(int gateId, int userId);
+
+        Task<int> GetSumOfGates();
+        Task<int> GetSumOfGatesByAccountId(int accountId);
+        Task<int> GetSumOfAdminAccesses(int userId);
+        Task<int> GetSumOfAccesses(int userId);
     }
     public class GateRepository : IGateRepository
     {
@@ -76,6 +81,56 @@ namespace GateProjectBackend.Data.Repositories
             var result = await pagedQuery.ToListAsync();
 
             return new ListResult<Gate>(result, result.Count);
+        }
+
+        public async Task<int> GetSumOfAccesses(int userId)
+        {
+            var accounts = await _context.AccountAdmins.
+                Include(x => x.Account)
+                .Where(x => x.UserId == userId)
+                .Select(x => x.Account)
+                .ToListAsync();
+
+            var result = 0;
+            var gateIds = new List<int>();
+            foreach (var account in accounts)
+            {
+                var currentGates = _context.Gates.Where(x => x.AccountId == account.Id);
+                result += currentGates.Count();
+                gateIds.AddRange(currentGates.Select(x => x.Id));
+            }
+
+            return await _context.UserGates.Where(x => x.UserId == userId && !gateIds.Contains(x.GateId) && x.AccessRight).CountAsync() + result;
+        }
+
+        public async Task<int> GetSumOfAdminAccesses(int userId)
+        {
+            var accounts = await _context.AccountAdmins.
+                Include(x => x.Account)
+                .Where(x => x.UserId == userId)
+                .Select(x => x.Account)
+                .ToListAsync();
+
+            var result = 0;
+            var gateIds = new List<int>();
+            foreach (var account in accounts)
+            {
+                var currentGates = _context.Gates.Where(x => x.AccountId == account.Id);
+                result += currentGates.Count();
+                gateIds.AddRange(currentGates.Select(x => x.Id));
+            }
+
+            return await _context.UserGates.Where(x => x.UserId == userId && !gateIds.Contains(x.GateId) && x.AdminRight).CountAsync() + result;
+        }
+
+        public async Task<int> GetSumOfGates()
+        {
+            return await _context.Gates.CountAsync();
+        }
+
+        public async Task<int> GetSumOfGatesByAccountId(int accountId)
+        {
+            return await _context.Gates.Where(x => x.AccountId == accountId).CountAsync();
         }
 
         public bool IsAccountAdminOfTheGate(int gateId, int userId)

@@ -50,7 +50,7 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
                 var access = await _userGateRepository.CheckAccess(request.Id, user.Id);
                 var adminAccess = await _userGateRepository.CheckAdminAccess(request.Id, user.Id) || user.Role.Name == "Admin" || _gateRepository.IsAccountAdminOfTheGate(request.Id, user.Id);
                 if (!access && user.Role.Name == "User" && !(_gateRepository.IsAccountAdminOfTheGate(request.Id, user.Id)))
-                    return Result<GateResponse>.BadRequest("No access to this gate!");
+                    return Result<GateResponse>.AccessDenied("No access to this gate!");
 
                 var gate = await _gateRepository.Get(request.Id);
 

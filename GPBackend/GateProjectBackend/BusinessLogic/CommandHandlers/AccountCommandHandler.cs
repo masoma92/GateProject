@@ -74,7 +74,7 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
 
                 if (user.Role.Name != "Admin" && !isAdminOfAccount)
                 {
-                    return Result<bool>.BadRequest("No access!");
+                    return Result<bool>.AccessDenied("No access!");
                 }
 
                 var account = await _accountRepository.Get(request.Id);

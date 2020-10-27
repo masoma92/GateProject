@@ -30,9 +30,13 @@ namespace GateProjectBackend.Data.Repositories
         {
             var gate = _context.Gates.Include(x => x.Account).FirstOrDefault(x => x.Id == gateId);
 
-            var account = _context.Accounts.Include(x => x.Admins).FirstOrDefault(x => x.Id == gate.Account.Id);
+            bool isAdmin = false;
 
-            bool isAdmin = _context.AccountAdmins.Any(x => x.AccountId == account.Id && x.UserId == userId);
+            if (gate.Account != null)
+            {
+                var account = _context.Accounts.Include(x => x.Admins).FirstOrDefault(x => x.Id == gate.Account.Id);
+                isAdmin = _context.AccountAdmins.Any(x => x.AccountId == account.Id && x.UserId == userId);
+            }
 
             return await _context.UserGates.AnyAsync(x => x.UserId == userId && x.GateId == gateId && x.AccessRight) || isAdmin;
         }
