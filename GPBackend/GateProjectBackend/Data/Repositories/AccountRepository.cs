@@ -13,6 +13,8 @@ namespace GateProjectBackend.Data.Repositories
     {
         Task<Account> GetAccountByName(string name);
         Task<int> GetSumOfAccounts();
+
+        Task<IEnumerable<Account>> GetAll();
     }
     public class AccountRepository : IAccountRepository
     {
@@ -46,6 +48,11 @@ namespace GateProjectBackend.Data.Repositories
         public async Task<Account> GetAccountByName(string name)
         {
             return await _context.Accounts.FirstOrDefaultAsync(x => x.Name == name);
+        }
+
+        public async Task<IEnumerable<Account>> GetAll()
+        {
+            return await _context.Accounts.ToListAsync();
         }
 
         public async Task<ListResult<Account>> GetList(PaginationEntry pagination, Sorting sorting, string filtering)

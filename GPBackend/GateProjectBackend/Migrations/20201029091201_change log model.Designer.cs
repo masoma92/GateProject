@@ -4,14 +4,16 @@ using GateProjectBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GateProjectBackend.Migrations
 {
     [DbContext(typeof(GPDbContext))]
-    partial class GPDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201029091201_change log model")]
+    partial class changelogmodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,7 +78,7 @@ namespace GateProjectBackend.Migrations
                             City = "Budapest",
                             ContactEmail = "soma.makai@gmail.com",
                             Country = "Hungary",
-                            CreatedAt = new DateTime(2020, 10, 29, 9, 23, 10, 162, DateTimeKind.Utc).AddTicks(8664),
+                            CreatedAt = new DateTime(2020, 10, 29, 9, 12, 1, 377, DateTimeKind.Utc).AddTicks(2475),
                             CreatedBy = "SYSTEM",
                             Name = "TestHome",
                             Street = "Szuglo utca",
@@ -205,11 +207,6 @@ namespace GateProjectBackend.Migrations
                         {
                             Id = 3,
                             Name = "Info"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Enter"
                         });
                 });
 
@@ -305,9 +302,6 @@ namespace GateProjectBackend.Migrations
                     b.Property<int>("EventTypeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("GateId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -322,8 +316,6 @@ namespace GateProjectBackend.Migrations
                     b.HasIndex("AccountId");
 
                     b.HasIndex("EventTypeId");
-
-                    b.HasIndex("GateId");
 
                     b.HasIndex("UserId");
 
@@ -503,10 +495,6 @@ namespace GateProjectBackend.Migrations
                         .HasForeignKey("EventTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("GateProjectBackend.Data.Models.Gate", "Gate")
-                        .WithMany()
-                        .HasForeignKey("GateId");
 
                     b.HasOne("GateProjectBackend.Data.Models.User", "User")
                         .WithMany("Logs")

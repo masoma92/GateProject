@@ -2,7 +2,9 @@
 using GateProjectBackend.BusinessLogic.RequestHandlers.Requests.Dashboard;
 using GateProjectBackend.Common;
 using GateProjectBackend.Data.Repositories;
+using GateProjectBackend.Resources;
 using MediatR;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,23 +24,27 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
         IRequestHandler<SumErrorsByAccount, Result<int>>,
         IRequestHandler<SumGateAccesses, Result<int>>,
         IRequestHandler<SumGateAdminAccesses, Result<int>>,
-        IRequestHandler<GetRegDate, Result<DateTime>>
+        IRequestHandler<GetRegDate, Result<DateTime>>,
+        IRequestHandler<GetLastGateAccessDate, Result<DateTime>>
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IGateRepository _gateRepository;
         private readonly IUserRepository _userRepository;
         private readonly IAccountAdminRepository _accountAdminRepository;
+        private readonly ILogService _logService;
 
         public DashboardRequestHandler(
             IAccountRepository accountRepository,
             IGateRepository gateRepository,
             IUserRepository userRepository,
-            IAccountAdminRepository accountAdminRepository)
+            IAccountAdminRepository accountAdminRepository,
+            ILogService logService)
         {
             _accountRepository = accountRepository;
             _gateRepository = gateRepository;
             _userRepository = userRepository;
             _accountAdminRepository = accountAdminRepository;
+            _logService = logService;
         }
 
         public async Task<Result<int>> Handle(SumAccounts request, CancellationToken cancellationToken)
@@ -87,9 +93,11 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
         {
             try
             {
-                // TODO
+                var result = await _logService.GetAll();
 
-                return Result<int>.Ok(0);
+                var errorNum = result.Where(x => x.EventType.Name == "Error").Count();
+
+                return Result<int>.Ok(errorNum);
             }
             catch (Exception e)
             {
@@ -152,9 +160,14 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
         {
             try
             {
-                // TODO
+                if (!IsAdminOrAccountAdmin(request.RequestedEmail, request.AccountId))
+                    return Result<int>.AccessDenied("No access!");
 
-                return Result<int>.Ok(0);
+                var result = await _logService.GetAll();
+
+                var errorNum = result.Where(x => x.EventType.Name == "Error" && x.AccountId == request.AccountId).Count();
+
+                return Result<int>.Ok(errorNum);
             }
             catch (Exception e)
             {
@@ -201,6 +214,26 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
                 var user = await _userRepository.GetUserByEmail(request.RequestedEmail);
 
                 return Result<DateTime>.Ok(user.CreatedAt);
+            }
+            catch (Exception e)
+            {
+                return Result<DateTime>.Failure(e.Message);
+            }
+        }
+
+        public async Task<Result<DateTime>> Handle(GetLastGateAccessDate request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var user = await _userRepository.GetUserByEmail(request.RequestedEmail);
+                var result = await _logService.GetAll();
+
+                var errorNum = result.Where(x => x.EventType.Name == "Enter" && x.UserId == user.Id).OrderBy(x => x.CreatedAt).FirstOrDefault();
+
+                if (errorNum == null)
+                    return Result<DateTime>.NotFound("There isn't eny enter log for this user");
+
+                return Result<DateTime>.Ok(errorNum.CreatedAt);
             }
             catch (Exception e)
             {

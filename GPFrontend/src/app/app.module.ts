@@ -26,6 +26,9 @@ import { GateDetailsComponent } from './components/+gates/gate-details/gate-deta
 import { ManageGateusersDialogComponent } from './components/+gates/manage-gateusers/manage-gateusers-dialog.component';
 import { ManageUsersDialogComponent } from './components/+accounts/manage-users/manage-users-dialog.component';
 import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
+import { DashboardAccountadminComponent } from './components/+dashboard/dashboard-accountadmin/dashboard-accountadmin.component';
+import { DashboardUserComponent } from './components/+dashboard/dashboard-user/dashboard-user.component';
+import { DashboardAdminComponent } from './components/+dashboard/dashboard-admin/dashboard-admin.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,10 @@ import { SidebarComponent } from './components/shared/sidebar/sidebar.component'
     GatesComponent,
     CreateGateDialogComponent,
     GateDetailsComponent,
-    ManageGateusersDialogComponent
+    ManageGateusersDialogComponent,
+    DashboardAccountadminComponent,
+    DashboardUserComponent,
+    DashboardAdminComponent
   ],
   imports: [
     BrowserModule,

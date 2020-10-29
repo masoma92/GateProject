@@ -1,4 +1,5 @@
-﻿using GateProjectBackend.BusinessLogic.RequestHandlers.Requests;
+﻿using GateProjectBackend.BusinessLogic.CommandHandlers.Commands.Dashboard;
+using GateProjectBackend.BusinessLogic.RequestHandlers.Requests;
 using GateProjectBackend.BusinessLogic.RequestHandlers.Requests.Dashboard;
 using GateProjectBackend.Resources;
 using MediatR;
@@ -155,5 +156,15 @@ namespace GateProjectBackend.Controllers
 
             return StatusCodeResult(result);
         }
+
+        [RoleBasedAuthorize(AcceptedRoles = "Admin")]
+        [HttpPost("createAccountChart")]
+        public async Task<IActionResult> CreateAccountChart([FromBody]CreateAccountChart command)
+        {
+            var result = await _mediator.Send(command);
+
+            return StatusCodeResult(result);
+        }
+
     }
 }

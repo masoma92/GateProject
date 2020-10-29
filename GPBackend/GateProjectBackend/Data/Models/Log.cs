@@ -12,7 +12,11 @@ namespace GateProjectBackend.Data.Models
     {
         public int? UserId { get; set; }
         public User User { get; set; }
-        public string Message { get; set; }
+        public int? AccountId { get; set; }
+        public Account Account { get; set; }
+        public int? GateId { get; set; }
+        public Gate Gate { get; set; }
+        public string Action { get; set; }
         public int EventTypeId { get; set; }
         public EventType EventType { get; set; }
     }

@@ -40,7 +40,8 @@ namespace GateProjectBackend.Data
             modelBuilder.Entity<EventType>().HasData(
                 new EventType { Id = 1, Name = "User" },
                 new EventType { Id = 2, Name = "Error" },
-                new EventType { Id = 3, Name = "Info" });
+                new EventType { Id = 3, Name = "Info" },
+                new EventType { Id = 4, Name = "Enter" });
 
             modelBuilder.Entity<AccountType>().HasData(
                 new AccountType { Id = 1, Name = "Office" },

@@ -8,6 +8,7 @@ using GateProjectBackend.Common;
 using GateProjectBackend.Common.Startup;
 using GateProjectBackend.Data;
 using GateProjectBackend.Data.Repositories;
+using GateProjectBackend.Resources;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -49,6 +50,7 @@ namespace GateProjectBackend
             services.AddScoped<IUserGateRepository, UserGateRepository>();
             services.AddScoped<IGateRepository, GateRepository>();
             services.AddScoped<IGateTypeRepository, GateTypeRepository>();
+            services.AddScoped<ILogService, LogService>();
 
             string conn = Configuration.GetConnectionString("CONN");
 

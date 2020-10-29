@@ -39,9 +39,5 @@
     <ProjectReference Include="..\GateProjectBackend.Common\GateProjectBackend.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="BusinessLogic\CommandHandlers\Responses\" />
-  </ItemGroup>
-
 
 </Project>
