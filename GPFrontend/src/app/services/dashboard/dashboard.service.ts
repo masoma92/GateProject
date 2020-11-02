@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HeadersBuilder } from 'src/app/core/http/headers.model';
+import { ListPagination } from 'src/app/core/pagination/list-pagination';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from '../authentication/authentication.service';
-import { EntityResult } from '../common/entity.service';
-import { ChartResponse, CreateAccountChart } from './dashboard';
+import { EntityListResult, EntityResult, ListRecords, Sorting } from '../common/entity.service';
+import { ChartResponse, CreateAccountChart, GetEnters, GetEntersResponse } from './dashboard';
 
 @Injectable({
   providedIn: 'root'
@@ -93,6 +94,41 @@ export class DashboardService {
       err => {
         result.value = null;
         result.errorMessage = err.error.errorMessage;
+        result.finish();
+      });
+  }
+
+  getEnters(request: GetEnters, result: EntityListResult<GetEntersResponse>, listPagination: ListPagination, sorting: Sorting, filtering: string) {
+
+    result.start();
+    this.http.post<EntityResult<ListRecords<GetEntersResponse>>>(`${this.serverName}${this.apiVersion}${this.getPath()}/get-enters`, request,
+      {
+        headers: new HeadersBuilder()
+          .json()
+          .withAuthorization(this.authenticationService.storedToken)
+          .withPagination(listPagination.currentPage, listPagination.pageSize)
+          .withSorting(sorting.sortBy, sorting.isSortAscending)
+          .withFiltering(filtering)
+          .build(),
+        observe: 'response'
+      }
+    ).subscribe(
+      res => {
+        if (res.body != null) {
+          result.result.value = res.body.value.records;
+          result.result.errorMessage = res.body.errorMessage;
+
+          const paging = res.headers.get("x-pagination");
+          var pagination = ListPagination.parse(paging);
+          pagination.allItems = res.body.value.recordCount;
+          result.pagination = pagination;
+        }
+
+        result.finish();
+      },
+      err => {
+        result.result.value = null;
+        result.result.errorMessage = err.error.errorMessage;
         result.finish();
       });
   }

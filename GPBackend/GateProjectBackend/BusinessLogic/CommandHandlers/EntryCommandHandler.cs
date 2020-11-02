@@ -1,6 +1,7 @@
 ﻿using GateProjectBackend.BusinessLogic.CommandHandlers.Commands;
 using GateProjectBackend.Common;
 using GateProjectBackend.Data.Repositories;
+using GateProjectBackend.Resources;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -17,14 +18,17 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
         private readonly IUserRepository _userRepository;
         private readonly IUserGateRepository _userGateRepository;
         private readonly IGateRepository _gateRepository;
+        private readonly ILogService _logService;
 
         public EntryCommandHandler(IUserRepository userRepository,
             IUserGateRepository userGateRepository,
-            IGateRepository gateRepository)
+            IGateRepository gateRepository,
+            ILogService logService)
         {
             _userRepository = userRepository;
             _userGateRepository = userGateRepository;
             _gateRepository = gateRepository;
+            _logService = logService;
         }
         public async Task<Result<bool>> Handle(JwtEntryCommand request, CancellationToken cancellationToken)
         {
@@ -61,7 +65,15 @@ namespace GateProjectBackend.BusinessLogic.CommandHandlers
             var user = await _userRepository.GetUserByEmail(email);
             var gate = await _gateRepository.Get(gateId);
 
-            return await _userGateRepository.CheckAccess(gate.Id, user.Id);
+
+            var result = await _userGateRepository.CheckAccess(gate.Id, user.Id);
+
+            if (result)
+                await _logService.Create("success", EventTypes.Enter, user.Id, gate.AccountId, gate.Id);
+            else
+                await _logService.Create("failed", EventTypes.Enter, user.Id, gate.AccountId, gate.Id);
+
+            return result;
         }
     }
 }

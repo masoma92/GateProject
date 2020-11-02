@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GateProjectBackend.Resources
 {
-    public enum EventTypes { }
+    public enum EventTypes { User = 1, Error = 2, Info = 3, Enter = 4 }
     public interface ILogService
     {
         Task<bool> Create(string action, EventTypes type, int? userId, int? accountId, int? gateId);
@@ -34,10 +34,13 @@ namespace GateProjectBackend.Resources
                 EventTypeId = (int)type,
                 AccountId = accountId,
                 UserId = userId,
-                GateId = gateId
+                GateId = gateId,
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = "SYSTEM"
             };
 
             await _context.Logs.AddAsync(newLog);
+            _context.SaveChanges();
             return true;
         }
 

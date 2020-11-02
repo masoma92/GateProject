@@ -1,6 +1,8 @@
 ﻿using GateProjectBackend.BusinessLogic.RequestHandlers.Requests;
 using GateProjectBackend.BusinessLogic.RequestHandlers.Requests.Dashboard;
+using GateProjectBackend.BusinessLogic.RequestHandlers.Responses.Dashboard;
 using GateProjectBackend.Common;
+using GateProjectBackend.Data.Models;
 using GateProjectBackend.Data.Repositories;
 using GateProjectBackend.Resources;
 using MediatR;
@@ -8,6 +10,8 @@ using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,7 +29,8 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
         IRequestHandler<SumGateAccesses, Result<int>>,
         IRequestHandler<SumGateAdminAccesses, Result<int>>,
         IRequestHandler<GetRegDate, Result<DateTime>>,
-        IRequestHandler<GetLastGateAccessDate, Result<DateTime>>
+        IRequestHandler<GetLastGateAccessDate, Result<DateTime>>,
+        IRequestHandler<GetEnters, Result<ListResult<GetEntersResponse>>>
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IGateRepository _gateRepository;
@@ -238,6 +243,60 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
             catch (Exception e)
             {
                 return Result<DateTime>.Failure(e.Message);
+            }
+        }
+
+        public async Task<Result<ListResult<GetEntersResponse>>> Handle(GetEnters request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (!IsAdminOrAccountAdmin(request.RequestedEmail, request.AccountId))
+                    return Result<ListResult<GetEntersResponse>>.AccessDenied("No access!");
+
+                var result = await _logService.GetAll();
+
+                var myLogs = result.Where(x => 
+                x.AccountId == request.AccountId && 
+                x.EventTypeId == 4 && 
+                x.Action == "success" && 
+                x.CreatedAt >= request.From && 
+                x.CreatedAt <= request.To);
+
+                var listResponse = new List<GetEntersResponse>();
+
+                foreach (var log in myLogs)
+                {
+                    var res = listResponse.FirstOrDefault(x => x.Email == log.User.Email && x.GateName == log.Gate.Name && x.FirstUse.Date == log.CreatedAt.Date);
+                    if (res == null)
+                    {
+                        listResponse.Add(new GetEntersResponse
+                        {
+                            Name = $"{log.User.FirstName} {log.User.LastName}",
+                            Email = log.User.Email,
+                            FirstUse = log.CreatedAt,
+                            GateName = log.Gate.Name,
+                            LastUse = log.CreatedAt
+                        });
+                    }
+                    else
+                    {
+                        if (res.FirstUse > log.CreatedAt)
+                            res.FirstUse = log.CreatedAt;
+                        if (res.LastUse < log.CreatedAt)
+                            res.LastUse = log.CreatedAt;
+                    }
+                }
+
+                if (!String.IsNullOrWhiteSpace(request.Filtering))
+                    listResponse = listResponse.Where(x => x.Name.Contains(request.Filtering) || x.Email.Contains(request.Filtering) || x.GateName.Contains(request.Filtering)).ToList();
+
+                var response = new ListResult<GetEntersResponse>(listResponse, listResponse.Count());
+
+                return Result<ListResult<GetEntersResponse>>.Ok(response);
+            }
+            catch (Exception e)
+            {
+                return Result<ListResult<GetEntersResponse>>.Failure(e.Message);
             }
         }
 

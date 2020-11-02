@@ -1,0 +1,16 @@
+.custom-datepicker {
+    position: absolute;
+    right: 8px;
+    top: 13px;
+}
+
+.truncate-cell {
+    max-width: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+table {
+    width: 100%;
+}
