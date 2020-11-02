@@ -73,6 +73,15 @@ namespace GateProjectBackend.Controllers
             return StatusCodeResult(result);
         }
 
+        [RoleBasedAuthorize(AcceptedRoles = "Admin")]
+        [HttpPost("createAccountChart")]
+        public async Task<IActionResult> CreateAccountChart([FromBody] CreateAccountChart command)
+        {
+            var result = await _mediator.Send(command);
+
+            return StatusCodeResult(result);
+        }
+
         // AccountAdmin sctions
 
         [HttpGet("sumGatesByAccount/{id}")]
@@ -185,14 +194,14 @@ namespace GateProjectBackend.Controllers
             return StatusCodeResult(result);
         }
 
-        [RoleBasedAuthorize(AcceptedRoles = "Admin")]
-        [HttpPost("createAccountChart")]
-        public async Task<IActionResult> CreateAccountChart([FromBody]CreateAccountChart command)
+        [HttpPost("createGateUsageChart")]
+        public async Task<IActionResult> CreateGateUsageChart([FromBody] CreateGateUsageChart command)
         {
+            command.RequestedBy = HttpContext.User.Identity.Name;
+
             var result = await _mediator.Send(command);
 
             return StatusCodeResult(result);
         }
-
     }
 }

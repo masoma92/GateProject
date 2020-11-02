@@ -14,6 +14,8 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
   styleUrls: ['./dashboard-accountadmin.component.scss']
 })
 export class DashboardAccountadminComponent implements OnInit {
+  
+  currentDate = new Date();
 
   // sum
   sumAdminsResult = new EntityResult<number>();
@@ -24,7 +26,6 @@ export class DashboardAccountadminComponent implements OnInit {
   // gate using
   filterInput: string = "";
   public chart;
-  currentDate = new Date();
   isDatePickerHidden = false;
   fromDate = new FormControl(new Date(new Date().setHours(0,0,0,1)));
   toDate = new FormControl(new Date(new Date().setDate(new Date().getDate() + 7)));
@@ -88,7 +89,7 @@ export class DashboardAccountadminComponent implements OnInit {
         this.refresh();
     }
     
-    this.dashboardService.getEnters(new GetEnters(this.fromDate.value, new Date(this.toDate.value.setHours(23,59,59,59)), this.selectedAccount.id) ,this.result, pagination || new ListPagination(), sorting || new Sorting(), filter || "");
+    this.dashboardService.getEnters(new GetEnters(new Date(this.fromDate.value.setHours(0,0,0,1)), new Date(this.toDate.value.setHours(23,59,59,59)), this.selectedAccount.id) ,this.result, pagination || new ListPagination(), sorting || new Sorting(), filter || "");
   }
 
   applyFilter() {

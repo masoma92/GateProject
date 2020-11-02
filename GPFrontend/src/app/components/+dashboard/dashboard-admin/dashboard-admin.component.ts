@@ -13,7 +13,7 @@ import * as _moment from 'moment';
 import {default as _rollupMoment, Moment} from 'moment';
 import { DashboardService } from 'src/app/services/dashboard/dashboard.service';
 import { EntityResult } from 'src/app/services/common/entity.service';
-import { ChartResponse, CreateAccountChart } from 'src/app/services/dashboard/dashboard';
+import { ChartResponse, CreateChart } from 'src/app/services/dashboard/dashboard';
 import { MatSnackBar } from '@angular/material';
 
 const moment = _rollupMoment || _moment;
@@ -77,10 +77,10 @@ export class DashboardAdminComponent implements OnInit {
 
   ngOnInit() {
 
-    this.dashboardService.getAdminSums("sumAccounts", this.sumAccountsResult);
-    this.dashboardService.getAdminSums("sumGates", this.sumGatesResult);
-    this.dashboardService.getAdminSums("sumUsers", this.sumUsersResult);
-    this.dashboardService.getAdminSums("sumErrors", this.sumErrorsResult);
+    this.dashboardService.getSums("sumAccounts", this.sumAccountsResult);
+    this.dashboardService.getSums("sumGates", this.sumGatesResult);
+    this.dashboardService.getSums("sumUsers", this.sumUsersResult);
+    this.dashboardService.getSums("sumErrors", this.sumErrorsResult);
     
     window.onresize = () => this.isDatePickerHidden = window.innerWidth <= 1112;
     this.go();
@@ -133,7 +133,7 @@ export class DashboardAdminComponent implements OnInit {
       this.initChart();
       this.chartFinished = true;
     }
-    this.dashboardService.createAccountChart(new CreateAccountChart(this.fromDate.value.toDate(), this.toDate.value.toDate()), this.chartResult);
+    this.dashboardService.createChart("createAccountChart", new CreateChart(this.fromDate.value.toDate(), this.toDate.value.toDate()), this.chartResult);
   }
 
   initChart() {

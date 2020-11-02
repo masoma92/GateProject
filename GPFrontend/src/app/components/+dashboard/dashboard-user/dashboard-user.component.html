@@ -1,1 +1,141 @@
-<p>dashboard-user works!</p>
+<div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-5 col-md-4">
+                        <div class="icon-big text-center icon-warning">
+                            <i class="fas fa-door-open" style="color: #6bd098;"></i>
+                        </div>
+                    </div>
+                    <div class="col-7 col-md-8">
+                        <div class="numbers">
+                            <p class="card-category">Gate accesses</p>
+                            <p class="card-title"> {{sumGateAccesses.value}}
+                                <p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                    <i class="far fa-calendar-alt"></i> <span class="float-right">{{currentDate | date:'yyyy-MM-dd'}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-5 col-md-4">
+                        <div class="icon-big text-center">
+                            <i class="fas fa-user-cog" style="color: #fbc658;"></i>
+                        </div>
+                    </div>
+                    <div class="col-7 col-md-8">
+                        <div class="numbers">
+                            <p class="card-category">Gate admin accesses</p>
+                            <p class="card-title"> {{sumGateAdminAccesses.value}}
+                                <p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <hr>
+                <div class="stats">
+                    <i class="far fa-calendar-alt"></i> <span class="float-right">{{currentDate | date:'yyyy-MM-dd'}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-5 col-md-4">
+                        <div class="icon-big text-center icon-warning">
+                            <i class="fas fa-calendar-alt" style="color: #51cbce;"></i>
+                        </div>
+                    </div>
+                    <div class="col-7 col-md-8">
+                        <div class="numbers">
+                            <p class="card-category">Registration date</p>
+                            <p class="card-title"> {{registrationDate.value | date:'yyyy-MM-dd'}}
+                                <p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                    <i class="far fa-calendar-alt"></i> <span class="float-right">{{currentDate | date:'yyyy-MM-dd'}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-5 col-md-4">
+                        <div class="icon-big text-center icon-warning">
+                            <i class="fas fa-calendar-alt" style="color: #ef8157;"></i>
+                        </div>
+                    </div>
+                    <div class="col-7 col-md-8">
+                        <div class="numbers">
+                            <p class="card-category">Last gate access</p>
+                            <p class="card-title"> {{ lastGateAccessDate.value | date:'yyyy-MM-dd' }}
+                                <p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                    <i class="far fa-calendar-alt"></i> <span class="float-right">{{currentDate | date:'yyyy-MM-dd'}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card ">
+            <div class="card-header ">
+                <h5 class="card-title">Gate usage</h5>
+                <p class="card-category">{{ fromDate.value | date: 'dd/MM/yyyy' }} - {{ toDate.value | date: 'dd/MM/yyyy' }}</p>
+            </div>
+            <div class="card-body">
+                <div *ngIf="!isDatePickerHidden" class="custom-datepicker">
+                    <mat-form-field appearance="fill" class="mr-2">
+                        <mat-label>From</mat-label>
+                        <input matInput [matDatepicker]="dpFrom" [formControl]="fromDate">
+                        <mat-datepicker-toggle matSuffix [for]="dpFrom"></mat-datepicker-toggle>
+                        <mat-datepicker #dpFrom></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>To</mat-label>
+                        <input matInput [matDatepicker]="dpTo" [formControl]="toDate">
+                        <mat-datepicker-toggle matSuffix [for]="dpTo"></mat-datepicker-toggle>
+                        <mat-datepicker #dpTo></mat-datepicker>
+                    </mat-form-field>
+                    <button class="btn btn-info btn-round" style="margin-left: 8px; margin-bottom: 25px;" (click)="go()"><i *ngIf="chartResult.isInProgress" class="fas fa-spinner fa-spin"></i>&nbsp;GO</button>
+                </div>
+                <canvas id="canvas" width="400" height="100"> {{ chart }} </canvas>
+            </div>
+            <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                    <i class="far fa-calendar-alt"></i> <span>&nbsp;{{currentDate | date:'yyyy-MM-dd'}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

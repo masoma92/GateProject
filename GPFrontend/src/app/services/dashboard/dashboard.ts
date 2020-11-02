@@ -1,4 +1,4 @@
-export class CreateAccountChart {
+export class CreateChart {
     constructor(public from: Date, public to: Date){};
 }
 

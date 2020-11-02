@@ -5,7 +5,7 @@ import { ListPagination } from 'src/app/core/pagination/list-pagination';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { EntityListResult, EntityResult, ListRecords, Sorting } from '../common/entity.service';
-import { ChartResponse, CreateAccountChart, GetEnters, GetEntersResponse } from './dashboard';
+import { ChartResponse, CreateChart, GetEnters, GetEntersResponse } from './dashboard';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class DashboardService {
     private authenticationService: AuthenticationService) {
   }
 
-  getAdminSums(sumType: string, result: EntityResult<number>) {
+  getSums(sumType: string, result: EntityResult<number>) {
 
     result.start();
     this.http.get<EntityResult<number>>(`${this.serverName}${this.apiVersion}${this.getPath()}/${sumType}`,
@@ -73,9 +73,9 @@ export class DashboardService {
       });
   }
 
-  createAccountChart(data: CreateAccountChart, result: EntityResult<ChartResponse>) {
+  createChart(type: string, data: CreateChart, result: EntityResult<ChartResponse>) {
     result.start();
-    return this.http.post<EntityResult<ChartResponse>>(`${this.serverName}${this.apiVersion}${this.getPath()}/createAccountChart`, data,
+    return this.http.post<EntityResult<ChartResponse>>(`${this.serverName}${this.apiVersion}${this.getPath()}/${type}`, data,
       {
         headers: new HeadersBuilder()
           .json()
@@ -129,6 +129,86 @@ export class DashboardService {
       err => {
         result.result.value = null;
         result.result.errorMessage = err.error.errorMessage;
+        result.finish();
+      });
+  }
+
+  // user
+
+  getRegDate(result: EntityResult<Date>) {
+
+    result.start();
+    this.http.get<EntityResult<Date>>(`${this.serverName}${this.apiVersion}${this.getPath()}/registrationDate`,
+      {
+        headers: new HeadersBuilder()
+          .json()
+          .withAuthorization(this.authenticationService.storedToken)
+          .build(),
+        observe: 'response'
+      }
+    ).subscribe(
+      res => {
+        if (res.body != null) {
+          result.value = res.body.value;
+          result.errorMessage = res.body.errorMessage;
+        }
+
+        result.finish();
+      },
+      err => {
+        result.value = null;
+        result.errorMessage = err.error.errorMessage;
+        result.finish();
+      });
+  }
+
+  getLastGateAccessDate(result: EntityResult<Date>) {
+    result.start();
+    this.http.get<EntityResult<Date>>(`${this.serverName}${this.apiVersion}${this.getPath()}/lastGateAccessDate`,
+      {
+        headers: new HeadersBuilder()
+          .json()
+          .withAuthorization(this.authenticationService.storedToken)
+          .build(),
+        observe: 'response'
+      }
+    ).subscribe(
+      res => {
+        if (res.body != null) {
+          result.value = res.body.value;
+          result.errorMessage = res.body.errorMessage;
+        }
+
+        result.finish();
+      },
+      err => {
+        result.value = null;
+        result.errorMessage = err.error.errorMessage;
+        result.finish();
+      });
+  }
+
+  createGateUsageChart(data: CreateChart, result: EntityResult<ChartResponse>) {
+    result.start();
+    return this.http.post<EntityResult<ChartResponse>>(`${this.serverName}${this.apiVersion}${this.getPath()}/createGateUsageChart`, data,
+      {
+        headers: new HeadersBuilder()
+          .json()
+          .withAuthorization(this.authenticationService.storedToken)
+          .build(),
+        observe: 'response'
+      }
+    ).subscribe(
+      res => {
+        if (res.body != null) {
+          result.value = res.body.value;
+          result.errorMessage = res.body.errorMessage;
+        }
+        result.finish();
+      },
+      err => {
+        result.value = null;
+        result.errorMessage = err.error.errorMessage;
         result.finish();
       });
   }
