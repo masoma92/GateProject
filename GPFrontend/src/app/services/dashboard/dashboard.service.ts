@@ -45,6 +45,33 @@ export class DashboardService {
       });
   }
 
+  getAccountAdminSums(sumType: string, id: number, result: EntityResult<number>) {
+
+    result.start();
+    this.http.get<EntityResult<number>>(`${this.serverName}${this.apiVersion}${this.getPath()}/${sumType}byAccount/${id}`,
+      {
+        headers: new HeadersBuilder()
+          .json()
+          .withAuthorization(this.authenticationService.storedToken)
+          .build(),
+        observe: 'response'
+      }
+    ).subscribe(
+      res => {
+        if (res.body != null) {
+          result.value = res.body.value;
+          result.errorMessage = res.body.errorMessage;
+        }
+
+        result.finish();
+      },
+      err => {
+        result.value = null;
+        result.errorMessage = err.error.errorMessage;
+        result.finish();
+      });
+  }
+
   createAccountChart(data: CreateAccountChart, result: EntityResult<ChartResponse>) {
     result.start();
     return this.http.post<EntityResult<ChartResponse>>(`${this.serverName}${this.apiVersion}${this.getPath()}/createAccountChart`, data,
