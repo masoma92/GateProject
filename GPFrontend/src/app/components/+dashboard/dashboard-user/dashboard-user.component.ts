@@ -16,7 +16,6 @@ export class DashboardUserComponent implements OnInit {
   currentDate = new Date();
 
   // sum
-
   sumGateAdminAccesses = new EntityResult<number>();
   sumGateAccesses = new EntityResult<number>();
   lastGateAccessDate = new EntityResult<Date>();
