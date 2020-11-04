@@ -81,8 +81,6 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
 
                     gates = temp.Select(x => x.Gate).ToList();
 
-                    // ha valaki admin latja a kapukat, de jogosultsagot adnia kell maganak attol fuggetlenul
-
                     var adminAccounts = await _accountAdminRepository.GetAllAccountsWhereUserIsAdmin(user.Id);
                     var adminGates = _gateRepository.GetAllGatesFromAccounts(adminAccounts);
                     foreach (var gate in adminGates)
@@ -148,6 +146,7 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
                 foreach (var item in result)
                 {
                     var gateType = _gateTypeRepository.GetGateType(item.GateTypeId).Result;
+                    var usersByGateId = _userGateRepository.GetAllUsersByGateId(item.Id).Result;
                     response.Add(new GateResponse
                     {
                         Id = item.Id,
@@ -156,7 +155,9 @@ namespace GateProjectBackend.BusinessLogic.RequestHandlers
                         CharacteristicId = item.CharacteristicId,
                         GateTypeName = gateType.Name,
                         ServiceId = item.ServiceId,
-                        AdminAccess = _gateRepository.IsAccountAdminOfTheGate(item.Id, user.Id)
+                        AdminAccess = _gateRepository.IsAccountAdminOfTheGate(item.Id, user.Id) || _userGateRepository.CheckAdminAccess(item.Id, user.Id).Result,
+                        Users = (_gateRepository.IsAccountAdminOfTheGate(item.Id, user.Id) || _userGateRepository.CheckAdminAccess(item.Id, user.Id).Result)
+                        ? CollectUserGates(usersByGateId.ToList()) : null
                     });
                 }
             }

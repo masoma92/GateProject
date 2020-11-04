@@ -22,5 +22,6 @@ namespace GateProjectBackend.Data.Models
         public List<Gate> Gates { get; set; }
         public List<AccountAdmin> Admins { get; set; }
         public List<AccountUser> Users { get; set; }
+        public List<Log> Logs { get; set; }
     }
 }

@@ -83,7 +83,6 @@ namespace GateProjectBackend.Controllers
         }
 
         // AccountAdmin sctions
-
         [HttpGet("sumGatesByAccount/{id}")]
         public async Task<IActionResult> SumGatesByAccount(int id)
         {

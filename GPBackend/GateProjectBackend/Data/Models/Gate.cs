@@ -18,5 +18,6 @@ namespace GateProjectBackend.Data.Models
         public int? AccountId { get; set; }
         public Account Account { get; set; }
         public List<UserGate> Users { get; set; }
+        public List<Log> Logs { get; set; }
     }
 }

@@ -36,7 +36,7 @@ namespace GateProjectBackend.Data.Repositories
 
         public async Task<bool> Delete(int id)
         {
-            var gate = await _context.Gates.FirstOrDefaultAsync(x => x.Id == id);
+            var gate = await _context.Gates.Include(x => x.Logs).FirstOrDefaultAsync(x => x.Id == id);
             _context.Gates.Remove(gate);
             await _context.SaveChangesAsync();
             return true;
