@@ -137,6 +137,9 @@ namespace GateProjectBackend.Data.Repositories
         {
             var gate = _context.Gates.Include(x => x.Account).FirstOrDefault(x => x.Id == gateId);
 
+            if (gate.Account == null)
+                return false;
+
             var account = _context.Accounts.Include(x => x.Admins).FirstOrDefault(x => x.Id == gate.Account.Id);
 
             bool isAdmin = _context.AccountAdmins.Any(x => x.AccountId == account.Id && x.UserId == userId);
