@@ -42,6 +42,8 @@ export class DashboardUserComponent implements OnInit {
     this.dashboardService.getRegDate(this.registrationDate);
     this.dashboardService.getLastGateAccessDate(this.lastGateAccessDate);
 
+    window.onresize = () => this.isDatePickerHidden = window.innerWidth <= 1112;
+
     this.go();
   }
 
@@ -73,7 +75,7 @@ export class DashboardUserComponent implements OnInit {
 
   initChart() {
     this.chart = new Chart('canvas', {
-      type: 'line',
+      type: 'bar',
 
       data: {
         labels: this.xValues,
@@ -92,7 +94,7 @@ export class DashboardUserComponent implements OnInit {
         },
 
         tooltips: {
-          enabled: false
+          enabled: true
         },
 
         scales: {

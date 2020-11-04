@@ -18,7 +18,9 @@ export class GetEnters {
 export interface GetEntersResponse {
     name: string;
     email: string;
+    date: Date,
     firstUse: Date;
     lastUse: Date;
     gateName: string;
+    isUserOfAccount: boolean;
 }

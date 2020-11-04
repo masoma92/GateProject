@@ -118,7 +118,7 @@
     <div class="col-md-12">
         <div class="card ">
             <div class="card-header ">
-                <h5 class="card-title">Gate using</h5>
+                <h5 class="card-title">Gate usage</h5>
             </div>
             <div class="card-body">
                 <div *ngIf="!isDatePickerHidden" class="custom-datepicker">
@@ -154,19 +154,32 @@
                             <td mat-cell *matCellDef="let row" [matTooltip]="row.email"> {{ row.email }} </td>
                         </ng-container>
 
+                        <ng-container matColumnDef="date">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                            <td mat-cell *matCellDef="let row" [matTooltip]="row.date"> {{ row.date | date: 'dd-MM-yyyy' }} </td>
+                        </ng-container>
+
                         <ng-container matColumnDef="firstUse">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> First Use </th>
-                            <td mat-cell *matCellDef="let row" [matTooltip]="row.firstUse"> {{ row.firstUse | date: 'MM/dd HH:MM:ss' }} </td>
+                            <td mat-cell *matCellDef="let row" [matTooltip]="row.firstUse"> {{ row.firstUse | date: 'HH:MM:ss' }} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="lastUse">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Use </th>
-                            <td mat-cell *matCellDef="let row" [matTooltip]="row.lastUse"> {{ row.lastUse | date: 'MM/dd HH:MM:ss' }} </td>
+                            <td mat-cell *matCellDef="let row" [matTooltip]="row.lastUse"> {{ row.lastUse | date: 'HH:MM:ss' }} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="gateName">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Gate </th>
                             <td mat-cell *matCellDef="let row" [matTooltip]="row.gateName"> {{ row.gateName }} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="isUserOfAccount">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Account user </th>
+                            <td mat-cell *matCellDef="let row">
+                                <span *ngIf="row.isUserOfAccount"><i class="fas fa-check" style="color: green;"></i></span>
+                                <span *ngIf="!row.isUserOfAccount"><i class="fas fa-times" style="color: red"></i></span>
+                            </td>
                         </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

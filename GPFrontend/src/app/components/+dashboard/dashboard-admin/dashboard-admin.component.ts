@@ -138,7 +138,7 @@ export class DashboardAdminComponent implements OnInit {
 
   initChart() {
     this.chart = new Chart('canvas', {
-      type: 'line',
+      type: 'bar',
 
       data: {
         labels: this.xValues,
@@ -157,7 +157,7 @@ export class DashboardAdminComponent implements OnInit {
         },
 
         tooltips: {
-          enabled: false
+          enabled: true
         },
 
         scales: {

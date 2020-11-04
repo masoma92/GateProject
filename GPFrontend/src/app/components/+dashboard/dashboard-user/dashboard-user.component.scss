@@ -3,3 +3,12 @@
     right: 8px;
     top: 13px;
 }
+
+@media only screen and (max-width: 1640px) {
+    .card-category {
+        font-size: 14px !important;
+    }
+    .card-title {
+        font-size: 1.2rem;
+    }
+}

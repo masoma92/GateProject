@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace GateProjectBackend.Data.Repositories
@@ -12,6 +13,7 @@ namespace GateProjectBackend.Data.Repositories
     {
         Task<bool> Update(IEnumerable<AccountUser> currentAccountUsers, IEnumerable<AccountUser> newAccountUsers);
         Task<IEnumerable<User>> GetAllUsersByAccountId(int accountId);
+        Task<AccountUser> Get(int accountId, int userId);
     }
     public class AccountUserRepository : IAccountUserRepository
     {
@@ -21,6 +23,12 @@ namespace GateProjectBackend.Data.Repositories
         {
             _context = context;
         }
+
+        public async Task<AccountUser> Get(int accountId, int userId)
+        {
+            return await _context.AccountUsers.FirstOrDefaultAsync(x => x.UserId == userId && x.AccountId == accountId);
+        }
+
         public async Task<IEnumerable<User>> GetAllUsersByAccountId(int accountId)
         {
             return await _context.AccountUsers.Include(x => x.User).Where(x => x.AccountId == accountId).Select(x => x.User).ToListAsync();

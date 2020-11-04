@@ -31,7 +31,7 @@ export class DashboardAccountadminComponent implements OnInit {
   toDate = new FormControl(new Date(new Date().setDate(new Date().getDate() + 7)));
 
   accountListResult = new EntityListResult<Account>();
-  displayedColumns: string[] = ['name', 'email', 'firstUse', 'lastUse', 'gateName'];
+  displayedColumns: string[] = ['name', 'email', 'date', 'firstUse', 'lastUse', 'gateName', 'isUserOfAccount'];
 
   private _selectedAccount: Account;
 
