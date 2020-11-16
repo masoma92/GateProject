@@ -161,12 +161,12 @@
 
                         <ng-container matColumnDef="firstUse">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> First Use </th>
-                            <td mat-cell *matCellDef="let row" [matTooltip]="row.firstUse"> {{ row.firstUse | date: 'HH:MM:ss' }} </td>
+                            <td mat-cell *matCellDef="let row" [matTooltip]="row.firstUse"> {{ row.firstUse | date: 'HH:mm:ss' }} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="lastUse">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Use </th>
-                            <td mat-cell *matCellDef="let row" [matTooltip]="row.lastUse"> {{ row.lastUse | date: 'HH:MM:ss' }} </td>
+                            <td mat-cell *matCellDef="let row" [matTooltip]="row.lastUse"> {{ row.lastUse | date: 'HH:mm:ss' }} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="gateName">
